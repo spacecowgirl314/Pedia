@@ -19,6 +19,19 @@
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize masterPopoverController = _masterPopoverController;
 
+- (IBAction)loadArticle:(id)sender {
+    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+    NSString *article = [wikiHelper getWikipediaHTMLPage:[[articleSearchBox text]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [articleView loadHTMLString:article baseURL:nil];
+    NSLog(@"%@", article);
+    /*NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"beautipedia" 
+                                                        ofType:@"css"];
+    NSString *js = @"document.getElementsByTagName('link')[0].setAttribute('href','";
+    NSString *js2 = [js stringByAppendingString:cssPath];
+    NSString *finalJS = [js2 stringByAppendingString:@"');"];
+    [articleView stringByEvaluatingJavaScriptFromString:finalJS];*/
+}
+
 #pragma mark - Managing the detail item
 
 - (void)setDetailItem:(id)newDetailItem

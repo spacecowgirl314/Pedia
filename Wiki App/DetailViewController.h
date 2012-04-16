@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WikipediaHelper.h"
 
-@interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate> {
+    IBOutlet UITextField *articleSearchBox;
+    IBOutlet UIWebView *articleView;
+}
 
 @property (strong, nonatomic) id detailItem;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;
+@property (strong, nonatomic) IBOutlet UIWebView *articleView;
 
 @end
