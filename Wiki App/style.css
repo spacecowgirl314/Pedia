@@ -1,0 +1,76 @@
+@font-face {
+	font-family: 'Amplitude';
+	src: url('Amplitude-Book.otf') format('opentype');
+}
+
+html {
+	background: #000;
+}
+
+body {
+	width: 1486px;
+	font-family: Amplitude !important;
+	font-size: 1.5em !important;
+	color: #555555 !important;
+	line-height: 1.5em;
+	background: url(bg.png) repeat-y center;
+	padding: 0 25px;
+	margin: 0 auto;
+	text-shadow: 2px 2px 4px #ffffff;
+}
+
+.dablink {
+	font-size: 0.75em;
+}
+
+table#toc {
+	display: none;
+}
+
+a {
+	color: #ba0b0b;
+	text-decoration: none;
+}
+
+sup {
+	display: none;
+}
+
+table.infobox {
+	width: 400px;
+	float: right;
+	padding: 15px;
+	background: #fff;
+	margin: 0 25px;
+	border-radius: 6px;
+	border: 2px solid #cdcdcd;
+	box-shadow: 0 0 4px #fff;
+}
+
+h2 span, h3 span {
+	display: none;
+}
+
+h2 span.mw-headline, h3 span.mw-headline {
+	display: block !important;
+}
+
+.thumb {
+	font-size: 0.8em !important;
+	line-height: 1.5em !important;
+	float: right;
+	padding: 15px;
+	background: #fff;
+	margin: 0 25px;
+	border-radius: 6px;
+	border: 2px solid #cdcdcd;
+	box-shadow: 0 0 4px #fff;
+}
+
+.magnify {
+	display: none;
+}
+
+table.metadata.plainlinks.ambox.ambox-style {
+	display: none;
+}

@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "WikipediaHelper.h"
+#import "TableOfContentsAnchor.h"
 
-@interface DetailViewController : UIViewController <UISplitViewControllerDelegate> {
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
+    NSMutableArray *tableOfContents;
 }
 
 @property (strong, nonatomic) id detailItem;

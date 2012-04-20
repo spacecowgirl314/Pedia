@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "HTMLParser.h"
 
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -22,15 +23,46 @@
 - (IBAction)loadArticle:(id)sender {
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     NSString *article = [wikiHelper getWikipediaHTMLPage:[[articleSearchBox text]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    [articleView loadHTMLString:article baseURL:nil];
+    NSError *error = [[NSError alloc] init];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    //NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"]
+    NSURL *baseURL = [NSURL fileURLWithPath:path];
+    [articleView
+     loadHTMLString:[@"<head><link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /></head>" stringByAppendingString:article]
+     baseURL:baseURL];
+    HTMLNode *bodyNode = [parser body];
+    NSArray *tableOfContentsNode = [bodyNode findChildrenOfClass:@"toc"];
+    for (HTMLNode *tableOfContent in tableOfContentsNode) {
+        NSArray *anchorsToContents = [tableOfContent findChildTags:@"a"];
+        for (HTMLNode *anchor in anchorsToContents) {
+            TableOfContentsAnchor *anchorItem = [[TableOfContentsAnchor alloc] init];
+            // get anchor link that we can use to scroll down the page quick via the sidebar
+            NSString *anchorHref = [anchor getAttributeNamed:@"href"];
+            [anchorItem setHref:anchorHref];
+            NSArray *spanNodes = [anchor findChildTags:@"span"];
+            NSLog(@"spanNodes:%@", [spanNodes description]);
+            // search span for toctext/Title of entry in the Title of Contents
+            for (HTMLNode *spanNode in spanNodes) {
+                HTMLNode *toctext = [spanNode findChildOfClass:@"toctext"];
+                // title of contents entry
+                NSString *titleOfContentsEntry = [toctext rawContents];
+                [anchorItem setTitle:titleOfContentsEntry];
+            }
+            [tableOfContents addObject:anchorItem];
+        }
+    }
+    // add all the to some array of sorts and add it to the sidebar
     NSLog(@"%@", article);
-    /*NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"beautipedia" 
-                                                        ofType:@"css"];
-    NSString *js = @"document.getElementsByTagName('link')[0].setAttribute('href','";
-    NSString *js2 = [js stringByAppendingString:cssPath];
-    NSString *finalJS = [js2 stringByAppendingString:@"');"];
-    [articleView stringByEvaluatingJavaScriptFromString:finalJS];*/
+    NSLog(@"TOC: %@", [tableOfContents description]);
 }
+
+/*- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"];
+    NSString *js = [NSString stringWithFormat:@"var headID = document.getElementsByTagName('head')[0];var cssNode = document.createElement('link');cssNode.type = 'text/css';cssNode.rel = 'stylesheet';cssNode.href = '%@';cssNode.media = 'screen';headID.appendChild(cssNode);", cssPath];
+    [webView stringByEvaluatingJavaScriptFromString:js];
+}*/
 
 #pragma mark - Managing the detail item
 
@@ -62,6 +94,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    tableOfContents = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidUnload

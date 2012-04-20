@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 371488E41541445E00BE1E4E /* libxml2.dylib */; };
 		3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72D15313DFE00814E54 /* UIKit.framework */; };
 		3763C73015313DFE00814E54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72F15313DFE00814E54 /* Foundation.framework */; };
 		3763C73215313DFE00814E54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C73115313DFE00814E54 /* CoreGraphics.framework */; };
@@ -29,10 +30,18 @@
 		3763C77815314BB600814E54 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 3763C76C15314BB600814E54 /* SBJsonUTF8Stream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3763C77915314BB600814E54 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3763C76E15314BB600814E54 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3763C77A15314EBF00814E54 /* WikipediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3763C75515314B3800814E54 /* WikipediaHelper.m */; };
-		3763C7801531539C00814E54 /* beautipedia.css in Resources */ = {isa = PBXBuildFile; fileRef = 3763C77F1531539C00814E54 /* beautipedia.css */; };
+		3787D0C01541E9E60057446A /* TableOfContentsAnchor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */; };
+		3787D0C11541F2620057446A /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E01541442F00BE1E4E /* HTMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3787D0C21541F2650057446A /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E21541442F00BE1E4E /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		371488DF1541442F00BE1E4E /* HTMLNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		371488E01541442F00BE1E4E /* HTMLNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		371488E11541442F00BE1E4E /* HTMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
+		371488E21541442F00BE1E4E /* HTMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
+		371488E41541445E00BE1E4E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3763C72915313DFE00814E54 /* Wiki App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wiki App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763C72D15313DFE00814E54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3763C72F15313DFE00814E54 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -74,7 +83,9 @@
 		3763C76C15314BB600814E54 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		3763C76D15314BB600814E54 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		3763C76E15314BB600814E54 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		3763C77F1531539C00814E54 /* beautipedia.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = beautipedia.css; sourceTree = "<group>"; };
+		3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableOfContentsAnchor.h; sourceTree = "<group>"; };
+		3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableOfContentsAnchor.m; sourceTree = "<group>"; };
+		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
 				3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */,
 				3763C73015313DFE00814E54 /* Foundation.framework in Frameworks */,
 				3763C73215313DFE00814E54 /* CoreGraphics.framework in Frameworks */,
@@ -111,6 +123,7 @@
 		3763C72C15313DFE00814E54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				371488E41541445E00BE1E4E /* libxml2.dylib */,
 				3763C72D15313DFE00814E54 /* UIKit.framework */,
 				3763C72F15313DFE00814E54 /* Foundation.framework */,
 				3763C73115313DFE00814E54 /* CoreGraphics.framework */,
@@ -131,7 +144,12 @@
 				3763C74915313DFE00814E54 /* DetailViewController.m */,
 				3763C75415314B3800814E54 /* WikipediaHelper.h */,
 				3763C75515314B3800814E54 /* WikipediaHelper.m */,
-				3763C77F1531539C00814E54 /* beautipedia.css */,
+				371488DF1541442F00BE1E4E /* HTMLNode.h */,
+				371488E01541442F00BE1E4E /* HTMLNode.m */,
+				371488E11541442F00BE1E4E /* HTMLParser.h */,
+				371488E21541442F00BE1E4E /* HTMLParser.m */,
+				3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */,
+				3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */,
 				3763C75715314BB600814E54 /* SBJson */,
 				3763C73415313DFE00814E54 /* Supporting Files */,
 			);
@@ -143,6 +161,7 @@
 			children = (
 				3763C73515313DFE00814E54 /* Wiki App-Info.plist */,
 				3763C73615313DFE00814E54 /* InfoPlist.strings */,
+				37DB3FEC153D06B500C3C243 /* style.css */,
 				3763C73915313DFE00814E54 /* main.m */,
 				3763C73B15313DFE00814E54 /* Wiki App-Prefix.pch */,
 			);
@@ -232,7 +251,7 @@
 				3763C73815313DFE00814E54 /* InfoPlist.strings in Resources */,
 				3763C74115313DFE00814E54 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3763C74415313DFE00814E54 /* MainStoryboard_iPad.storyboard in Resources */,
-				3763C7801531539C00814E54 /* beautipedia.css in Resources */,
+				37DB3FED153D06B500C3C243 /* style.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +278,9 @@
 				3763C77715314BB600814E54 /* SBJsonTokeniser.m in Sources */,
 				3763C77815314BB600814E54 /* SBJsonUTF8Stream.m in Sources */,
 				3763C77915314BB600814E54 /* SBJsonWriter.m in Sources */,
+				3787D0C11541F2620057446A /* HTMLNode.m in Sources */,
+				3787D0C21541F2650057446A /* HTMLParser.m in Sources */,
+				3787D0C01541E9E60057446A /* TableOfContentsAnchor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,10 +364,13 @@
 		3763C74E15313DFE00814E54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Wiki App/Wiki App-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Wiki App/Wiki App-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -353,10 +378,13 @@
 		3763C74F15313DFE00814E54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Wiki App/Wiki App-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Wiki App/Wiki App-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
