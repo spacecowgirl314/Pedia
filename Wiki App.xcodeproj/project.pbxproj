@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 371488E41541445E00BE1E4E /* libxml2.dylib */; };
+		372C81911543BF9500991587 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372C81901543BF9500991587 /* HistoryViewController.m */; };
+		372C81961543CA0300991587 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 372C81951543CA0300991587 /* bg.png */; };
 		3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72D15313DFE00814E54 /* UIKit.framework */; };
 		3763C73015313DFE00814E54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72F15313DFE00814E54 /* Foundation.framework */; };
 		3763C73215313DFE00814E54 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C73115313DFE00814E54 /* CoreGraphics.framework */; };
@@ -42,6 +44,9 @@
 		371488E11541442F00BE1E4E /* HTMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		371488E21541442F00BE1E4E /* HTMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		371488E41541445E00BE1E4E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		372C818F1543BF9500991587 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		372C81901543BF9500991587 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		372C81951543CA0300991587 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		3763C72915313DFE00814E54 /* Wiki App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wiki App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763C72D15313DFE00814E54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3763C72F15313DFE00814E54 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -85,6 +90,7 @@
 		3763C76E15314BB600814E54 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableOfContentsAnchor.h; sourceTree = "<group>"; };
 		3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableOfContentsAnchor.m; sourceTree = "<group>"; };
+		37A7821A154490E800390CEF /* Amplitude-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Book.ttf"; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,6 +148,8 @@
 				3763C74615313DFE00814E54 /* MasterViewController.m */,
 				3763C74815313DFE00814E54 /* DetailViewController.h */,
 				3763C74915313DFE00814E54 /* DetailViewController.m */,
+				372C818F1543BF9500991587 /* HistoryViewController.h */,
+				372C81901543BF9500991587 /* HistoryViewController.m */,
 				3763C75415314B3800814E54 /* WikipediaHelper.h */,
 				3763C75515314B3800814E54 /* WikipediaHelper.m */,
 				371488DF1541442F00BE1E4E /* HTMLNode.h */,
@@ -161,6 +169,8 @@
 			children = (
 				3763C73515313DFE00814E54 /* Wiki App-Info.plist */,
 				3763C73615313DFE00814E54 /* InfoPlist.strings */,
+				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
+				372C81951543CA0300991587 /* bg.png */,
 				37DB3FEC153D06B500C3C243 /* style.css */,
 				3763C73915313DFE00814E54 /* main.m */,
 				3763C73B15313DFE00814E54 /* Wiki App-Prefix.pch */,
@@ -252,6 +262,7 @@
 				3763C74115313DFE00814E54 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3763C74415313DFE00814E54 /* MainStoryboard_iPad.storyboard in Resources */,
 				37DB3FED153D06B500C3C243 /* style.css in Resources */,
+				372C81961543CA0300991587 /* bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +292,7 @@
 				3787D0C11541F2620057446A /* HTMLNode.m in Sources */,
 				3787D0C21541F2650057446A /* HTMLParser.m in Sources */,
 				3787D0C01541E9E60057446A /* TableOfContentsAnchor.m in Sources */,
+				372C81911543BF9500991587 /* HistoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,15 +9,18 @@
 #import "MasterViewController.h"
 
 #import "DetailViewController.h"
+#import "TableOfContentsAnchor.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
+    NSArray *tableOfContents;
 }
 @end
 
 @implementation MasterViewController
 
 @synthesize detailViewController = _detailViewController;
+//@synthesize tableOfContents;
 
 - (void)awakeFromNib
 {
@@ -32,17 +35,32 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+    //self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(populateTableOfContents:) 
+                                                 name:@"populateTableOfContents" 
+                                               object:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+
+// goes with the notification
+- (void)populateTableOfContents:(NSNotification*)notification {
+    tableOfContents = (NSArray*)[notification object];
+    //NSLog(@"TOC received %@", [tableOfContents description]);
+    [self.tableView reloadData];
+    /*for (int i = 0; i < tableOfContents.count; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }*/
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -54,7 +72,7 @@
     }
 }
 
-- (void)insertNewObject:(id)sender
+/*- (void)insertNewObject:(id)sender
 {
     if (!_objects) {
         _objects = [[NSMutableArray alloc] init];
@@ -62,7 +80,7 @@
     [_objects insertObject:[NSDate date] atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
+}*/
 
 #pragma mark - Table View
 
@@ -73,15 +91,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    //return _objects.count;
+    return tableOfContents.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 
-    NSDate *object = [_objects objectAtIndex:indexPath.row];
-    cell.textLabel.text = [object description];
+    //NSDate *object = [_objects objectAtIndex:indexPath.row];
+    TableOfContentsAnchor *anchor = [tableOfContents objectAtIndex:indexPath.row];
+    cell.textLabel.text = [anchor title]; //[object description];
     return cell;
 }
 
@@ -119,9 +139,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // open anchor link here
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDate *object = [_objects objectAtIndex:indexPath.row];
-        self.detailViewController.detailItem = object;
+        //NSDate *object = [_objects objectAtIndex:indexPath.row];
+        //self.detailViewController.detailItem = object;
+        [[NSNotificationCenter defaultCenter] 
+         postNotificationName:@"gotoAnchor" 
+         object:[tableOfContents objectAtIndex:indexPath.row]];
     }
 }
 

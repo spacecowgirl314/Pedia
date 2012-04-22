@@ -1,22 +1,25 @@
 @font-face {
 	font-family: 'Amplitude';
-	src: url('Amplitude-Book.otf') format('opentype');
+	src: url('Amplitude-Book.ttf') format('truetype');
 }
 
 html {
-	background: #000;
+	background: #f2f2f2;
+	outline: none;
+	box-shadow: none;
+	border: none;
 }
 
 body {
-	width: 1486px;
 	font-family: Amplitude !important;
 	font-size: 1.5em !important;
 	color: #555555 !important;
 	line-height: 1.5em;
-	background: url(bg.png) repeat-y center;
+	background: #f2f2f2;
 	padding: 0 25px;
 	margin: 0 auto;
 	text-shadow: 2px 2px 4px #ffffff;
+	position: relative;
 }
 
 .dablink {
@@ -39,9 +42,10 @@ sup {
 table.infobox {
 	width: 400px;
 	float: right;
+	right: 25px;
 	padding: 15px;
 	background: #fff;
-	margin: 0 25px;
+	margin: 0 0 0 25px;
 	border-radius: 6px;
 	border: 2px solid #cdcdcd;
 	box-shadow: 0 0 4px #fff;
@@ -61,7 +65,7 @@ h2 span.mw-headline, h3 span.mw-headline {
 	float: right;
 	padding: 15px;
 	background: #fff;
-	margin: 0 25px;
+	margin: 0 0 0 25px;
 	border-radius: 6px;
 	border: 2px solid #cdcdcd;
 	box-shadow: 0 0 4px #fff;
