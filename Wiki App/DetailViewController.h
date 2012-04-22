@@ -14,6 +14,7 @@
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
+    IBOutlet UIView *bottomBar;
     NSMutableArray *tableOfContents;
     HistoryViewController *_historyController;
     UIPopoverController *_historyControllerPopover;
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;
 @property (strong, nonatomic) IBOutlet UIWebView *articleView;
+@property (strong, nonatomic) IBOutlet UIView *bottomBar;
 @property (nonatomic, retain) HistoryViewController *historyController;
 @property (nonatomic, retain) UIPopoverController *historyControllerPopover;
 

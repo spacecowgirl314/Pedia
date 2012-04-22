@@ -22,6 +22,14 @@
 @synthesize historyController = _historyController;
 @synthesize historyControllerPopover = _historyControllerPopover;
 
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == articleSearchBox) {
+        [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
+    }
+    return YES;
+}
+
 - (IBAction)loadArticle:(id)sender {
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
 }
@@ -139,6 +147,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    // transparent bottom bar image
+    //bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper.png"]];
+    
+    //[bottomBar.layer setOpaque:NO];
+    //bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(gotoAnchor:) 

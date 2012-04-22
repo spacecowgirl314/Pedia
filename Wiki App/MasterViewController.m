@@ -34,6 +34,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // begin table styling here?
+    //[self.tableView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"linen_bg.png"]]];
+    //[self.tableView setBackgroundView:nil];
 	// Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
