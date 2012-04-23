@@ -63,6 +63,7 @@
 		37A782591545036E00390CEF /* history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782551545036A00390CEF /* history@2x.png */; };
 		37A7825A1545036E00390CEF /* saved.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782561545036B00390CEF /* saved.png */; };
 		37A7825B1545036E00390CEF /* saved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782571545036D00390CEF /* saved@2x.png */; };
+		37A7826F15454FC700390CEF /* HistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7826E15454FC700390CEF /* HistoryItem.m */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 /* End PBXBuildFile section */
 
@@ -148,6 +149,8 @@
 		37A782551545036A00390CEF /* history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history@2x.png"; sourceTree = "<group>"; };
 		37A782561545036B00390CEF /* saved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saved.png; sourceTree = "<group>"; };
 		37A782571545036D00390CEF /* saved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saved@2x.png"; sourceTree = "<group>"; };
+		37A7826D15454FC700390CEF /* HistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryItem.h; sourceTree = "<group>"; };
+		37A7826E15454FC700390CEF /* HistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryItem.m; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -221,6 +224,8 @@
 				371488E21541442F00BE1E4E /* HTMLParser.m */,
 				3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */,
 				3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */,
+				37A7826D15454FC700390CEF /* HistoryItem.h */,
+				37A7826E15454FC700390CEF /* HistoryItem.m */,
 				37A782481544D2FB00390CEF /* TestFlight.h */,
 				3763C75715314BB600814E54 /* SBJson */,
 				3763C73415313DFE00814E54 /* Supporting Files */,
@@ -407,6 +412,7 @@
 				3787D0C21541F2650057446A /* HTMLParser.m in Sources */,
 				3787D0C01541E9E60057446A /* TableOfContentsAnchor.m in Sources */,
 				372C81911543BF9500991587 /* HistoryViewController.m in Sources */,
+				37A7826F15454FC700390CEF /* HistoryItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

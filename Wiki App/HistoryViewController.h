@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface HistoryViewController : UITableViewController {
-    NSMutableArray *_entries;
+    NSArray *_entries;
 }
 
-@property (nonatomic) NSMutableArray *entries;
+@property (nonatomic) NSArray *entries;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "HistoryViewController.h"
+#import "HistoryItem.h"
 
 @interface HistoryViewController ()
 
@@ -30,17 +31,35 @@
     
     self.clearsSelectionOnViewWillAppear = NO;
     self.contentSizeForViewInPopover = CGSizeMake(150.0, 140.0);
-    self.entries = [NSMutableArray array];
-    [_entries addObject:@"Steve Jobs"];
-    [_entries addObject:@"Apple Inc"];
-    [_entries addObject:@"iPad"];
-    [_entries addObject:@"OS X"];
+    self.entries = [NSArray array];
+    //[_entries addObject:@"Steve Jobs"];
+    //[_entries addObject:@"Apple Inc"];
+    //[_entries addObject:@"iPad"];
+    //[_entries addObject:@"OS X"];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(populateHistory:) 
+                                                 name:@"populateHistory" 
+                                               object:nil];
+}
+
+// goes with the notification
+- (void)populateHistory:(NSNotification*)notification {
+    self.entries = (NSArray*)[notification object];
+    NSLog(@"history received %@", [self.entries description]);
+    [self.tableView reloadData];
+    // somehow deal with saving and loading the history to iCloud
+    // will be managed by saving single files with the individual HistoryItem object and reloading them sorted by the date property
+    // [NSKeyedArchiver archiveRootObject:myObject toFile:path];
+    /*for (int i = 0; i < tableOfContents.count; i++) {
+     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+     }*/
 }
 
 - (void)viewDidUnload
@@ -59,16 +78,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return [_entries count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 1;
+    return [_entries count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,7 +98,7 @@
     }
     
     // Configure the cell...
-    NSString *entry = [_entries objectAtIndex:indexPath.row];
+    NSString *entry = [(HistoryItem*)[_entries objectAtIndex:indexPath.row] title];
     cell.textLabel.text = entry;
     
     return cell;
@@ -137,6 +154,10 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    // pass the title of the current item to the app to be loaded as the next article
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"gotoArticle" 
+     object:(NSString*)[(HistoryItem*)[self.entries objectAtIndex:indexPath.row] title]];
 }
 
 @end

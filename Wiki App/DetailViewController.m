@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "HTMLParser.h"
+#import "HistoryItem.h"
 
 #define NSLog TFLog
 
@@ -91,6 +92,13 @@
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
     [tableOfContents removeAllObjects];
+    HistoryItem *item = [[HistoryItem alloc] init];
+    [item setTitle:(NSString*)object];
+    [item setDate:[NSDate date]];
+    [historyArray addObject:item];
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"populateHistory" 
+     object:[(NSArray*)historyArray copy]];
     [TestFlight passCheckpoint:@"Loaded an article"];
 }
 
@@ -256,9 +264,17 @@
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
+    historyArray = [[NSMutableArray alloc] init];
+    // allows us to prepopulate the view otherwise nsnotifications are going nowhere
+    self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController]; 
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(gotoAnchor:) 
                                                  name:@"gotoAnchor" 
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(gotoArticle:) 
+                                                 name:@"gotoArticle" 
                                                object:nil];
 }
 
@@ -269,12 +285,19 @@
     [articleView stringByEvaluatingJavaScriptFromString:[[NSString alloc] initWithFormat:@"window.location.hash = '%@'",[anchor href]]];
 }
 
+- (void)gotoArticle:(NSNotification*)notification {
+    // jump straight to load a new article
+    // likely to be used from the history
+    [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:(NSString*)[notification object]];
+}
+
 - (IBAction)selectArticleFromHistory:(id)sender {
-    if (_historyController == nil) {
+    // lazy loading is a bad idea. we need to prepopulate the view before the user ever uses it
+    /*if (_historyController == nil) {
         self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
         //historyController.delegate = self;
         self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];               
-    }
+    }*/
     //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [TestFlight passCheckpoint:@"Viewed history"];

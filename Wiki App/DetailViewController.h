@@ -19,6 +19,7 @@
     NSMutableArray *tableOfContents;
     HistoryViewController *_historyController;
     UIPopoverController *_historyControllerPopover;
+    NSMutableArray *historyArray;
 }
 
 @property (strong, nonatomic) id detailItem;
