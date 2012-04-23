@@ -59,6 +59,10 @@
 		37A7824F1544E87600390CEF /* bottombar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7824E1544E87400390CEF /* bottombar@2x.png */; };
 		37A782511544E8D000390CEF /* bottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782501544E8CF00390CEF /* bottombar.png */; };
 		37A782531544E98C00390CEF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782521544E98C00390CEF /* QuartzCore.framework */; };
+		37A782581545036E00390CEF /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782541545036900390CEF /* history.png */; };
+		37A782591545036E00390CEF /* history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782551545036A00390CEF /* history@2x.png */; };
+		37A7825A1545036E00390CEF /* saved.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782561545036B00390CEF /* saved.png */; };
+		37A7825B1545036E00390CEF /* saved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782571545036D00390CEF /* saved@2x.png */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 /* End PBXBuildFile section */
 
@@ -71,7 +75,7 @@
 		372C818F1543BF9500991587 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		372C81901543BF9500991587 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		372C81951543CA0300991587 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
-		3763C72915313DFE00814E54 /* Wiki App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wiki App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3763C72915313DFE00814E54 /* Pedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763C72D15313DFE00814E54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3763C72F15313DFE00814E54 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3763C73115313DFE00814E54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -140,6 +144,10 @@
 		37A7824E1544E87400390CEF /* bottombar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar@2x.png"; sourceTree = "<group>"; };
 		37A782501544E8CF00390CEF /* bottombar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottombar.png; sourceTree = "<group>"; };
 		37A782521544E98C00390CEF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		37A782541545036900390CEF /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = history.png; sourceTree = "<group>"; };
+		37A782551545036A00390CEF /* history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history@2x.png"; sourceTree = "<group>"; };
+		37A782561545036B00390CEF /* saved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saved.png; sourceTree = "<group>"; };
+		37A782571545036D00390CEF /* saved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saved@2x.png"; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,7 +181,7 @@
 		3763C72A15313DFE00814E54 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3763C72915313DFE00814E54 /* Wiki App.app */,
+				3763C72915313DFE00814E54 /* Pedia.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -239,6 +247,10 @@
 				37A782231544BDDD00390CEF /* forward-dim@2x.png */,
 				37A7822C1544C19100390CEF /* forward.png */,
 				37A782241544BDDE00390CEF /* forward@2x.png */,
+				37A782541545036900390CEF /* history.png */,
+				37A782551545036A00390CEF /* history@2x.png */,
+				37A782561545036B00390CEF /* saved.png */,
+				37A782571545036D00390CEF /* saved@2x.png */,
 				372C81951543CA0300991587 /* bg.png */,
 				37DB3FEC153D06B500C3C243 /* style.css */,
 				37A782341544C81A00390CEF /* Icon-72.png */,
@@ -302,7 +314,7 @@
 			);
 			name = "Wiki App";
 			productName = "Wiki App";
-			productReference = 3763C72915313DFE00814E54 /* Wiki App.app */;
+			productReference = 3763C72915313DFE00814E54 /* Pedia.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -361,6 +373,10 @@
 				37A782431544C81D00390CEF /* Icon@2x.png in Resources */,
 				37A7824F1544E87600390CEF /* bottombar@2x.png in Resources */,
 				37A782511544E8D000390CEF /* bottombar.png in Resources */,
+				37A782581545036E00390CEF /* history.png in Resources */,
+				37A782591545036E00390CEF /* history@2x.png in Resources */,
+				37A7825A1545036E00390CEF /* saved.png in Resources */,
+				37A7825B1545036E00390CEF /* saved@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = Pedia;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -465,6 +482,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = Pedia;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -483,7 +501,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pedia;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -501,7 +519,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pedia;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
 			};

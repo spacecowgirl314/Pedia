@@ -36,6 +36,14 @@
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
 }
 
+- (IBAction)pressForward:(id)sender {
+    [articleView goForward];
+}
+
+- (IBAction)pressBack:(id)sender {
+    [articleView goBack];
+}
+
 - (IBAction)submitFeedback:(id)sender {
     [TestFlight openFeedbackView];
 }
@@ -235,7 +243,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:@"Camera"];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -269,7 +276,7 @@
         self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];               
     }
     //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:[self view] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [TestFlight passCheckpoint:@"Viewed history"];
 }
 
