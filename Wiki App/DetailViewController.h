@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
@@ -30,5 +31,6 @@
 @property (nonatomic, retain) UIPopoverController *historyControllerPopover;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
+- (IBAction)submitFeedback:(id)sender;
  
 @end

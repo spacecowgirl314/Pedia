@@ -32,7 +32,7 @@
                         <subviews>
                             <webView contentMode="scaleToFill" id="2Wm-vr-g5N">
                                 <rect key="frame" x="0.0" y="0.0" width="703" height="654"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="4" id="kW3-zy-fGX"/>
@@ -53,6 +53,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="submitFeedback:" destination="4" eventType="touchUpInside" id="Ze9-3J-wnU"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nhk-mG-dNd">
                                         <rect key="frame" x="533" y="6" width="76" height="37"/>
@@ -71,7 +74,7 @@
                                     </button>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="search.png" id="we1-KK-iL5">
                                         <rect key="frame" x="95" y="11" width="290" height="27"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="x5z-wK-Shd">
                                         <rect key="frame" x="120" y="11" width="251" height="27"/>
@@ -212,6 +215,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="selectArticleFromHistory:"/>
+                <relationship kind="action" name="submitFeedback:"/>
                 <relationship kind="outlet" name="articleSearchBox" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="articleView" candidateClass="UIWebView"/>
                 <relationship kind="outlet" name="bottomBar" candidateClass="UIView"/>

@@ -9,6 +9,8 @@
 #import "DetailViewController.h"
 #import "HTMLParser.h"
 
+#define NSLog TFLog
+
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -34,6 +36,10 @@
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
 }
 
+- (IBAction)submitFeedback:(id)sender {
+    [TestFlight openFeedbackView];
+}
+
 - (void)downloadHTMLandParse:(id)object {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
@@ -43,8 +49,9 @@
     NSString *path = [[NSBundle mainBundle] bundlePath];
     //NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"]
     NSURL *baseURL = [NSURL fileURLWithPath:path];
+    //http://vlntno.me/_projects/wiki/style.css
     [articleView
-     loadHTMLString:[@"<head><link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /></head>" stringByAppendingString:article]
+     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /></head>" stringByAppendingString:article]
      baseURL:baseURL];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     HTMLNode *bodyNode = [parser body];
@@ -70,12 +77,13 @@
         }
     }
     // add all the to some array of sorts and add it to the sidebar
-    //NSLog(@"%@", article);
+    NSLog(@"HTML:%@", article);
     //NSLog(@"TOC: %@", [tableOfContents description]);
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
     [tableOfContents removeAllObjects];
+    [TestFlight passCheckpoint:@"Loaded an article"];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -142,16 +150,104 @@
     }
 }
 
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    // Caution, this notification can be sent even when the keyboard is already visible
+    // You'll want to check for and handle that situation
+    //NSDictionary* info = [aNotification userInfo];
+    
+    //NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    //CGSize keyboardSize = [aValue CGRectValue].size;
+    NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if(orientation == 0) {
+        //Default orientation
+    } 
+    //UI is in Default (Portrait) -- this is really a just a failsafe. 
+    else if(orientation == UIInterfaceOrientationPortrait) {
+        //Do something if the orientation is in Portrait
+        [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
+    }
+    else if(orientation == UIInterfaceOrientationLandscapeLeft) {
+        // Do something if Left
+        [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
+    }
+    else if(orientation == UIInterfaceOrientationLandscapeRight) {
+        //Do something if right
+        [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
+    }
+    /*[UIView animateWithDuration:0.50 
+                          delay:0 
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         // Move the bottom bar up. 352 for landscape 263 for portrait
+                         [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
+                     }
+                     completion:^(BOOL finished){
+                         //nil
+                     }];*/
+    
+    //... do something
+}
+
+- (void)keyboardWasHidden:(NSNotification*)aNotification
+{
+    // Caution, this notification can be sent even when the keyboard is already visible
+    // You'll want to check for and handle that situation
+    //NSDictionary* info = [aNotification userInfo];
+    
+    //NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    //CGSize keyboardSize = [aValue CGRectValue].size;
+    NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if(orientation == 0) {
+        //Default orientation
+    } 
+    //UI is in Default (Portrait) -- this is really a just a failsafe. 
+    else if(orientation == UIInterfaceOrientationPortrait) {
+        //Do something if the orientation is in Portrait
+        [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
+    }
+    else if(orientation == UIInterfaceOrientationLandscapeLeft) {
+        // Do something if Left
+        [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
+    }
+    else if(orientation == UIInterfaceOrientationLandscapeRight) {
+        //Do something if right
+        [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
+    }
+    /*[UIView animateWithDuration:0.05 
+                          delay:0 
+                        options:UIViewAnimationCurveLinear
+                     animations:^{
+                         // Move the bottom bar up. 352 for landscape 263 for portrait
+                         [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
+                     }
+                     completion:^(BOOL finished){
+                         //nil
+                     }];*/
+    
+    //... do something
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:@"Camera"];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
+                          name:UIKeyboardDidShowNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(keyboardWasHidden:)
+                          name:UIKeyboardDidHideNotification object:nil];
     // transparent bottom bar image
-    //bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"paper.png"]];
+    bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
     
-    //[bottomBar.layer setOpaque:NO];
-    //bottomBar.opaque = NO;
+    [bottomBar.layer setOpaque:NO];
+    bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(gotoAnchor:) 
@@ -174,6 +270,7 @@
     }
     //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:[self view] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [TestFlight passCheckpoint:@"Viewed history"];
 }
 
 - (void)viewDidUnload

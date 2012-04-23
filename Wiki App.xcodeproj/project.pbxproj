@@ -54,6 +54,11 @@
 		37A782411544C81D00390CEF /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782391544C81C00390CEF /* Icon-Small@2x.png */; };
 		37A782421544C81D00390CEF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7823A1544C81C00390CEF /* Icon.png */; };
 		37A782431544C81D00390CEF /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7823B1544C81D00390CEF /* Icon@2x.png */; };
+		37A782451544D1A600390CEF /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782441544D1A600390CEF /* libTestFlight.a */; };
+		37A782471544D1DE00390CEF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782461544D1DD00390CEF /* libz.dylib */; };
+		37A7824F1544E87600390CEF /* bottombar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7824E1544E87400390CEF /* bottombar@2x.png */; };
+		37A782511544E8D000390CEF /* bottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782501544E8CF00390CEF /* bottombar.png */; };
+		37A782531544E98C00390CEF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782521544E98C00390CEF /* QuartzCore.framework */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +134,12 @@
 		37A782391544C81C00390CEF /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		37A7823A1544C81C00390CEF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		37A7823B1544C81D00390CEF /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		37A782441544D1A600390CEF /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		37A782461544D1DD00390CEF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		37A782481544D2FB00390CEF /* TestFlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		37A7824E1544E87400390CEF /* bottombar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar@2x.png"; sourceTree = "<group>"; };
+		37A782501544E8CF00390CEF /* bottombar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottombar.png; sourceTree = "<group>"; };
+		37A782521544E98C00390CEF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,10 +148,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37A782471544D1DE00390CEF /* libz.dylib in Frameworks */,
 				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
+				37A782531544E98C00390CEF /* QuartzCore.framework in Frameworks */,
 				3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */,
 				3763C73015313DFE00814E54 /* Foundation.framework in Frameworks */,
 				3763C73215313DFE00814E54 /* CoreGraphics.framework in Frameworks */,
+				37A782451544D1A600390CEF /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +181,10 @@
 		3763C72C15313DFE00814E54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37A782461544D1DD00390CEF /* libz.dylib */,
+				37A782441544D1A600390CEF /* libTestFlight.a */,
 				371488E41541445E00BE1E4E /* libxml2.dylib */,
+				37A782521544E98C00390CEF /* QuartzCore.framework */,
 				3763C72D15313DFE00814E54 /* UIKit.framework */,
 				3763C72F15313DFE00814E54 /* Foundation.framework */,
 				3763C73115313DFE00814E54 /* CoreGraphics.framework */,
@@ -196,6 +213,7 @@
 				371488E21541442F00BE1E4E /* HTMLParser.m */,
 				3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */,
 				3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */,
+				37A782481544D2FB00390CEF /* TestFlight.h */,
 				3763C75715314BB600814E54 /* SBJson */,
 				3763C73415313DFE00814E54 /* Supporting Files */,
 			);
@@ -209,6 +227,8 @@
 				3763C73615313DFE00814E54 /* InfoPlist.strings */,
 				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
 				37A7821D1544B6BC00390CEF /* linen_bg@2x.png */,
+				37A782501544E8CF00390CEF /* bottombar.png */,
+				37A7824E1544E87400390CEF /* bottombar@2x.png */,
 				37A7821F1544B84300390CEF /* search.png */,
 				37A7821B1544B6B600390CEF /* search@2x.png */,
 				37A782291544C19100390CEF /* back-dim.png */,
@@ -339,6 +359,8 @@
 				37A782411544C81D00390CEF /* Icon-Small@2x.png in Resources */,
 				37A782421544C81D00390CEF /* Icon.png in Resources */,
 				37A782431544C81D00390CEF /* Icon@2x.png in Resources */,
+				37A7824F1544E87600390CEF /* bottombar@2x.png in Resources */,
+				37A782511544E8D000390CEF /* bottombar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +479,10 @@
 				GCC_PREFIX_HEADER = "Wiki App/Wiki App-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Wiki App/Wiki App-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -471,6 +497,10 @@
 				GCC_PREFIX_HEADER = "Wiki App/Wiki App-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Wiki App/Wiki App-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;

@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'Amplitude';
-	src: url('Amplitude-Book.ttf') format('truetype');
+	src: url('Amplitude-Book.otf') format('opentype');
 }
 
 html {
