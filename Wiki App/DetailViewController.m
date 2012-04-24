@@ -38,22 +38,7 @@
             // VIRTUAL COPY FROM WEBVIEW METHOD AREA. COMBINE SOMETIME
             // we went back in our history and picked another article instead
             // do we chop off the rest of the forward history?
-            if (historyIndex!=0) {
-                // reset the history index because we are now as forward as we can get
-                //historyIndex=0;
-                // chop what we don't need any more off the historyArray
-                NSLog(@"attempting to get rid of old future history");
-                NSLog(@"before: %@", [historyArray description]);
-                // remove all the previous future history we don't need anymore
-                for (int i = 0; i < historyIndex; i++) {
-                    NSLog(@"index:%i i:%i", historyIndex, i);
-                    [historyArray removeLastObject];
-                }
-                historyIndex=0;
-                //[historyArray removeLastObject];
-                //historyIndex=0;
-                NSLog(@"here are the results from this attempt: %@", [historyArray description]);
-            }
+            [self futureHistoryChopping];
             loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
             // done with the keyboard. hide it
             [articleSearchBox resignFirstResponder];
@@ -105,6 +90,10 @@
 
 - (void)downloadHTMLandParse:(id)object {
     NSLog(@"loaded article %@", (NSString*)object);
+    // set title
+    [detailItem setTitle:(NSString*)object];
+    [detailItem setPrompt:(NSString*)object];
+    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     NSString *article = [wikiHelper getWikipediaHTMLPage:[(NSString*)object stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -115,7 +104,7 @@
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     //http://vlntno.me/_projects/wiki/style.css
     [articleView
-     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /></head>" stringByAppendingString:article]
+     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
      baseURL:baseURL];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     HTMLNode *bodyNode = [parser body];
@@ -189,22 +178,7 @@
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         // we went back in our history and picked another article instead
         // do we chop off the rest of the forward history?
-        if (historyIndex!=0) {
-            // reset the history index because we are now as forward as we can get
-            //historyIndex=0;
-            // chop what we don't need any more off the historyArray
-            NSLog(@"attempting to get rid of old future history");
-            NSLog(@"before: %@", [historyArray description]);
-            // remove all the previous future history we don't need anymore
-            for (int i = 0; i < historyIndex; i++) {
-                NSLog(@"index:%i i:%i", historyIndex, i);
-                [historyArray removeLastObject];
-            }
-            historyIndex=0;
-            //[historyArray removeLastObject];
-            //historyIndex=0;
-            NSLog(@"here are the results from this attempt: %@", [historyArray description]);
-        }
+        [self futureHistoryChopping];
         //if (![loadingThread isExecuting]) {
         [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
         // also save history
@@ -234,6 +208,25 @@
     //NSString *urlString = url.absoluteString;
     //NSLog(urlString);
     //return YES;
+}
+
+- (void)futureHistoryChopping {
+    if (historyIndex!=0) {
+        // reset the history index because we are now as forward as we can get
+        //historyIndex=0;
+        // chop what we don't need any more off the historyArray
+        NSLog(@"attempting to get rid of old future history");
+        NSLog(@"before: %@", [historyArray description]);
+        // remove all the previous future history we don't need anymore
+        for (int i = 0; i < historyIndex; i++) {
+            NSLog(@"index:%i i:%i", historyIndex, i);
+            [historyArray removeLastObject];
+        }
+        historyIndex=0;
+        //[historyArray removeLastObject];
+        //historyIndex=0;
+        NSLog(@"here are the results from this attempt: %@", [historyArray description]);
+    }
 }
 
 /*- (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -293,6 +286,9 @@
                              //Do something if the orientation is in Portrait
                              [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
                          }
+                         else if(orientation == UIInterfaceOrientationPortraitUpsideDown) {
+                             [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
+                         }
                          else if(orientation == UIInterfaceOrientationLandscapeLeft) {
                              // Do something if Left
                              [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
@@ -342,6 +338,9 @@
                              //Do something if the orientation is in Portrait
                              [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
                          }
+                         else if(orientation == UIInterfaceOrientationPortraitUpsideDown) {
+                             [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
+                         }
                          else if(orientation == UIInterfaceOrientationLandscapeLeft) {
                              // Do something if Left
                              [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
@@ -373,9 +372,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSURL *ubiq = [[NSFileManager defaultManager] 
+                   URLForUbiquityContainerIdentifier:nil];
+    if (ubiq) {
+        NSLog(@"iCloud access at %@", ubiq);
+        // TODO: Load document... 
+    } else {
+        NSLog(@"No iCloud access");
+    }
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
+    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
                           name:UIKeyboardDidShowNotification object:nil];

@@ -3,6 +3,10 @@
 	src: url('Amplitude-Book.otf') format('opentype');
 }
 
+* {
+	
+}
+
 html {
 	background: #f2f2f2;
 	outline: none;
@@ -12,7 +16,7 @@ html {
 
 body {
 	font-family: Amplitude !important;
-	font-size: 1.5em !important;
+	font-size: 18px !important;
 	color: #555555 !important;
 	line-height: 1.5em;
 	background: #f2f2f2;
@@ -20,6 +24,7 @@ body {
 	margin: 0 auto;
 	text-shadow: 2px 2px 4px #ffffff;
 	position: relative;
+	overflow: hidden;
 }
 
 .dablink {
@@ -40,7 +45,6 @@ sup {
 }
 
 table.infobox {
-	width: 400px;
 	float: right;
 	right: 25px;
 	padding: 15px;
@@ -62,7 +66,7 @@ h2 span.mw-headline, h3 span.mw-headline {
 .thumb {
 	font-size: 0.8em !important;
 	line-height: 1.5em !important;
-	float: right;
+	float: right !important;
 	padding: 15px;
 	background: #fff;
 	margin: 0 0 0 25px;
@@ -71,10 +75,22 @@ h2 span.mw-headline, h3 span.mw-headline {
 	box-shadow: 0 0 4px #fff;
 }
 
+.portal {
+	display: none;
+}
+
 .magnify {
 	display: none;
 }
 
 table.metadata.plainlinks.ambox.ambox-style {
-	display: none;
+	display: none !important;
+}
+
+table.navbox {
+	display: none !important;
+}
+
+.reflist.references-column-width {
+	-webkit-column-width: 200px !important;
 }
