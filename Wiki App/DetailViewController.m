@@ -24,25 +24,79 @@
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize historyController = _historyController;
 @synthesize historyControllerPopover = _historyControllerPopover;
+@synthesize bottomBar;
+@synthesize articleSearchBox;
+@synthesize articleView;
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == articleSearchBox) {
-        [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
+        // start thread in background for loading the page
+        //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
+        // only allow to continue if we aren't already executing loading a page
+        if (![loadingThread isExecuting]) {
+            // VIRTUAL COPY FROM WEBVIEW METHOD AREA. COMBINE SOMETIME
+            // we went back in our history and picked another article instead
+            // do we chop off the rest of the forward history?
+            if (historyIndex!=0) {
+                // reset the history index because we are now as forward as we can get
+                //historyIndex=0;
+                // chop what we don't need any more off the historyArray
+                NSLog(@"attempting to get rid of old future history");
+                NSLog(@"before: %@", [historyArray description]);
+                // remove all the previous future history we don't need anymore
+                for (int i = 0; i < historyIndex; i++) {
+                    NSLog(@"index:%i i:%i", historyIndex, i);
+                    [historyArray removeLastObject];
+                }
+                historyIndex=0;
+                //[historyArray removeLastObject];
+                //historyIndex=0;
+                NSLog(@"here are the results from this attempt: %@", [historyArray description]);
+            }
+            loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
+            // done with the keyboard. hide it
+            [articleSearchBox resignFirstResponder];
+            [loadingThread start];
+            // also save history
+            [self processHistory:[articleSearchBox text]];
+        }
     }
     return YES;
 }
 
 - (IBAction)loadArticle:(id)sender {
-    [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
+    if (![loadingThread isExecuting]) {
+        loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
+        [loadingThread start];
+        //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
+        // also save history
+        [self processHistory:[articleSearchBox text]];
+    }
 }
 
 - (IBAction)pressForward:(id)sender {
-    [articleView goForward];
+    if (![loadingThread isExecuting]) {
+        //[articleView goForward];
+        historyIndex--;
+        HistoryItem *item = [historyArray objectAtIndex:[historyArray count]-historyIndex-1];
+        loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[item title]];
+        [loadingThread start];
+    }
+    //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[item title]];
 }
 
 - (IBAction)pressBack:(id)sender {
-    [articleView goBack];
+    if (![loadingThread isExecuting]) {
+        //[articleView goBack];
+        historyIndex++;
+        HistoryItem *item = [historyArray objectAtIndex:[historyArray count]-historyIndex-1];
+        loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[item title]];
+        [loadingThread start];
+    }
+    //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[item title]];
+    // we definitely don't add to the history
+    // we are going back in history
 }
 
 - (IBAction)submitFeedback:(id)sender {
@@ -50,6 +104,7 @@
 }
 
 - (void)downloadHTMLandParse:(id)object {
+    NSLog(@"loaded article %@", (NSString*)object);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     NSString *article = [wikiHelper getWikipediaHTMLPage:[(NSString*)object stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -86,27 +141,74 @@
         }
     }
     // add all the to some array of sorts and add it to the sidebar
-    NSLog(@"HTML:%@", article);
+    //NSLog(@"HTML:%@", article);
     //NSLog(@"TOC: %@", [tableOfContents description]);
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
     [tableOfContents removeAllObjects];
+    // enable and disable the back and forward buttons here respectively
+    // there is history. enable the back button
+    NSLog(@"count of HistoryArray:%i", [historyArray count]);
+    if ([historyArray count]!=0) {
+        // if we have gone too far back in history don't let us go out of the array
+        if (historyIndex==[historyArray count]-1) {
+            [backButton setEnabled:NO];
+        }
+        // default to it being enabled. most of the time it will be
+        else {
+            [backButton setEnabled:YES];
+        }
+    }
+    // if we are on the current page there should be no forward button
+    if (historyIndex!=0) {
+        [forwardButton setEnabled:YES];
+    }
+    // else we must be on a previous page. show the forward button
+    else {
+        [forwardButton setEnabled:NO];
+    }
+    [TestFlight passCheckpoint:@"Loaded an article"];
+}
+
+- (void)processHistory:(NSString*)title {
     HistoryItem *item = [[HistoryItem alloc] init];
-    [item setTitle:(NSString*)object];
+    [item setTitle:title];
     [item setDate:[NSDate date]];
     [historyArray addObject:item];
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateHistory" 
      object:[(NSArray*)historyArray copy]];
-    [TestFlight passCheckpoint:@"Loaded an article"];
 }
+
+#pragma mark - UIWebView Management
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL *url = request.URL;
     // NOTE: this currently doesn't work for images. What this does is redirects requests to Wikipedia back to the API.
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        // we went back in our history and picked another article instead
+        // do we chop off the rest of the forward history?
+        if (historyIndex!=0) {
+            // reset the history index because we are now as forward as we can get
+            //historyIndex=0;
+            // chop what we don't need any more off the historyArray
+            NSLog(@"attempting to get rid of old future history");
+            NSLog(@"before: %@", [historyArray description]);
+            // remove all the previous future history we don't need anymore
+            for (int i = 0; i < historyIndex; i++) {
+                NSLog(@"index:%i i:%i", historyIndex, i);
+                [historyArray removeLastObject];
+            }
+            historyIndex=0;
+            //[historyArray removeLastObject];
+            //historyIndex=0;
+            NSLog(@"here are the results from this attempt: %@", [historyArray description]);
+        }
+        //if (![loadingThread isExecuting]) {
         [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
+        // also save history
+        [self processHistory:[url lastPathComponent]];
         return NO;
     }
     else {
@@ -166,6 +268,8 @@
     }
 }
 
+#pragma mark - Keyboard Stuff
+
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     // Caution, this notification can be sent even when the keyboard is already visible
@@ -177,22 +281,30 @@
     //CGSize keyboardSize = [aValue CGRectValue].size;
     NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if(orientation == 0) {
-        //Default orientation
-    } 
-    //UI is in Default (Portrait) -- this is really a just a failsafe. 
-    else if(orientation == UIInterfaceOrientationPortrait) {
-        //Do something if the orientation is in Portrait
-        [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
-    }
-    else if(orientation == UIInterfaceOrientationLandscapeLeft) {
-        // Do something if Left
-        [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
-    }
-    else if(orientation == UIInterfaceOrientationLandscapeRight) {
-        //Do something if right
-        [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
-    }
+    [UIView animateWithDuration:0.50
+                          delay:0
+                        options:UIViewAnimationCurveEaseIn
+                     animations:^{
+                         if(orientation == 0) {
+                             //Default orientation
+                         } 
+                         //UI is in Default (Portrait) -- this is really a just a failsafe. 
+                         else if(orientation == UIInterfaceOrientationPortrait) {
+                             //Do something if the orientation is in Portrait
+                             [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
+                         }
+                         else if(orientation == UIInterfaceOrientationLandscapeLeft) {
+                             // Do something if Left
+                             [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
+                         }
+                         else if(orientation == UIInterfaceOrientationLandscapeRight) {
+                             //Do something if right
+                             [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
+                         }
+                     }
+                     completion:^(BOOL finished){
+                         //nil
+                     }];
     /*[UIView animateWithDuration:0.50 
                           delay:0 
                         options:UIViewAnimationCurveEaseInOut
@@ -218,22 +330,30 @@
     //CGSize keyboardSize = [aValue CGRectValue].size;
     NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if(orientation == 0) {
-        //Default orientation
-    } 
-    //UI is in Default (Portrait) -- this is really a just a failsafe. 
-    else if(orientation == UIInterfaceOrientationPortrait) {
-        //Do something if the orientation is in Portrait
-        [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
-    }
-    else if(orientation == UIInterfaceOrientationLandscapeLeft) {
-        // Do something if Left
-        [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
-    }
-    else if(orientation == UIInterfaceOrientationLandscapeRight) {
-        //Do something if right
-        [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
-    }
+    [UIView animateWithDuration:0.50 
+                          delay:0 
+                        options:UIViewAnimationCurveEaseIn
+                     animations:^{
+                         if(orientation == 0) {
+                             //Default orientation
+                         } 
+                         //UI is in Default (Portrait) -- this is really a just a failsafe. 
+                         else if(orientation == UIInterfaceOrientationPortrait) {
+                             //Do something if the orientation is in Portrait
+                             [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
+                         }
+                         else if(orientation == UIInterfaceOrientationLandscapeLeft) {
+                             // Do something if Left
+                             [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
+                         }
+                         else if(orientation == UIInterfaceOrientationLandscapeRight) {
+                             //Do something if right
+                             [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
+                         }
+                     }
+                     completion:^(BOOL finished){
+                         //nil
+                     }];
     /*[UIView animateWithDuration:0.05 
                           delay:0 
                         options:UIViewAnimationCurveLinear
@@ -248,16 +368,20 @@
     //... do something
 }
 
+#pragma mark -
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
                           name:UIKeyboardDidShowNotification object:nil];
     [defaultCenter addObserver:self selector:@selector(keyboardWasHidden:)
                           name:UIKeyboardDidHideNotification object:nil];
+    //[articleSearchBox setInputAccessoryView:bottomBar];
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
     
@@ -265,6 +389,7 @@
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
     historyArray = [[NSMutableArray alloc] init];
+    historyIndex = 0;
     // allows us to prepopulate the view otherwise nsnotifications are going nowhere
     self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
     self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController]; 

@@ -60,7 +60,7 @@
 // goes with the notification
 - (void)populateTableOfContents:(NSNotification*)notification {
     tableOfContents = (NSArray*)[notification object];
-    NSLog(@"TOC received %@", [tableOfContents description]);
+    //NSLog(@"TOC received %@", [tableOfContents description]);
     [self.tableView reloadData];
     /*for (int i = 0; i < tableOfContents.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];

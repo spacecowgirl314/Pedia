@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 371488E41541445E00BE1E4E /* libxml2.dylib */; };
+		372857521546470000EF076C /* titlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = 372857501546470000EF076C /* titlebar.png */; };
+		372857531546470000EF076C /* titlebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 372857511546470000EF076C /* titlebar@2x.png */; };
 		372C81911543BF9500991587 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372C81901543BF9500991587 /* HistoryViewController.m */; };
 		372C81961543CA0300991587 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 372C81951543CA0300991587 /* bg.png */; };
 		3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72D15313DFE00814E54 /* UIKit.framework */; };
@@ -73,6 +75,8 @@
 		371488E11541442F00BE1E4E /* HTMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		371488E21541442F00BE1E4E /* HTMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		371488E41541445E00BE1E4E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		372857501546470000EF076C /* titlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titlebar.png; sourceTree = "<group>"; };
+		372857511546470000EF076C /* titlebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titlebar@2x.png"; sourceTree = "<group>"; };
 		372C818F1543BF9500991587 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		372C81901543BF9500991587 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		372C81951543CA0300991587 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -256,6 +260,8 @@
 				37A782551545036A00390CEF /* history@2x.png */,
 				37A782561545036B00390CEF /* saved.png */,
 				37A782571545036D00390CEF /* saved@2x.png */,
+				372857501546470000EF076C /* titlebar.png */,
+				372857511546470000EF076C /* titlebar@2x.png */,
 				372C81951543CA0300991587 /* bg.png */,
 				37DB3FEC153D06B500C3C243 /* style.css */,
 				37A782341544C81A00390CEF /* Icon-72.png */,
@@ -382,6 +388,8 @@
 				37A782591545036E00390CEF /* history@2x.png in Resources */,
 				37A7825A1545036E00390CEF /* saved.png in Resources */,
 				37A7825B1545036E00390CEF /* saved@2x.png in Resources */,
+				372857521546470000EF076C /* titlebar.png in Resources */,
+				372857531546470000EF076C /* titlebar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

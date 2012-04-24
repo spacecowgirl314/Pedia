@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="5">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
@@ -42,7 +43,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hke-bK-GZc">
-                                        <rect key="frame" x="671" y="16" width="17" height="16"/>
+                                        <rect key="frame" x="659" y="11" width="29" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="saved.png">
@@ -57,7 +58,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nhk-mG-dNd">
-                                        <rect key="frame" x="643" y="16" width="15" height="16"/>
+                                        <rect key="frame" x="614" y="11" width="25" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="history.png">
@@ -79,12 +80,12 @@
                                         <rect key="frame" x="120" y="11" width="265" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="4" id="lyn-zc-51s"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="id7-MI-9fD">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="id7-MI-9fD">
                                         <rect key="frame" x="10" y="9" width="35" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -100,7 +101,7 @@
                                             <action selector="pressBack:" destination="4" eventType="touchUpInside" id="9dx-iS-2eD"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WMn-3P-BPW">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WMn-3P-BPW">
                                         <rect key="frame" x="45" y="9" width="35" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -128,7 +129,10 @@
                     <connections>
                         <outlet property="articleSearchBox" destination="x5z-wK-Shd" id="NVO-t2-YNr"/>
                         <outlet property="articleView" destination="2Wm-vr-g5N" id="IzT-9e-pnq"/>
+                        <outlet property="backButton" destination="id7-MI-9fD" id="SpE-Tq-fNf"/>
                         <outlet property="bottomBar" destination="DXh-aC-aUI" id="JeT-mO-pQg"/>
+                        <outlet property="detailItem" destination="53" id="pmb-n2-THa"/>
+                        <outlet property="forwardButton" destination="WMn-3P-BPW" id="YeY-Bp-qRZ"/>
                     </connections>
                 </viewController>
             </objects>
@@ -213,8 +217,8 @@
         <image name="back.png" width="35" height="32"/>
         <image name="forward-dim.png" width="35" height="32"/>
         <image name="forward.png" width="35" height="32"/>
-        <image name="history.png" width="15" height="16"/>
-        <image name="saved.png" width="17" height="16"/>
+        <image name="history.png" width="25" height="26"/>
+        <image name="saved.png" width="29" height="26"/>
         <image name="search.png" width="290" height="27"/>
     </resources>
     <classes>
@@ -225,8 +229,11 @@
                 <relationship kind="action" name="submitFeedback:"/>
                 <relationship kind="outlet" name="articleSearchBox" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="articleView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="backButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="bottomBar" candidateClass="UIView"/>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="detailItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="forwardButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="MasterViewController" superclassName="UITableViewController">

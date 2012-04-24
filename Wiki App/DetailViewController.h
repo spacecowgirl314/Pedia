@@ -16,10 +16,15 @@
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
+    IBOutlet UIButton *backButton;
+    IBOutlet UIButton *forwardButton;
+    IBOutlet UINavigationItem *detailItem;
     NSMutableArray *tableOfContents;
     HistoryViewController *_historyController;
     UIPopoverController *_historyControllerPopover;
     NSMutableArray *historyArray;
+    NSThread *loadingThread;
+    int historyIndex;
 }
 
 @property (strong, nonatomic) id detailItem;

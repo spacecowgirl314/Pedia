@@ -26,8 +26,8 @@
 	return self;
 }
 
-/*- (NSString*)description {
-    return [[NSString 
-}*/
+- (NSString*)description {
+    return [[NSString alloc] initWithFormat:@"Title: %@ Date:%@", title, [date description]];
+}
 
 @end
