@@ -30,7 +30,7 @@
     [super viewDidLoad];
     
     self.clearsSelectionOnViewWillAppear = NO;
-    self.contentSizeForViewInPopover = CGSizeMake(150.0, 140.0);
+    self.contentSizeForViewInPopover = CGSizeMake(253.0, 352.0);
     self.entries = [NSArray array];
     //[_entries addObject:@"Steve Jobs"];
     //[_entries addObject:@"Apple Inc"];

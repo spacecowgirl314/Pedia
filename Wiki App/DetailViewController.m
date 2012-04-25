@@ -179,10 +179,23 @@
         // we went back in our history and picked another article instead
         // do we chop off the rest of the forward history?
         [self futureHistoryChopping];
-        //if (![loadingThread isExecuting]) {
-        [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
-        // also save history
-        [self processHistory:[url lastPathComponent]];
+        // could also detect audio files in a similar manner. pronounciation seems to look like this En-us-Barack-Hussein-Obama.ogg
+        NSString *searchForMe = @"File:";
+        NSRange range = [[url lastPathComponent] rangeOfString : searchForMe];
+        // make sure we aren't loading an image
+        if (range.location == NSNotFound) {
+            //if (![loadingThread isExecuting]) {
+            [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
+            // also save history
+            [self processHistory:[url lastPathComponent]];
+        }
+        // we found an image. do something with it.
+        else {
+            NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadImageAndView:) object:[url lastPathComponent]];
+            [thread start];
+            //UIAlertView *alertNow = [[UIAlertView alloc] initWithTitle:@"TODO" message:@"Image viewing not implemented yet" delegate:self cancelButtonTitle:@"Understood" otherButtonTitles:nil, nil];
+            //[alertNow show];
+        }
         return NO;
     }
     else {
@@ -208,6 +221,20 @@
     //NSString *urlString = url.absoluteString;
     //NSLog(urlString);
     //return YES;
+}
+
+- (void)downloadImageAndView:(id)object {
+    NSLog(@"Image attempted:%@", (NSString*)object);
+    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+    //NSLog(@"Image url:%@", );
+    NSString *imageURL = [wikiHelper getUrlOfImageFile:(NSString*)object];
+    NSURL *url = [NSURL URLWithString:imageURL];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [[UIImage alloc] initWithData:data];
+    //[[articleView scrollView] setHidden:YES];
+    [imageView setImage:image];
+    [imageView setHidden:NO];
+    [scrollView setHidden:NO];
 }
 
 - (void)futureHistoryChopping {
@@ -367,6 +394,10 @@
     //... do something
 }
 
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return imageView;
+}
+
 #pragma mark -
 
 - (void)viewDidLoad
@@ -399,7 +430,12 @@
     historyIndex = 0;
     // allows us to prepopulate the view otherwise nsnotifications are going nowhere
     self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
-    self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController]; 
+    self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
+    // make the image viewer work
+    [scrollView setDelegate:self];
+    [scrollView setClipsToBounds:YES];
+    scrollView.minimumZoomScale = 1.0f;
+    scrollView.maximumZoomScale = 2.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(gotoAnchor:) 
                                                  name:@"gotoAnchor" 

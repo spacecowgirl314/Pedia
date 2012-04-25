@@ -25,6 +25,9 @@
 // Return the Main image of an wikipedia article search by the name
 - (NSString *) getUrlOfMainImage:(NSString *)name;
 
+// Return the image url of the File: string we are given in an article
+- (NSString*) getUrlOfImageFile:(NSString*)filename;
+
 // Checks if the returned image is on the blacklist
 - (BOOL) isOnBlackList:(NSString *)imageURL;
 

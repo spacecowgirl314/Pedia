@@ -12,13 +12,15 @@
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
 
-@interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate> {
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
     IBOutlet UIButton *backButton;
     IBOutlet UIButton *forwardButton;
     IBOutlet UINavigationItem *detailItem;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UIImageView *imageView;
     NSMutableArray *tableOfContents;
     HistoryViewController *_historyController;
     UIPopoverController *_historyControllerPopover;

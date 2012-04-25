@@ -94,6 +94,34 @@
     return formatedHtmlSrc;
 }
 
+- (NSString*) getUrlOfImageFile:(NSString*)filename {
+    //http://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&titles=File:Cameras.jpg&iiprop=url&format=json
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    
+    NSURLRequest *request;
+    
+    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=imageinfo&titles=%@&iiprop=url&format=json", apiUrl, filename];
+    
+    request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    // Perform request and get JSON back as a NSData object
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    
+    // Get JSON as a NSString from NSData response
+    NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    
+    // parse the JSON response into an object
+    // Here we're using NSArray since we're parsing an array of JSON status objects
+    NSDictionary *wikipediaResponseObject = [parser objectWithString:json_string error:nil];
+    
+    // NOTE: when an image doesn't exist we only have the query object and not pages object
+    NSArray *pages = [[[wikipediaResponseObject objectForKey:@"query"] objectForKey:@"pages"] allValues];
+    NSDictionary *page = [pages objectAtIndex:0];
+    NSDictionary *imageinfo = [[page objectForKey:@"imageinfo"] objectAtIndex:0];
+    NSString *imageUrl = [imageinfo objectForKey:@"url"];
+    return imageUrl;
+}
+
 - (NSString *) getUrlOfMainImage:(NSString *)name {
     
     // Fetch wikipedia article
