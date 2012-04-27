@@ -19,6 +19,25 @@
     return self;
 }
 
+- (void)awakeFromNib {
+    //////////////////////////////
+    // Listen for Double Tap Zoom
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    
+    [doubleTap setNumberOfTapsRequired:2];
+    
+    [self addGestureRecognizer:doubleTap];
+}
+
+- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {  
+    
+    if(self.zoomScale > self.minimumZoomScale)
+        [self setZoomScale:self.minimumZoomScale animated:YES]; 
+    else 
+        [self setZoomScale:self.maximumZoomScale animated:YES]; 
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 { 
     UITouch *touch = [touches anyObject]; 
@@ -27,7 +46,7 @@
     point.x = tileContainerView.center.x;
     point.y = tileContainerView.center.y;       
     
-    if (![tileContainerView pointInside:touch_point withEvent:event]) {
+    if (![tileContainerView pointInside:[self convertPoint:touch_point toView: tileContainerView] withEvent:event]) {
         self.hidden = YES;
         // reset zoom
         CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);

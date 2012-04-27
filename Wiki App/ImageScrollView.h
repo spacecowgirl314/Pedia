@@ -13,4 +13,6 @@
     CGPoint originalImagePos;
 }
 
+- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer;
+
 @end

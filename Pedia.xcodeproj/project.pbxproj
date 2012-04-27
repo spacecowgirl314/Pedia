@@ -88,10 +88,10 @@
 		3763C72D15313DFE00814E54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3763C72F15313DFE00814E54 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3763C73115313DFE00814E54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		3763C73515313DFE00814E54 /* Pedia-Info.plist */ = {isa = PBXFileReference; path = "Pedia-Info.plist"; sourceTree = "<group>"; };
+		3763C73515313DFE00814E54 /* Pedia-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pedia-Info.plist"; sourceTree = "<group>"; };
 		3763C73715313DFE00814E54 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3763C73915313DFE00814E54 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3763C73B15313DFE00814E54 /* Pedia-Prefix.pch */ = {isa = PBXFileReference; path = "Pedia-Prefix.pch"; sourceTree = "<group>"; };
+		3763C73B15313DFE00814E54 /* Pedia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pedia-Prefix.pch"; sourceTree = "<group>"; };
 		3763C73C15313DFE00814E54 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3763C73D15313DFE00814E54 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3763C74015313DFE00814E54 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
