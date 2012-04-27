@@ -27,8 +27,12 @@
     point.x = tileContainerView.center.x;
     point.y = tileContainerView.center.y;       
     
-    if (![tileContainerView pointInside:[self convertPoint:touch_point toView: tileContainerView] withEvent:event]) {
+    if (![tileContainerView pointInside:touch_point withEvent:event]) {
         self.hidden = YES;
+        // reset zoom
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
+        tileContainerView.transform = transform;
+        [self setContentSize:CGSizeZero];
         NSLog(@"YES");
     } else {
         self.hidden = NO;

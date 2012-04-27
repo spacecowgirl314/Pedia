@@ -10,6 +10,7 @@
 
 @interface ImageScrollView : UIScrollView {
     IBOutlet UIImageView *tileContainerView;
+    CGPoint originalImagePos;
 }
 
 @end

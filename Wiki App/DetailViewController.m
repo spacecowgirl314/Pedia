@@ -160,14 +160,66 @@
     [TestFlight passCheckpoint:@"Loaded an article"];
 }
 
+#pragma mark - History Loading and Saving
+
+- (void)loadHistory {
+    // start a new array. also doubles as wiping the array when reloading periodically
+    historyArray = [[NSMutableArray alloc] init];
+    NSURL *ubiq = [[NSFileManager defaultManager] 
+                   URLForUbiquityContainerIdentifier:nil];
+    NSError *error;
+    NSArray *items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
+    // load each item from iCloud
+    for (NSURL *item in items) {
+        NSLog(@"item:%@", [item description]);
+        NSData *data = [[NSMutableData alloc] initWithContentsOfURL:item];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        // don't let a NULL get loaded
+        if (unarchiver!=NULL) {
+            HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
+            NSLog(@"history item loaded:%@", [historyItem description]);
+            [historyArray addObject:historyItem];
+        }
+    }
+    // sort the objects by date
+    [historyArray sortUsingComparator:^(id a, id b) {
+        NSDate *first = [(HistoryItem*)a date];
+        NSDate *second = [(HistoryItem*)b date];
+        return [second compare:first];
+    }];
+    // now populate the view with the data we just loaded
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"populateHistory" 
+     object:[(NSArray*)historyArray copy]];
+}
+
 - (void)processHistory:(NSString*)title {
+    // Adding from local session
     HistoryItem *item = [[HistoryItem alloc] init];
     [item setTitle:title];
     [item setDate:[NSDate date]];
     [historyArray addObject:item];
+    // keep the array sorted by date by newest first
+    [historyArray sortUsingComparator:^(id a, id b) {
+        NSDate *first = [(HistoryItem*)a date];
+        NSDate *second = [(HistoryItem*)b date];
+        return [second compare:first];
+    }];
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateHistory" 
      object:[(NSArray*)historyArray copy]];
+    // Save to iCloud
+    NSURL *iCloud = [[NSFileManager defaultManager] 
+                     URLForUbiquityContainerIdentifier:nil];
+	NSString *documentsDirectory = [iCloud relativePath];
+	NSString *file = [documentsDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%@.plist",title]];
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+	
+	[archiver encodeObject:item forKey:@"HistoryItem"];
+	[archiver finishEncoding];
+	
+	[data writeToFile:file atomically:YES];
 }
 
 #pragma mark - UIWebView Management
@@ -186,6 +238,7 @@
         if (range.location == NSNotFound) {
             //if (![loadingThread isExecuting]) {
             [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
+            // TODO: strip underscores from lastPathComponent to make it user readable
             // also save history
             [self processHistory:[url lastPathComponent]];
         }
@@ -403,16 +456,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSURL *ubiq = [[NSFileManager defaultManager] 
-                   URLForUbiquityContainerIdentifier:nil];
-    if (ubiq) {
+    //NSURL *ubiq = [[NSFileManager defaultManager] 
+    //               URLForUbiquityContainerIdentifier:nil];
+    /*if (ubiq) {
         NSLog(@"iCloud access at %@", ubiq);
+        NSArray *items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:nil options:nil error:nil];
+        // load each item from iCloud
+        for (NSURL *item in items) {
+            
+        }
         // TODO: Load document... 
     } else {
+        // USER IS AN IDIOT. Demote them to local file usage.
         NSLog(@"No iCloud access");
-    }
+    }*/
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    // allow us to know when the app comes back from the foreground
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(becomeActive:)
+     name:UIApplicationWillEnterForegroundNotification
+     object:nil];
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
@@ -426,24 +491,30 @@
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
-    historyArray = [[NSMutableArray alloc] init];
-    historyIndex = 0;
     // allows us to prepopulate the view otherwise nsnotifications are going nowhere
     self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
     self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
+    // Load history from previous sessions. Also from sessions on other devices via iCloud.
+    [self loadHistory];
+    historyIndex = 0;
     // make the image viewer work
     [scrollView setDelegate:self];
     [scrollView setClipsToBounds:YES];
     scrollView.minimumZoomScale = 1.0f;
     scrollView.maximumZoomScale = 2.0f;
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(gotoAnchor:) 
-                                                 name:@"gotoAnchor" 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotoAnchor:)
+                                                 name:@"gotoAnchor"
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(gotoArticle:) 
-                                                 name:@"gotoArticle" 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(gotoArticle:)
+                                                 name:@"gotoArticle"
                                                object:nil];
+}
+
+- (void)becomeActive:(NSNotification*)object {
+    // reload history if iCloud is active
+    [self loadHistory];
 }
 
 - (void)gotoAnchor:(NSNotification*)notification {

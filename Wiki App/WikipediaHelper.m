@@ -68,6 +68,22 @@
     return htmlSrc;
 }
 
+- (void)connection: (NSURLConnection*) connection didReceiveResponse: (NSHTTPURLResponse*) response
+{
+    NSInteger statusCode = [response statusCode];
+    if (statusCode == 200) {
+        downloadSize = [response expectedContentLength];
+    }
+}
+
+- (void) connection: (NSURLConnection*) connection didReceiveData: (NSData*) data
+{
+    //[data_ appendData: data];
+    downloadProgress = ((float) [data length] / (float) downloadSize);
+    NSLog(@"progress: %f", downloadProgress);
+    // Broadcast a notification with the progress change, or call a delegate
+}
+
 - (NSString *) getWikipediaHTMLPage:(NSString *)name {
     // Fetch wikipedia article
     NSString *htmlSrc = [self getWikipediaArticle:name];

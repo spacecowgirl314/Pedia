@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WikipediaHelper : NSObject {
+@interface WikipediaHelper : NSObject<NSURLConnectionDelegate> {
     NSString *apiUrl;
     NSMutableArray *imageBlackList;
+    float downloadProgress;
+    long downloadSize;
 }
 
 @property (nonatomic, retain) NSString *apiUrl;
