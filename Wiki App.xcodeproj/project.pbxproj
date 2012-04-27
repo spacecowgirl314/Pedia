@@ -349,7 +349,7 @@
 			attributes = {
 				LastUpgradeCheck = 0430;
 			};
-			buildConfigurationList = 3763C72315313DFD00814E54 /* Build configuration list for PBXProject "Wiki App" */;
+			buildConfigurationList = 3763C72315313DFD00814E54 /* Build configuration list for PBXProject "Pedia" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -533,6 +533,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
+				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -552,6 +553,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
+				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -560,7 +562,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3763C72315313DFD00814E54 /* Build configuration list for PBXProject "Wiki App" */ = {
+		3763C72315313DFD00814E54 /* Build configuration list for PBXProject "Pedia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3763C74B15313DFE00814E54 /* Debug */,
