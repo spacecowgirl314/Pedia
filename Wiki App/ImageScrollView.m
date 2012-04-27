@@ -30,34 +30,39 @@
     [self addGestureRecognizer:doubleTap];
 }
 
-- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {  
-    
+// Double tap to Zoom!
+- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
     if(self.zoomScale > self.minimumZoomScale)
         [self setZoomScale:self.minimumZoomScale animated:YES]; 
     else 
         [self setZoomScale:self.maximumZoomScale animated:YES]; 
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
-{ 
-    UITouch *touch = [touches anyObject]; 
-    CGPoint touch_point = [touch locationInView:self];
-    CGPoint point; // = [touch locationInView:self.view];
-    point.x = tileContainerView.center.x;
-    point.y = tileContainerView.center.y;       
-    
-    if (![tileContainerView pointInside:[self convertPoint:touch_point toView: tileContainerView] withEvent:event]) {
-        self.hidden = YES;
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    currentPoint = [[touches anyObject] locationInView:self];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGPoint activePoint = [[touches anyObject] locationInView:self];
+    // did we make minimal movement? if so then it must be a touch
+    if (abs(activePoint.x - currentPoint.x) < 10 && abs(activePoint.y - currentPoint.y) < 10) {
+        touchesMoved=NO;
+    }
+    else {
+        touchesMoved=YES;
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    // only hide if touched and didn't zoom or tap to zoom
+    if (touchesMoved==NO) {
+        self.hidden=YES;
         // reset zoom
         CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
         tileContainerView.transform = transform;
         [self setContentSize:CGSizeZero];
-        NSLog(@"YES");
-    } else {
-        self.hidden = NO;
-        NSLog(@"NO");
     }
-    NSLog(@"image %.0f %.0f touch %.0f %.0f", tileContainerView.center.x, tileContainerView.center.y, point.x, point.y);
+    touchesMoved=NO;
 }
 
 - (void)layoutSubviews {

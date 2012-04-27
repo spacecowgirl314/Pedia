@@ -11,6 +11,8 @@
 @interface ImageScrollView : UIScrollView {
     IBOutlet UIImageView *tileContainerView;
     CGPoint originalImagePos;
+    BOOL touchesMoved;
+    CGPoint currentPoint;
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer;
