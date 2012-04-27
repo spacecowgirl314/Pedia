@@ -530,6 +530,10 @@
     // jump straight to load a new article
     // likely to be used from the history
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:(NSString*)[notification object]];
+    // dismiss the popover for the history controller if it is visible
+    if ([_historyControllerPopover isPopoverVisible]) {
+        [_historyControllerPopover dismissPopoverAnimated:YES];
+    }
 }
 
 - (IBAction)selectArticleFromHistory:(id)sender {

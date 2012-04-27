@@ -148,6 +148,8 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         //NSDate *object = [_objects objectAtIndex:indexPath.row];
         //self.detailViewController.detailItem = object;
+        // deselect the current cell
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [[NSNotificationCenter defaultCenter] 
          postNotificationName:@"gotoAnchor" 
          object:[tableOfContents objectAtIndex:indexPath.row]];

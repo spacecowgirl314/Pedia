@@ -154,6 +154,8 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    // deselect the current cell
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // pass the title of the current item to the app to be loaded as the next article
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"gotoArticle" 
