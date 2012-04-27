@@ -131,11 +131,11 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Jm0-A2-L0n" customClass="ImageScrollView">
-                                <rect key="frame" x="0.0" y="5" width="703" height="649"/>
+                                <rect key="frame" x="0.0" y="0.0" width="703" height="654"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="nTg-mC-jFk">
-                                        <rect key="frame" x="201" y="175" width="300" height="300"/>
+                                        <rect key="frame" x="201" y="180" width="300" height="300"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>

@@ -277,6 +277,7 @@
 }
 
 - (void)downloadImageAndView:(id)object {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSLog(@"Image attempted:%@", (NSString*)object);
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     //NSLog(@"Image url:%@", );
@@ -288,6 +289,7 @@
     [imageView setImage:image];
     [imageView setHidden:NO];
     [scrollView setHidden:NO];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 - (void)futureHistoryChopping {
