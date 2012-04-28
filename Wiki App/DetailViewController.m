@@ -236,10 +236,11 @@
         // make sure we aren't loading an image
         if (range.location == NSNotFound) {
             //if (![loadingThread isExecuting]) {
-            [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
-            // TODO: strip underscores from lastPathComponent to make it user readable
+            // strip underscores from lastPathComponent to make it user readable
+            NSString *removeUnderscores = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+            [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:removeUnderscores];
             // also save history
-            [self processHistory:[url lastPathComponent]];
+            [self processHistory:removeUnderscores];
         }
         // we found an image. do something with it.
         else {
@@ -457,10 +458,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-    loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
-    [loadingThread start];
-    }
     //NSURL *ubiq = [[NSFileManager defaultManager] 
     //               URLForUbiquityContainerIdentifier:nil];
     /*if (ubiq) {
