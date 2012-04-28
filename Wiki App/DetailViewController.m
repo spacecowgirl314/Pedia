@@ -90,9 +90,6 @@
 
 - (void)downloadHTMLandParse:(id)object {
     NSLog(@"loaded article %@", (NSString*)object);
-    // set title
-    [detailItem setTitle:(NSString*)object];
-    [detailItem setPrompt:(NSString*)object];
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
@@ -136,6 +133,8 @@
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
     [tableOfContents removeAllObjects];
+    // set title of the nav bar to the article name
+    [self setTitle:(NSString*)object];
     // enable and disable the back and forward buttons here respectively
     // there is history. enable the back button
     NSLog(@"count of HistoryArray:%i", [historyArray count]);
@@ -474,6 +473,10 @@
     }*/
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    UIImage *image = [UIImage imageNamed:@"titlebar.png"];
+    if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
     // allow us to know when the app comes back from the foreground
     [[NSNotificationCenter defaultCenter]
      addObserver:self
