@@ -457,6 +457,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
+    [loadingThread start];
+    }
     //NSURL *ubiq = [[NSFileManager defaultManager] 
     //               URLForUbiquityContainerIdentifier:nil];
     /*if (ubiq) {

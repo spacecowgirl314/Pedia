@@ -36,6 +36,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_bg.png"]];
+    [self.tableView setSeparatorColor:[UIColor grayColor]];
+    self.tableView.backgroundView = imageView;
     // begin table styling here?
     //[self.tableView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"linen_bg.png"]]];
     //[self.tableView setBackgroundView:nil];
@@ -48,6 +51,10 @@
     //    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     //}
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        UIStoryboardSegue *segue = [[UIStoryboardSegue alloc] initWithIdentifier:@"showDetail" source:self destination:self.detailViewController];
+        [segue perform];
+    }*/
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(populateTableOfContents:) 
                                                  name:@"populateTableOfContents" 
@@ -109,7 +116,9 @@
 
     //NSDate *object = [_objects objectAtIndex:indexPath.row];
     TableOfContentsAnchor *anchor = [tableOfContents objectAtIndex:indexPath.row];
+    cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = [anchor title]; //[object description];
+    cell.textLabel.textColor = [UIColor whiteColor];
     return cell;
 }
 
