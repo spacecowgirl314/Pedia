@@ -187,11 +187,9 @@
         return [second compare:first];
     }];
     // now populate the view with the data we just loaded
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        [[NSNotificationCenter defaultCenter] 
-         postNotificationName:@"populateHistory" 
-         object:[(NSArray*)historyArray copy]];
-    }
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"populateHistory" 
+     object:[(NSArray*)historyArray copy]];
 }
 
 - (void)processHistory:(NSString*)title {
@@ -207,11 +205,9 @@
         return [second compare:first];
     }];
     // popover controllers only work on the iPad
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        [[NSNotificationCenter defaultCenter] 
-         postNotificationName:@"populateHistory" 
-         object:[(NSArray*)historyArray copy]];
-    }
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"populateHistory" 
+     object:[(NSArray*)historyArray copy]];
     // Save to iCloud
     NSURL *iCloud = [[NSFileManager defaultManager] 
                      URLForUbiquityContainerIdentifier:nil];
@@ -486,6 +482,7 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         //articleSearchBox.inputAccessoryView = bottomBar;
         self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
+        self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
         // this will appear as the title in the navigation bar
         /*UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.backgroundColor = [UIColor clearColor];
@@ -525,10 +522,10 @@
         // allows us to prepopulate the view otherwise nsnotifications are going nowhere
         self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
         self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
+        // Load history from previous sessions. Also from sessions on other devices via iCloud.
+        [self loadHistory];
+        historyIndex = 0;
     }
-    // Load history from previous sessions. Also from sessions on other devices via iCloud.
-    [self loadHistory];
-    historyIndex = 0;
     // make the image viewer work
     [scrollView setDelegate:self];
     [scrollView setClipsToBounds:YES];
@@ -610,6 +607,19 @@
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"History"])
+	{
+		HistoryViewController *historyViewController = segue.destinationViewController;
+        //[historyViewController viewDidLoad];
+        // Load history from previous sessions. Also from sessions on other devices via iCloud.
+        //[self loadHistory];
+        //historyIndex = 0;
+		//historyViewController.delegate = self;
+	}
 }
 
 @end

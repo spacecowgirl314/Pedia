@@ -71,6 +71,8 @@
 		37A7825B1545036E00390CEF /* saved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782571545036D00390CEF /* saved@2x.png */; };
 		37A7826F15454FC700390CEF /* HistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7826E15454FC700390CEF /* HistoryItem.m */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
+		37F09947154D2F8F008D778F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37F09945154D2F8F008D778F /* Localizable.strings */; };
+		37F09949154D2FB4008D778F /* Amplitude-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821A154490E800390CEF /* Amplitude-Book.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -166,6 +168,8 @@
 		37A7826D15454FC700390CEF /* HistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryItem.h; sourceTree = "<group>"; };
 		37A7826E15454FC700390CEF /* HistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryItem.m; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+		37F09946154D2F8F008D778F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		37F09948154D2FB4008D778F /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +259,7 @@
 			children = (
 				3763C73515313DFE00814E54 /* Pedia-Info.plist */,
 				3763C73615313DFE00814E54 /* InfoPlist.strings */,
+				37F09945154D2F8F008D778F /* Localizable.strings */,
 				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
 				3760E31A154BD4B000103949 /* linen_sidebar@2x.png */,
 				37A7821D1544B6BC00390CEF /* linen_bg@2x.png */,
@@ -358,6 +363,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Japanese,
 			);
 			mainGroup = 3763C71E15313DFD00814E54;
 			productRefGroup = 3763C72A15313DFE00814E54 /* Products */;
@@ -375,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3763C73815313DFE00814E54 /* InfoPlist.strings in Resources */,
+				37F09947154D2F8F008D778F /* Localizable.strings in Resources */,
 				3763C74115313DFE00814E54 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3763C74415313DFE00814E54 /* MainStoryboard_iPad.storyboard in Resources */,
 				37DB3FED153D06B500C3C243 /* style.css in Resources */,
@@ -409,6 +416,7 @@
 				377F073815479050008E8187 /* share.png in Resources */,
 				377F073915479050008E8187 /* share@2x.png in Resources */,
 				3760E31B154BD4B000103949 /* linen_sidebar@2x.png in Resources */,
+				37F09949154D2FB4008D778F /* Amplitude-Book.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +477,15 @@
 				3763C74315313DFE00814E54 /* en */,
 			);
 			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		37F09945154D2F8F008D778F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				37F09946154D2F8F008D778F /* en */,
+				37F09948154D2FB4008D778F /* Japanese */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

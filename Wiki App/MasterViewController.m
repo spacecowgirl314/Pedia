@@ -40,6 +40,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_sidebar.png"]];
     [self.tableView setSeparatorColor:[UIColor grayColor]];
     self.tableView.backgroundView = imageView;
+    self.title = NSLocalizedString(@"Contents", @"Contents");
     /*self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.opaque = YES;
     self.navigationController.navigationBar.tintColor = [UIColor clearColor];

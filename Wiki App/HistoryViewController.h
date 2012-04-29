@@ -14,4 +14,6 @@
 
 @property (nonatomic) NSArray *entries;
 
+- (void)populateHistory:(NSNotification*)notification;
+
 @end

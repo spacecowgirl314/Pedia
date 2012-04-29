@@ -28,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.title = NSLocalizedString(@"History", @"History");
     self.clearsSelectionOnViewWillAppear = NO;
     self.contentSizeForViewInPopover = CGSizeMake(253.0, 352.0);
     self.entries = [NSArray array];

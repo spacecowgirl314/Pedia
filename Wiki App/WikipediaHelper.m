@@ -18,6 +18,8 @@
         // Standard values for the api URL
         // EN
         apiUrl = @"http://en.wikipedia.org";
+        // below doesn't work out of the box
+        //apiUrl = [[NSString alloc] initWithFormat:@"http://%@.wikipedia.org",NSLocaleLanguageCode];
         
         // DE
         // apiUrl = @"http://de.wikipedia.org";
