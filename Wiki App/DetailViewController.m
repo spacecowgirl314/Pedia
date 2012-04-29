@@ -187,9 +187,11 @@
         return [second compare:first];
     }];
     // now populate the view with the data we just loaded
-    [[NSNotificationCenter defaultCenter] 
-     postNotificationName:@"populateHistory" 
-     object:[(NSArray*)historyArray copy]];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [[NSNotificationCenter defaultCenter] 
+         postNotificationName:@"populateHistory" 
+         object:[(NSArray*)historyArray copy]];
+    }
 }
 
 - (void)processHistory:(NSString*)title {
@@ -204,9 +206,12 @@
         NSDate *second = [(HistoryItem*)b date];
         return [second compare:first];
     }];
-    [[NSNotificationCenter defaultCenter] 
-     postNotificationName:@"populateHistory" 
-     object:[(NSArray*)historyArray copy]];
+    // popover controllers only work on the iPad
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [[NSNotificationCenter defaultCenter] 
+         postNotificationName:@"populateHistory" 
+         object:[(NSArray*)historyArray copy]];
+    }
     // Save to iCloud
     NSURL *iCloud = [[NSFileManager defaultManager] 
                      URLForUbiquityContainerIdentifier:nil];
@@ -356,6 +361,7 @@
     //CGSize keyboardSize = [aValue CGRectValue].size;
     NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [UIView animateWithDuration:0.50
                           delay:0
                         options:UIViewAnimationCurveEaseIn
@@ -383,6 +389,7 @@
                      completion:^(BOOL finished){
                          //nil
                      }];
+    }
     /*[UIView animateWithDuration:0.50 
                           delay:0 
                         options:UIViewAnimationCurveEaseInOut
@@ -408,6 +415,7 @@
     //CGSize keyboardSize = [aValue CGRectValue].size;
     NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [UIView animateWithDuration:0.50 
                           delay:0 
                         options:UIViewAnimationCurveEaseIn
@@ -435,6 +443,7 @@
                      completion:^(BOOL finished){
                          //nil
                      }];
+    }
     /*[UIView animateWithDuration:0.05 
                           delay:0 
                         options:UIViewAnimationCurveLinear
@@ -474,6 +483,20 @@
     }*/
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        //articleSearchBox.inputAccessoryView = bottomBar;
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
+        // this will appear as the title in the navigation bar
+        /*UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont boldSystemFontOfSize:20.0];
+        label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UIColor darkGrayColor]; // change this color
+        self.navigationItem.titleView = label;
+        label.text = NSLocalizedString(@"Article", @"");
+        [label sizeToFit];*/
+    }
     UIImage *image = [UIImage imageNamed:@"titlebar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
@@ -497,9 +520,12 @@
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
-    // allows us to prepopulate the view otherwise nsnotifications are going nowhere
-    self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
-    self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
+    // UIPopoverController only exists on the iPad
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // allows us to prepopulate the view otherwise nsnotifications are going nowhere
+        self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
+        self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
+    }
     // Load history from previous sessions. Also from sessions on other devices via iCloud.
     [self loadHistory];
     historyIndex = 0;

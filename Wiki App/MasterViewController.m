@@ -40,10 +40,6 @@
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_sidebar.png"]];
     [self.tableView setSeparatorColor:[UIColor grayColor]];
     self.tableView.backgroundView = imageView;
-    //UIImage *image = [UIImage imageNamed:@"titlebar.png"];
-    /*if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
-        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    }*/
     /*self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.opaque = YES;
     self.navigationController.navigationBar.tintColor = [UIColor clearColor];
@@ -54,21 +50,6 @@
     //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     //self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        UIStoryboardSegue *segue = [[UIStoryboardSegue alloc] initWithIdentifier:@"showDetail" source:self destination:self.detailViewController];
-        [segue perform];
-    }*/
-    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        //DetailViewController *detailView = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle]];
-        //dvController.selectedCountry = selectedCountry;
-        //[self.navigationController pushViewController:self.detailViewController animated:YES];
-        TableOfContentsAnchor *fakeAnchor = [[TableOfContentsAnchor alloc] init];
-        [fakeAnchor setHref:@""];
-        [fakeAnchor setTitle:@"Fake"];
-        tableOfContents = [NSArray arrayWithObject:fakeAnchor];
-        [[self tableView] reloadData];
-        //[[self tableView] selectRowAtIndexPath:0 animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }*/
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(populateTableOfContents:) 
                                                  name:@"populateTableOfContents" 
@@ -175,7 +156,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // open anchor link here
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         //NSDate *object = [_objects objectAtIndex:indexPath.row];
         //self.detailViewController.detailItem = object;
         // deselect the current cell
@@ -184,16 +165,21 @@
          postNotificationName:@"gotoAnchor" 
          object:[tableOfContents objectAtIndex:indexPath.row]];
         [TestFlight passCheckpoint:@"Opened an Anchor"];
-    }
+    }*/
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"gotoAnchor" 
+     object:[tableOfContents objectAtIndex:indexPath.row]];
+    [TestFlight passCheckpoint:@"Opened an Anchor"];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    /*if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSDate *object = [_objects objectAtIndex:indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
-    }
+    }*/
 }
 
 @end
