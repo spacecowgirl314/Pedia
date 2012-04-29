@@ -479,6 +479,7 @@
     }*/
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    self.title = NSLocalizedString(@"Article", @"Article");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         //articleSearchBox.inputAccessoryView = bottomBar;
         self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
