@@ -572,7 +572,9 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
+    // TODO: Set the Contents button image here
     barButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
+    barButtonItem.tintColor = [UIColor grayColor];
     [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     self.masterPopoverController = popoverController;
 }

@@ -36,24 +36,38 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_bg.png"]];
+    // style the table
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_sidebar.png"]];
     [self.tableView setSeparatorColor:[UIColor grayColor]];
     self.tableView.backgroundView = imageView;
-    // begin table styling here?
-    //[self.tableView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"linen_bg.png"]]];
-    //[self.tableView setBackgroundView:nil];
+    //UIImage *image = [UIImage imageNamed:@"titlebar.png"];
+    /*if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }*/
+    /*self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.opaque = YES;
+    self.navigationController.navigationBar.tintColor = [UIColor clearColor];
+    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];*/
 	// Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     //self.navigationItem.rightBarButtonItem = addButton;
-    //if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
-    //    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    //}
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         UIStoryboardSegue *segue = [[UIStoryboardSegue alloc] initWithIdentifier:@"showDetail" source:self destination:self.detailViewController];
         [segue perform];
+    }*/
+    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        //DetailViewController *detailView = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle]];
+        //dvController.selectedCountry = selectedCountry;
+        //[self.navigationController pushViewController:self.detailViewController animated:YES];
+        TableOfContentsAnchor *fakeAnchor = [[TableOfContentsAnchor alloc] init];
+        [fakeAnchor setHref:@""];
+        [fakeAnchor setTitle:@"Fake"];
+        tableOfContents = [NSArray arrayWithObject:fakeAnchor];
+        [[self tableView] reloadData];
+        //[[self tableView] selectRowAtIndexPath:0 animated:NO scrollPosition:UITableViewScrollPositionNone];
     }*/
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(populateTableOfContents:) 
@@ -69,13 +83,17 @@
 
 // goes with the notification
 - (void)populateTableOfContents:(NSNotification*)notification {
+    // reset array to nothing
+    tableOfContents = [[NSArray alloc] init];
+    // reload reset data
+    [[self tableView] reloadData];
     tableOfContents = (NSArray*)[notification object];
-    //NSLog(@"TOC received %@", [tableOfContents description]);
-    [self.tableView reloadData];
-    /*for (int i = 0; i < tableOfContents.count; i++) {
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    for (int i=0; i < tableOfContents.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }*/
+        [indexPaths addObject:indexPath];
+    }
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
