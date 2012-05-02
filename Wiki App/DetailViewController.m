@@ -87,7 +87,7 @@
 - (IBAction)shareArticle:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), nil];
     [actionSheet setActionSheetStyle:UIActionSheetStyleAutomatic];
-    [actionSheet showInView:self.view];
+    [actionSheet showFromRect:[(UIButton*)sender frame] inView:bottomBar animated:YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
