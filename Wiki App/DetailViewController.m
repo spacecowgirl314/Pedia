@@ -207,7 +207,7 @@
 
 - (void)loadHistory {
     // start a new array. also doubles as wiping the array when reloading periodically
-    historyArray = [[NSMutableArray alloc] init];
+    previousHistoryArray = [[NSMutableArray alloc] init];
     NSURL *ubiq = [[NSFileManager defaultManager] 
                    URLForUbiquityContainerIdentifier:nil];
     NSError *error;
@@ -221,11 +221,11 @@
         if (unarchiver!=NULL) {
             HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
             NSLog(@"history item loaded:%@", [historyItem description]);
-            [historyArray addObject:historyItem];
+            [previousHistoryArray addObject:historyItem];
         }
     }
     // sort the objects by date
-    [historyArray sortUsingComparator:^(id a, id b) {
+    [previousHistoryArray sortUsingComparator:^(id a, id b) {
         NSDate *first = [(HistoryItem*)a date];
         NSDate *second = [(HistoryItem*)b date];
         return [second compare:first];
@@ -233,17 +233,24 @@
     // now populate the view with the data we just loaded
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateHistory" 
-     object:[(NSArray*)historyArray copy]];
+     object:[(NSArray*)previousHistoryArray copy]];
 }
 
 - (void)processHistory:(NSString*)title {
     // Adding from local session
+    // NOTE: By maintaining a separate array we keep from using the history in iCloud as part of our local session
+    NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
+    // add to the array
     HistoryItem *item = [[HistoryItem alloc] init];
     [item setTitle:title];
     [item setDate:[NSDate date]];
     [historyArray addObject:item];
+    // append resulting array to the temporary array
+    [temporaryArray addObjectsFromArray:[(NSArray*)historyArray copy]];
+    // add the previous history to be populated also
+    [temporaryArray addObjectsFromArray:[(NSArray*)previousHistoryArray copy]];
     // keep the array sorted by date by newest first
-    [historyArray sortUsingComparator:^(id a, id b) {
+    [temporaryArray sortUsingComparator:^(id a, id b) {
         NSDate *first = [(HistoryItem*)a date];
         NSDate *second = [(HistoryItem*)b date];
         return [second compare:first];
@@ -251,8 +258,8 @@
     // popover controllers only work on the iPad
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateHistory" 
-     object:[(NSArray*)historyArray copy]];
-    // Save to iCloud
+     object:(NSArray*)temporaryArray];
+    // Save new history item to iCloud
     NSURL *iCloud = [[NSFileManager defaultManager] 
                      URLForUbiquityContainerIdentifier:nil];
 	NSString *documentsDirectory = [iCloud relativePath];
@@ -562,6 +569,7 @@
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
+    historyArray = [[NSMutableArray alloc] init];
     // UIPopoverController only exists on the iPad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         // allows us to prepopulate the view otherwise nsnotifications are going nowhere

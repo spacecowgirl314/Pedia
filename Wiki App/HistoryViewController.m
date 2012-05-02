@@ -32,10 +32,6 @@
     self.clearsSelectionOnViewWillAppear = NO;
     self.contentSizeForViewInPopover = CGSizeMake(253.0, 352.0);
     self.entries = [NSArray array];
-    //[_entries addObject:@"Steve Jobs"];
-    //[_entries addObject:@"Apple Inc"];
-    //[_entries addObject:@"iPad"];
-    //[_entries addObject:@"OS X"];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

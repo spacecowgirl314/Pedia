@@ -27,6 +27,7 @@
     HistoryViewController *_historyController;
     UIPopoverController *_historyControllerPopover;
     NSMutableArray *historyArray;
+    NSMutableArray *previousHistoryArray;
     NSThread *loadingThread;
     int historyIndex;
 }
@@ -39,6 +40,8 @@
 @property (strong, nonatomic) IBOutlet UIView *bottomBar;
 @property (nonatomic, retain) HistoryViewController *historyController;
 @property (nonatomic, retain) UIPopoverController *historyControllerPopover;
+@property (retain) NSMutableArray *historyArray;
+@property (retain) NSMutableArray *previousHistoryArray;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
 - (IBAction)submitFeedback:(id)sender;
