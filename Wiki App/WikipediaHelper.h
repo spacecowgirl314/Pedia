@@ -30,6 +30,9 @@
 // Return the image url of the File: string we are given in an article
 - (NSString*) getUrlOfImageFile:(NSString*)filename;
 
+// Return a formatted url of the article with the given name
+- (NSString *) getURLForArticle:(NSString *)name;
+
 // Checks if the returned image is on the blacklist
 - (BOOL) isOnBlackList:(NSString *)imageURL;
 

@@ -70,6 +70,8 @@
 		37A7825A1545036E00390CEF /* saved.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782561545036B00390CEF /* saved.png */; };
 		37A7825B1545036E00390CEF /* saved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782571545036D00390CEF /* saved@2x.png */; };
 		37A7826F15454FC700390CEF /* HistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7826E15454FC700390CEF /* HistoryItem.m */; };
+		37AC6150154F5FEE00694BF8 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AC614F154F5FEE00694BF8 /* Twitter.framework */; };
+		37AC6161154F652500694BF8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AC6160154F652500694BF8 /* MessageUI.framework */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 		37F09947154D2F8F008D778F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37F09945154D2F8F008D778F /* Localizable.strings */; };
 		37F09949154D2FB4008D778F /* Amplitude-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821A154490E800390CEF /* Amplitude-Book.ttf */; };
@@ -167,6 +169,8 @@
 		37A782571545036D00390CEF /* saved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saved@2x.png"; sourceTree = "<group>"; };
 		37A7826D15454FC700390CEF /* HistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryItem.h; sourceTree = "<group>"; };
 		37A7826E15454FC700390CEF /* HistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryItem.m; sourceTree = "<group>"; };
+		37AC614F154F5FEE00694BF8 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		37AC6160154F652500694BF8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		37F09946154D2F8F008D778F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		37F09948154D2FB4008D778F /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 			files = (
 				37A782471544D1DE00390CEF /* libz.dylib in Frameworks */,
 				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
+				37AC6161154F652500694BF8 /* MessageUI.framework in Frameworks */,
+				37AC6150154F5FEE00694BF8 /* Twitter.framework in Frameworks */,
 				37A782531544E98C00390CEF /* QuartzCore.framework in Frameworks */,
 				3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */,
 				3763C73015313DFE00814E54 /* Foundation.framework in Frameworks */,
@@ -213,6 +219,8 @@
 				37A782461544D1DD00390CEF /* libz.dylib */,
 				37A782441544D1A600390CEF /* libTestFlight.a */,
 				371488E41541445E00BE1E4E /* libxml2.dylib */,
+				37AC6160154F652500694BF8 /* MessageUI.framework */,
+				37AC614F154F5FEE00694BF8 /* Twitter.framework */,
 				37A782521544E98C00390CEF /* QuartzCore.framework */,
 				3763C72D15313DFE00814E54 /* UIKit.framework */,
 				3763C72F15313DFE00814E54 /* Foundation.framework */,

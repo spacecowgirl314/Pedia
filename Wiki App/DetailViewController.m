@@ -84,8 +84,51 @@
     // we are going back in history
 }
 
-- (IBAction)submitFeedback:(id)sender {
-    [TestFlight openFeedbackView];
+- (IBAction)shareArticle:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), nil];
+    [actionSheet setActionSheetStyle:UIActionSheetStyleAutomatic];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    // get url
+    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+    NSString *articleURLString = [wikiHelper getURLForArticle:self.title];
+    NSURL *articleURL = [NSURL URLWithString:articleURLString];
+    if (buttonIndex == 0) {
+        // share via email
+        MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
+        [mailController setMailComposeDelegate:self];
+        [mailController setSubject:[self title]];
+        [mailController setMessageBody:articleURLString isHTML:NO];
+        [self presentViewController:mailController animated:YES completion:NULL];
+    }
+    else if (buttonIndex == 1) {
+        MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+        [messageController setMessageComposeDelegate:self];
+        [messageController setBody:articleURLString];
+        [self presentViewController:messageController animated:YES completion:NULL];
+    }
+    else if (buttonIndex == 2) {
+        // share via twitter
+        TWTweetComposeViewController *tweetController = [[TWTweetComposeViewController alloc] init];
+        [tweetController addURL:articleURL];
+        [self presentViewController:tweetController animated:YES completion:NULL];
+        tweetController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
+            
+            [self dismissViewControllerAnimated:YES completion:NULL]; // recommended on iOS 5
+            
+        };
+    }
+}
+
+// close the mail controller
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)downloadHTMLandParse:(id)object {
@@ -93,6 +136,7 @@
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+    //[wikiHelper setLanguage:]
     NSString *article = [wikiHelper getWikipediaHTMLPage:[(NSString*)object stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];

@@ -70,6 +70,15 @@
     return htmlSrc;
 }
 
+// used for sharing
+- (NSString *) getURLForArticle:(NSString *)name {
+    // remove spaces from name and replace with underscore for the url
+    NSString *articleName = [name stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    NSString *wikiUrl = [apiUrl stringByAppendingString:@"/wiki/"];
+    NSString *urlString = [wikiUrl stringByAppendingString:articleName];
+    return urlString;
+}
+
 - (void)connection: (NSURLConnection*) connection didReceiveResponse: (NSHTTPURLResponse*) response
 {
     NSInteger statusCode = [response statusCode];
