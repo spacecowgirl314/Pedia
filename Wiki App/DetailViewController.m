@@ -128,6 +128,7 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+// close the message controller
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
