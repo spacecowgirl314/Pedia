@@ -133,6 +133,7 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+// main parsing method
 - (void)downloadHTMLandParse:(id)object {
     NSLog(@"loaded article %@", (NSString*)object);
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
