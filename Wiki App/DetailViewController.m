@@ -90,6 +90,18 @@
     [actionSheet showFromRect:[(UIButton*)sender frame] inView:bottomBar animated:YES];
 }
 
+- (IBAction)selectArticleFromHistory:(id)sender {
+    // lazy loading is a bad idea. we need to prepopulate the view before the user ever uses it
+    /*if (_historyController == nil) {
+     self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
+     //historyController.delegate = self;
+     self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];               
+     }*/
+    //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [TestFlight passCheckpoint:@"Viewed history"];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     // get url
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
@@ -617,18 +629,6 @@
     if ([_historyControllerPopover isPopoverVisible]) {
         [_historyControllerPopover dismissPopoverAnimated:YES];
     }
-}
-
-- (IBAction)selectArticleFromHistory:(id)sender {
-    // lazy loading is a bad idea. we need to prepopulate the view before the user ever uses it
-    /*if (_historyController == nil) {
-        self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
-        //historyController.delegate = self;
-        self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];               
-    }*/
-    //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [TestFlight passCheckpoint:@"Viewed history"];
 }
 
 - (void)viewDidUnload
