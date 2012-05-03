@@ -104,6 +104,7 @@
         [self presentViewController:mailController animated:YES completion:NULL];
     }
     else if (buttonIndex == 1) {
+        // share via messages
         MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
         [messageController setMessageComposeDelegate:self];
         [messageController setBody:articleURLString];
