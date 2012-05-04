@@ -10,6 +10,7 @@
 #import "HTMLParser.h"
 #import "HistoryItem.h"
 
+
 #define NSLog TFLog
 
 @interface DetailViewController ()
@@ -311,8 +312,9 @@
         }
         // we found an image. do something with it.
         else {
-            NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadImageAndView:) object:[url lastPathComponent]];
-            [thread start];
+            //NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadImageAndView:) object:[url lastPathComponent]];
+            //[thread start];
+            [self downloadImageAndView:[url lastPathComponent]];
             //UIAlertView *alertNow = [[UIAlertView alloc] initWithTitle:@"TODO" message:@"Image viewing not implemented yet" delegate:self cancelButtonTitle:@"Understood" otherButtonTitles:nil, nil];
             //[alertNow show];
         }
@@ -344,18 +346,13 @@
 }
 
 - (void)downloadImageAndView:(id)object {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    //[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSLog(@"Image attempted:%@", (NSString*)object);
-    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
-    //NSLog(@"Image url:%@", );
-    NSString *imageURL = [wikiHelper getUrlOfImageFile:(NSString*)object];
-    NSURL *url = [NSURL URLWithString:imageURL];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [[UIImage alloc] initWithData:data];
     // darken background
     overlay = [[UIView alloc] initWithFrame:super.view.bounds];
     overlay.backgroundColor = [UIColor blackColor];
     overlay.alpha = 0.0f;
+    overlay.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
     [self.view addSubview:overlay];
     [UIView animateWithDuration:0.50
                           delay:0
@@ -368,13 +365,46 @@
                          //nil
                      }];
     // animate progess bar here
+    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+    //NSLog(@"Image url:%@", );
+    NSString *imageURL = [wikiHelper getUrlOfImageFile:(NSString*)object];
+    NSURL *url = [NSURL URLWithString:imageURL];
+    int width = 200;
+    int height = 20;
+    imageBar = [[UIDownloadBar alloc] initWithURL:url
+                                    progressBarFrame:CGRectMake(self.view.frame.size.width / 2 - width/2, self.view.frame.size.height / 2 - height/2, width, height)
+                                             timeout:15
+                                            delegate:self];
+    imageBar.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
+    //[imageBar forceContinue];
+    [self.view addSubview:imageBar];
+    //NSData *data = [NSData dataWithContentsOfURL:url];
+    //UIImage *image = [[UIImage alloc] initWithData:data];
     //[[articleView scrollView] setHidden:YES];
-    [imageView setImage:image];
+    /*[imageView setImage:image];
     [imageView setHidden:NO];
     [scrollView setHidden:NO];
     [self.view bringSubviewToFront:scrollView];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];*/
 }
+
+- (void)downloadBar:(UIDownloadBar *)downloadBar didFinishWithData:(NSData *)fileData suggestedFilename:(NSString *)filename {
+    if (downloadBar==imageBar) {
+        UIImage *image = [[UIImage alloc] initWithData:fileData];
+        //[[articleView scrollView] setHidden:YES];
+        [downloadBar removeFromSuperview];
+        [imageView setImage:image];
+        [imageView setHidden:NO];
+        [scrollView setHidden:NO];
+        [self.view bringSubviewToFront:scrollView];
+    }
+}
+
+- (void)downloadBar:(UIDownloadBar *)downloadBar didFailWithError:(NSError *)error {
+	NSLog(@"%@", error);
+}
+
+- (void)downloadBarUpdated:(UIDownloadBar *)downloadBar {}
 
 - (void)closeImage:(NSNotification*)notification {
     // undim and remove the dim overlay so the main view can be active agian

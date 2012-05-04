@@ -62,6 +62,7 @@
 		37A659771553BE6F0030EF77 /* history~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A6596D1553BE6F0030EF77 /* history~iphone.png */; };
 		37A659781553BE6F0030EF77 /* search~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A6596E1553BE6F0030EF77 /* search~iphone.png */; };
 		37A659791553BE6F0030EF77 /* share~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A6596F1553BE6F0030EF77 /* share~iphone.png */; };
+		37A6598215546E810030EF77 /* UIDownloadBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A6598115546E810030EF77 /* UIDownloadBar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		37A7821C1544B6B600390CEF /* search@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821B1544B6B600390CEF /* search@2x~ipad.png */; };
 		37A7821E1544B6BC00390CEF /* linen_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821D1544B6BC00390CEF /* linen_bg@2x.png */; };
 		37A782201544B84300390CEF /* search~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821F1544B84300390CEF /* search~ipad.png */; };
@@ -178,6 +179,8 @@
 		37A6596D1553BE6F0030EF77 /* history~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history~iphone.png"; sourceTree = "<group>"; };
 		37A6596E1553BE6F0030EF77 /* search~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search~iphone.png"; sourceTree = "<group>"; };
 		37A6596F1553BE6F0030EF77 /* share~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share~iphone.png"; sourceTree = "<group>"; };
+		37A6598015546E810030EF77 /* UIDownloadBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDownloadBar.h; sourceTree = "<group>"; };
+		37A6598115546E810030EF77 /* UIDownloadBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDownloadBar.m; sourceTree = "<group>"; };
 		37A7821A154490E800390CEF /* Amplitude-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Book.ttf"; sourceTree = "<group>"; };
 		37A7821B1544B6B600390CEF /* search@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x~ipad.png"; sourceTree = "<group>"; };
 		37A7821D1544B6BC00390CEF /* linen_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linen_bg@2x.png"; sourceTree = "<group>"; };
@@ -272,6 +275,8 @@
 		3763C73315313DFE00814E54 /* Wiki App */ = {
 			isa = PBXGroup;
 			children = (
+				3763C75715314BB600814E54 /* SBJson */,
+				37A6597F15546E810030EF77 /* DownloadBar */,
 				3728575515466E2700EF076C /* Pedia.entitlements */,
 				3763C73C15313DFE00814E54 /* AppDelegate.h */,
 				3763C73D15313DFE00814E54 /* AppDelegate.m */,
@@ -296,7 +301,6 @@
 				377F074E1547B9FE008E8187 /* ImageScrollView.h */,
 				377F074F1547B9FE008E8187 /* ImageScrollView.m */,
 				37A782481544D2FB00390CEF /* TestFlight.h */,
-				3763C75715314BB600814E54 /* SBJson */,
 				3763C73415313DFE00814E54 /* Supporting Files */,
 			);
 			path = "Wiki App";
@@ -411,6 +415,15 @@
 				37A6595B1553BC030030EF77 /* share@2x~iphone.png */,
 			);
 			name = "iPhone Resources";
+			sourceTree = "<group>";
+		};
+		37A6597F15546E810030EF77 /* DownloadBar */ = {
+			isa = PBXGroup;
+			children = (
+				37A6598015546E810030EF77 /* UIDownloadBar.h */,
+				37A6598115546E810030EF77 /* UIDownloadBar.m */,
+			);
+			path = DownloadBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -534,6 +547,7 @@
 				3763C73A15313DFE00814E54 /* main.m in Sources */,
 				3763C73E15313DFE00814E54 /* AppDelegate.m in Sources */,
 				3763C74715313DFE00814E54 /* MasterViewController.m in Sources */,
+				37A6598215546E810030EF77 /* UIDownloadBar.m in Sources */,
 				3763C74A15313DFE00814E54 /* DetailViewController.m in Sources */,
 				3763C77A15314EBF00814E54 /* WikipediaHelper.m in Sources */,
 				3763C76F15314BB600814E54 /* SBJsonParser.m in Sources */,
