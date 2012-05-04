@@ -29,6 +29,7 @@
     NSMutableArray *historyArray;
     NSMutableArray *previousHistoryArray;
     NSThread *loadingThread;
+    UIView *overlay;
     int historyIndex;
 }
 

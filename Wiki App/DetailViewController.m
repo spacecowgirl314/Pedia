@@ -352,11 +352,43 @@
     NSURL *url = [NSURL URLWithString:imageURL];
     NSData *data = [NSData dataWithContentsOfURL:url];
     UIImage *image = [[UIImage alloc] initWithData:data];
+    // darken background
+    overlay = [[UIView alloc] initWithFrame:super.view.bounds];
+    overlay.backgroundColor = [UIColor blackColor];
+    overlay.alpha = 0.0f;
+    [self.view addSubview:overlay];
+    [UIView animateWithDuration:0.50
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.navigationController.navigationBar.alpha = 0.5f;
+                         overlay.alpha = 0.5f;
+                     }
+                     completion:^(BOOL finished){
+                         //nil
+                     }];
+    // animate progess bar here
     //[[articleView scrollView] setHidden:YES];
     [imageView setImage:image];
     [imageView setHidden:NO];
     [scrollView setHidden:NO];
+    [self.view bringSubviewToFront:scrollView];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)closeImage:(NSNotification*)notification {
+    // undim and remove the dim overlay so the main view can be active agian
+    [UIView animateWithDuration:0.50
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.navigationController.navigationBar.alpha = 1.0f;
+                         overlay.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         // after being undimmed we no longer need this
+                         [overlay removeFromSuperview];
+                     }];
 }
 
 - (void)futureHistoryChopping {
@@ -564,19 +596,24 @@
     UIImage *image = [UIImage imageNamed:@"titlebar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    }
-    // allow us to know when the app comes back from the foreground
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(becomeActive:)
-     name:UIApplicationWillEnterForegroundNotification
-     object:nil];
-    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
+    }     
+    // listen for these notifications
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
                           name:UIKeyboardDidShowNotification object:nil];
     [defaultCenter addObserver:self selector:@selector(keyboardWasHidden:)
                           name:UIKeyboardDidHideNotification object:nil];
+    // allow us to know when the app comes back from the foreground
+    [defaultCenter addObserver:self selector:@selector(becomeActive:)
+                          name:UIApplicationWillEnterForegroundNotification object:nil];
+    // remove dimming after image has been closed
+    [defaultCenter addObserver:self selector:@selector(closeImage:) 
+                          name:@"closeImage" object:nil];
+    // notifications for loading new pages and opening anchors
+    [defaultCenter addObserver:self selector:@selector(gotoAnchor:)
+                          name:@"gotoAnchor" object:nil];
+    [defaultCenter addObserver:self selector:@selector(gotoArticle:)
+                          name:@"gotoArticle" object:nil];
     //[articleSearchBox setInputAccessoryView:bottomBar];
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
@@ -599,14 +636,6 @@
     [scrollView setClipsToBounds:YES];
     scrollView.minimumZoomScale = 1.0f;
     scrollView.maximumZoomScale = 2.0f;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotoAnchor:)
-                                                 name:@"gotoAnchor"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(gotoArticle:)
-                                                 name:@"gotoArticle"
-                                               object:nil];
 }
 
 - (void)becomeActive:(NSNotification*)object {

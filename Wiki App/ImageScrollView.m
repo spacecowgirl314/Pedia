@@ -61,6 +61,10 @@
         CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
         tileContainerView.transform = transform;
         [self setContentSize:CGSizeZero];
+        // post notifcation to remove dimming
+        [[NSNotificationCenter defaultCenter] 
+         postNotificationName:@"closeImage" 
+         object:nil];
     }
     touchesMoved=NO;
 }
