@@ -46,7 +46,7 @@
                                         <rect key="frame" x="618" y="14" width="23" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="saved.png">
+                                        <state key="normal" image="saved~ipad.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -58,7 +58,7 @@
                                         <rect key="frame" x="661" y="14" width="27" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="share.png">
+                                        <state key="normal" image="share~ipad.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -73,7 +73,7 @@
                                         <rect key="frame" x="578" y="14" width="20" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="history.png">
+                                        <state key="normal" image="history~ipad.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -84,7 +84,7 @@
                                             <action selector="selectArticleFromHistory:" destination="4" eventType="touchUpInside" id="awp-Tx-cyT"/>
                                         </connections>
                                     </button>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="search.png" id="we1-KK-iL5">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="search~ipad.png" id="we1-KK-iL5">
                                         <rect key="frame" x="95" y="11" width="290" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
@@ -101,11 +101,11 @@
                                         <rect key="frame" x="10" y="9" width="35" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="back.png">
+                                        <state key="normal" image="back~ipad.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="disabled" image="back-dim.png"/>
+                                        <state key="disabled" image="back-dim~ipad.png"/>
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -117,11 +117,11 @@
                                         <rect key="frame" x="45" y="9" width="35" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="forward.png">
+                                        <state key="normal" image="forward~ipad.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="disabled" image="forward-dim.png"/>
+                                        <state key="disabled" image="forward-dim~ipad.png"/>
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -240,14 +240,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back-dim.png" width="35" height="32"/>
-        <image name="back.png" width="35" height="32"/>
-        <image name="forward-dim.png" width="35" height="32"/>
-        <image name="forward.png" width="35" height="32"/>
-        <image name="history.png" width="20" height="21"/>
-        <image name="saved.png" width="23" height="21"/>
-        <image name="search.png" width="290" height="27"/>
-        <image name="share.png" width="27" height="21"/>
+        <image name="back-dim~ipad.png" width="35" height="32"/>
+        <image name="back~ipad.png" width="35" height="32"/>
+        <image name="forward-dim~ipad.png" width="35" height="32"/>
+        <image name="forward~ipad.png" width="35" height="32"/>
+        <image name="history~ipad.png" width="20" height="21"/>
+        <image name="saved~ipad.png" width="23" height="21"/>
+        <image name="search~ipad.png" width="290" height="27"/>
+        <image name="share~ipad.png" width="27" height="21"/>
     </resources>
     <classes>
         <class className="DetailViewController" superclassName="UIViewController">
