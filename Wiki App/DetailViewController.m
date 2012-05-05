@@ -310,13 +310,9 @@
             // also save history
             [self processHistory:removeUnderscores];
         }
-        // we found an image. do something with it.
+        // we found an image. display it
         else {
-            //NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadImageAndView:) object:[url lastPathComponent]];
-            //[thread start];
             [self downloadImageAndView:[url lastPathComponent]];
-            //UIAlertView *alertNow = [[UIAlertView alloc] initWithTitle:@"TODO" message:@"Image viewing not implemented yet" delegate:self cancelButtonTitle:@"Understood" otherButtonTitles:nil, nil];
-            //[alertNow show];
         }
         return NO;
     }
