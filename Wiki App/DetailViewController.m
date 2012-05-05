@@ -226,8 +226,17 @@
     previousHistoryArray = [[NSMutableArray alloc] init];
     NSURL *ubiq = [[NSFileManager defaultManager] 
                    URLForUbiquityContainerIdentifier:nil];
+    NSArray *items;
     NSError *error;
-    NSArray *items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
+    // iCloud is enabled. Use it
+    if (ubiq) {
+        NSLog(@"iCloud access at %@", ubiq);
+        items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
+    }
+    else {
+        NSURL *documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:documentsDirectory includingPropertiesForKeys:[NSArray array] options:0 error:&error];
+    }
     // load each item from iCloud
     for (NSURL *item in items) {
         NSLog(@"item:%@", [item description]);
@@ -278,8 +287,17 @@
     // Save new history item to iCloud
     NSURL *iCloud = [[NSFileManager defaultManager] 
                      URLForUbiquityContainerIdentifier:nil];
-	NSString *documentsDirectory = [iCloud relativePath];
-	NSString *file = [documentsDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%@.plist",title]];
+    NSString *file;
+    // Save to iCloud if it works.
+    if (iCloud) {
+        NSString *documentsDirectory = [iCloud relativePath];
+        file = [documentsDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%@.plist",title]];
+    }
+    else {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        file = [documentsDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%@.plist",title]];
+    }
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	
@@ -472,13 +490,6 @@
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-    // Caution, this notification can be sent even when the keyboard is already visible
-    // You'll want to check for and handle that situation
-    //NSDictionary* info = [aNotification userInfo];
-    
-    //NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    
-    //CGSize keyboardSize = [aValue CGRectValue].size;
     NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -510,29 +521,12 @@
                          //nil
                      }];
     }
-    /*[UIView animateWithDuration:0.50 
-                          delay:0 
-                        options:UIViewAnimationCurveEaseInOut
-                     animations:^{
-                         // Move the bottom bar up. 352 for landscape 263 for portrait
-                         [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
-                     }
-                     completion:^(BOOL finished){
-                         //nil
-                     }];*/
     
     //... do something
 }
 
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
-    // Caution, this notification can be sent even when the keyboard is already visible
-    // You'll want to check for and handle that situation
-    //NSDictionary* info = [aNotification userInfo];
-    
-    //NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    
-    //CGSize keyboardSize = [aValue CGRectValue].size;
     NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -564,16 +558,6 @@
                          //nil
                      }];
     }
-    /*[UIView animateWithDuration:0.05 
-                          delay:0 
-                        options:UIViewAnimationCurveLinear
-                     animations:^{
-                         // Move the bottom bar up. 352 for landscape 263 for portrait
-                         [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
-                     }
-                     completion:^(BOOL finished){
-                         //nil
-                     }];*/
     
     //... do something
 }
