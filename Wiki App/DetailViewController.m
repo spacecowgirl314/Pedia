@@ -28,6 +28,8 @@
 @synthesize bottomBar;
 @synthesize articleSearchBox;
 @synthesize articleView;
+@synthesize historyArray;
+@synthesize previousHistoryArray;
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -36,6 +38,8 @@
         //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
         // only allow to continue if we aren't already executing loading a page
         if (![loadingThread isExecuting]) {
+            // just reuse the single tap detection from the overlay
+            [self closeSearchField:nil];
             // VIRTUAL COPY FROM WEBVIEW METHOD AREA. COMBINE SOMETIME
             // we went back in our history and picked another article instead
             // do we chop off the rest of the forward history?
@@ -49,6 +53,51 @@
         }
     }
     return YES;
+}
+
+- (IBAction)showSearchField:(id)sender {
+    // darken background
+    overlay = [[UIView alloc] initWithFrame:super.view.bounds];
+    overlay.backgroundColor = [UIColor blackColor];
+    overlay.alpha = 0.0f;
+    overlay.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+    [self.view addSubview:overlay];
+    [searchView setAlpha:0.0f];
+    [searchView setHidden:NO];
+    [UIView animateWithDuration:0.50
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.navigationController.navigationBar.alpha = 0.5f;
+                         overlay.alpha = 0.5f;
+                         [self.view bringSubviewToFront:searchView];
+                         searchView.alpha = 1.0f;
+                     }
+                     completion:^(BOOL finished){
+                         // nothing to see here
+                         UITapGestureRecognizer *singleFingerTap = 
+                         [[UITapGestureRecognizer alloc] initWithTarget:self 
+                                                                 action:@selector(closeSearchField:)];
+                         [overlay addGestureRecognizer:singleFingerTap];
+                         [articleSearchBox becomeFirstResponder];
+                     }];
+}
+
+// either when tapping the black overlay or when exiting the keyboard return everything to normal
+- (void)closeSearchField:(UITapGestureRecognizer *)recognizer {
+    [UIView animateWithDuration:0.50
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.navigationController.navigationBar.alpha = 1.0f;
+                         overlay.alpha = 0.0f;
+                         searchView.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         [searchView setHidden:YES];
+                         [overlay removeFromSuperview];
+                         [articleSearchBox resignFirstResponder];
+                     }];
 }
 
 - (IBAction)loadArticle:(id)sender {
@@ -497,7 +546,7 @@
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-    NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
+    /*NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [UIView animateWithDuration:0.50
@@ -527,14 +576,14 @@
                      completion:^(BOOL finished){
                          //nil
                      }];
-    }
+    }*/
     
     //... do something
 }
 
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
-    NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
+    /*NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     [UIView animateWithDuration:0.50 
@@ -564,7 +613,7 @@
                      completion:^(BOOL finished){
                          //nil
                      }];
-    }
+    }*/
     
     //... do something
 }
@@ -634,7 +683,9 @@
     //[articleSearchBox setInputAccessoryView:bottomBar];
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
-    
+    searchView.backgroundColor = [UIColor clearColor];
+    articleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"linen_bg@2x.png"]];
+    [searchView.layer setOpaque:NO];
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
@@ -715,7 +766,7 @@
 {
 	if ([segue.identifier isEqualToString:@"History"])
 	{
-		HistoryViewController *historyViewController = segue.destinationViewController;
+		//HistoryViewController *historyViewController = segue.destinationViewController;
         //[historyViewController viewDidLoad];
         // Load history from previous sessions. Also from sessions on other devices via iCloud.
         //[self loadHistory];

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="5">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
@@ -14,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="19" kind="relationship" relationship="rootViewController" id="25"/>
+                        <segue destination="19" kind="relationship" relationship="rootViewController" id="6Av-cq-lMU"/>
                     </connections>
                 </navigationController>
             </objects>
@@ -84,19 +85,21 @@
                                             <action selector="selectArticleFromHistory:" destination="4" eventType="touchUpInside" id="awp-Tx-cyT"/>
                                         </connections>
                                     </button>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="search~ipad.png" id="we1-KK-iL5">
-                                        <rect key="frame" x="95" y="11" width="290" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="x5z-wK-Shd">
-                                        <rect key="frame" x="120" y="11" width="265" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hJZ-y8-iPl">
+                                        <rect key="frame" x="538" y="14" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="eyeglass.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
-                                            <outlet property="delegate" destination="4" id="lyn-zc-51s"/>
+                                            <action selector="showSearchField:" destination="4" eventType="touchUpInside" id="otH-nS-I6F"/>
                                         </connections>
-                                    </textField>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="id7-MI-9fD">
                                         <rect key="frame" x="10" y="9" width="35" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -145,6 +148,26 @@
                                     <outlet property="tileContainerView" destination="nTg-mC-jFk" id="6LK-VM-Qu2"/>
                                 </connections>
                             </scrollView>
+                            <view hidden="YES" contentMode="scaleToFill" id="RIR-PM-pmB">
+                                <rect key="frame" x="110" y="100" width="483" height="186"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="search~ipad.png" id="kxW-h8-dmz">
+                                        <rect key="frame" x="96" y="79" width="290" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="NNc-3V-dUz">
+                                        <rect key="frame" x="121" y="79" width="265" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="4" id="wt3-K9-32o"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -152,7 +175,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Article" id="53"/>
                     <connections>
-                        <outlet property="articleSearchBox" destination="x5z-wK-Shd" id="NVO-t2-YNr"/>
+                        <outlet property="articleSearchBox" destination="NNc-3V-dUz" id="QTh-Gp-RXV"/>
                         <outlet property="articleView" destination="2Wm-vr-g5N" id="IzT-9e-pnq"/>
                         <outlet property="backButton" destination="id7-MI-9fD" id="SpE-Tq-fNf"/>
                         <outlet property="bottomBar" destination="DXh-aC-aUI" id="JeT-mO-pQg"/>
@@ -160,6 +183,7 @@
                         <outlet property="forwardButton" destination="WMn-3P-BPW" id="YeY-Bp-qRZ"/>
                         <outlet property="imageView" destination="nTg-mC-jFk" id="0qQ-sU-hxD"/>
                         <outlet property="scrollView" destination="Jm0-A2-L0n" id="Ex6-QH-Kfe"/>
+                        <outlet property="searchView" destination="RIR-PM-pmB" id="vlN-y6-WuX"/>
                     </connections>
                 </viewController>
             </objects>
@@ -221,7 +245,32 @@
                     <navigationItem key="navigationItem" title="Contents" id="40"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="859" y="-631"/>
+            <point key="canvasLocation" x="859" y="-639"/>
+        </scene>
+        <!--Master View Controller - Contents-->
+        <scene sceneID="fBB-AU-Wyi">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7mc-Qr-tZ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="5Wf-kC-FGs" customClass="MasterViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eDk-Yn-AEC">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="NmH-Ht-9fd">
+                                <rect key="frame" x="10" y="0.0" width="748" height="1004"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Contents" id="TYj-Pk-cEP"/>
+                    <connections>
+                        <outlet property="view" destination="NmH-Ht-9fd" id="MNg-JP-rGf"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1303" y="-1517"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="50">
@@ -242,6 +291,7 @@
     <resources>
         <image name="back-dim~ipad.png" width="35" height="32"/>
         <image name="back~ipad.png" width="35" height="32"/>
+        <image name="eyeglass.png" width="20" height="20"/>
         <image name="forward-dim~ipad.png" width="35" height="32"/>
         <image name="forward~ipad.png" width="35" height="32"/>
         <image name="history~ipad.png" width="20" height="21"/>
@@ -264,6 +314,7 @@
                 <relationship kind="outlet" name="forwardButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="searchView" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="ImageScrollView" superclassName="UIScrollView">

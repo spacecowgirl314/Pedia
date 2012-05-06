@@ -15,10 +15,11 @@
 #import "HistoryViewController.h"
 #import "UIDownloadBar.h"
 
-@interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIDownloadBarDelegate> {
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
+    IBOutlet UIView *searchView;
     IBOutlet UIButton *backButton;
     IBOutlet UIButton *forwardButton;
     IBOutlet UINavigationItem *detailItem;
