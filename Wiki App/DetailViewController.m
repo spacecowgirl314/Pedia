@@ -583,6 +583,7 @@
 
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
+    [self closeSearchField:nil];
     /*NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
