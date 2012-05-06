@@ -72,6 +72,7 @@
                          overlay.alpha = 0.5f;
                          [self.view bringSubviewToFront:searchView];
                          searchView.alpha = 1.0f;
+                         [articleSearchBox becomeFirstResponder];
                      }
                      completion:^(BOOL finished){
                          // nothing to see here
@@ -79,7 +80,6 @@
                          [[UITapGestureRecognizer alloc] initWithTarget:self 
                                                                  action:@selector(closeSearchField:)];
                          [overlay addGestureRecognizer:singleFingerTap];
-                         [articleSearchBox becomeFirstResponder];
                      }];
 }
 
@@ -92,11 +92,11 @@
                          self.navigationController.navigationBar.alpha = 1.0f;
                          overlay.alpha = 0.0f;
                          searchView.alpha = 0.0f;
+                         [articleSearchBox resignFirstResponder];
                      }
                      completion:^(BOOL finished){
                          [searchView setHidden:YES];
                          [overlay removeFromSuperview];
-                         [articleSearchBox resignFirstResponder];
                      }];
 }
 
