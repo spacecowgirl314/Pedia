@@ -17,7 +17,13 @@
     if (self) {
         // Standard values for the api URL
         // EN
-        apiUrl = @"http://en.wikipedia.org";
+        NSString *languageCode = [[NSLocale preferredLanguages] objectAtIndex:0];
+        if([languageCode isEqualToString:@"en"]) {
+            apiUrl = @"http://en.wikipedia.org";
+        }
+        else if([languageCode isEqualToString:@"ja"]) {
+            apiUrl = @"http://ja.wikipedia.org";
+        }
         // below doesn't work out of the box
         //apiUrl = [[NSString alloc] initWithFormat:@"http://%@.wikipedia.org",NSLocaleLanguageCode];
         
@@ -45,7 +51,10 @@
     // JSON Request url
     NSURLRequest *request;
     
-    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, name];
+    // escape the string with UTF8 so that multilanguages work
+    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"url:%@", url);
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
@@ -127,7 +136,7 @@
     
     NSURLRequest *request;
     
-    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=imageinfo&titles=%@&iiprop=url&format=json", apiUrl, filename];
+    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=imageinfo&titles=%@&iiprop=url&format=json", apiUrl, [filename stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     

@@ -153,7 +153,7 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     //[wikiHelper setLanguage:]
-    NSString *article = [wikiHelper getWikipediaHTMLPage:[(NSString*)object stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *article = [wikiHelper getWikipediaHTMLPage:(NSString*)object];
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
     NSString *path = [[NSBundle mainBundle] bundlePath];
@@ -317,7 +317,14 @@
         // do we chop off the rest of the forward history?
         [self futureHistoryChopping];
         // could also detect audio files in a similar manner. pronounciation seems to look like this En-us-Barack-Hussein-Obama.ogg
-        NSString *searchForMe = @"File:";
+        NSString *searchForMe;
+        NSString *languageCode = [[NSLocale preferredLanguages] objectAtIndex:0];
+        if ([languageCode isEqualToString:@"en"]) {
+            searchForMe = @"File:";
+        }
+        else if([languageCode isEqualToString:@"ja"]) {
+            searchForMe = @"ファイル:";
+        }
         NSRange range = [[url lastPathComponent] rangeOfString : searchForMe];
         // make sure we aren't loading an image
         if (range.location == NSNotFound) {
