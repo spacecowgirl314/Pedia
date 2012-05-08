@@ -64,15 +64,15 @@
     [self.view addSubview:overlay];
     [searchView setAlpha:0.0f];
     [searchView setHidden:NO];
+    [self.view bringSubviewToFront:searchView];
+    [articleSearchBox becomeFirstResponder];
     [UIView animateWithDuration:0.50
                           delay:0
                         options:UIViewAnimationCurveEaseOut
                      animations:^{
                          self.navigationController.navigationBar.alpha = 0.5f;
                          overlay.alpha = 0.5f;
-                         [self.view bringSubviewToFront:searchView];
                          searchView.alpha = 1.0f;
-                         [articleSearchBox becomeFirstResponder];
                      }
                      completion:^(BOOL finished){
                          // nothing to see here
@@ -87,12 +87,12 @@
 - (void)closeSearchField:(UITapGestureRecognizer *)recognizer {
     [UIView animateWithDuration:0.50
                           delay:0
-                        options:UIViewAnimationCurveEaseOut
+                        options:UIViewAnimationCurveEaseIn
                      animations:^{
+                         [articleSearchBox resignFirstResponder];
                          self.navigationController.navigationBar.alpha = 1.0f;
                          overlay.alpha = 0.0f;
                          searchView.alpha = 0.0f;
-                         [articleSearchBox resignFirstResponder];
                      }
                      completion:^(BOOL finished){
                          [searchView setHidden:YES];
