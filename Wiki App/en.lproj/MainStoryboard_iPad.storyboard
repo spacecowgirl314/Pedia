@@ -31,7 +31,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" id="2Wm-vr-g5N">
-                                <rect key="frame" x="0.0" y="0.0" width="703" height="654"/>
+                                <rect key="frame" x="0.0" y="0.0" width="703" height="660"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes"/>
@@ -40,14 +40,14 @@
                                 </connections>
                             </webView>
                             <view contentMode="scaleToFill" id="DXh-aC-aUI">
-                                <rect key="frame" x="0.0" y="654" width="703" height="50"/>
+                                <rect key="frame" x="0.0" y="658.5" width="703" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hke-bK-GZc">
-                                        <rect key="frame" x="618" y="14" width="23" height="21"/>
+                                        <rect key="frame" x="596" y="8" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="saved~ipad.png">
+                                        <state key="normal" image="saved.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -56,10 +56,10 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wMY-lh-nfV">
-                                        <rect key="frame" x="661" y="14" width="27" height="21"/>
+                                        <rect key="frame" x="660" y="8" width="36" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="share~ipad.png">
+                                        <state key="normal" image="export.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -71,10 +71,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nhk-mG-dNd">
-                                        <rect key="frame" x="578" y="14" width="20" height="21"/>
+                                        <rect key="frame" x="628" y="8" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="history~ipad.png">
+                                        <state key="normal" image="history.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -86,10 +86,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hJZ-y8-iPl">
-                                        <rect key="frame" x="538" y="14" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="39" y="8" width="32" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="eyeglass.png">
+                                        <state key="normal" image="search.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -101,14 +101,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="id7-MI-9fD">
-                                        <rect key="frame" x="10" y="9" width="35" height="32"/>
+                                        <rect key="frame" x="7" y="8" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="back~ipad.png">
+                                        <state key="normal" image="back.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="disabled" image="back-dim~ipad.png"/>
+                                        <state key="disabled" image="back-dim.png"/>
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -117,14 +117,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WMn-3P-BPW">
-                                        <rect key="frame" x="45" y="9" width="35" height="32"/>
+                                        <rect key="frame" x="71" y="8" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="forward~ipad.png">
+                                        <state key="normal" image="forward.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="disabled" image="forward-dim~ipad.png"/>
+                                        <state key="disabled" image="forward-dim.png"/>
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -136,7 +136,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Jm0-A2-L0n" customClass="ImageScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="703" height="654"/>
+                                <rect key="frame" x="0.0" y="0.0" width="703" height="660"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="nTg-mC-jFk">
@@ -148,22 +148,19 @@
                                     <outlet property="tileContainerView" destination="nTg-mC-jFk" id="6LK-VM-Qu2"/>
                                 </connections>
                             </scrollView>
-                            <view hidden="YES" contentMode="scaleToFill" id="RIR-PM-pmB">
-                                <rect key="frame" x="110" y="100" width="483" height="186"/>
+                            <view hidden="YES" contentMode="scaleToFill" id="Qm1-zD-z5z">
+                                <rect key="frame" x="211" y="141" width="280" height="104"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="search~ipad.png" id="kxW-h8-dmz">
-                                        <rect key="frame" x="96" y="79" width="290" height="27"/>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="searchbar.png" id="3kr-TT-5Vy">
+                                        <rect key="frame" x="8" y="33" width="264" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="NNc-3V-dUz">
-                                        <rect key="frame" x="121" y="79" width="265" height="27"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="16" id="Kbq-k8-7jP">
+                                        <rect key="frame" x="39" y="38" width="217" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="4" id="wt3-K9-32o"/>
-                                        </connections>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -175,7 +172,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Article" id="53"/>
                     <connections>
-                        <outlet property="articleSearchBox" destination="NNc-3V-dUz" id="QTh-Gp-RXV"/>
+                        <outlet property="articleSearchBox" destination="Kbq-k8-7jP" id="sf5-YR-mfy"/>
                         <outlet property="articleView" destination="2Wm-vr-g5N" id="IzT-9e-pnq"/>
                         <outlet property="backButton" destination="id7-MI-9fD" id="SpE-Tq-fNf"/>
                         <outlet property="bottomBar" destination="DXh-aC-aUI" id="JeT-mO-pQg"/>
@@ -183,7 +180,7 @@
                         <outlet property="forwardButton" destination="WMn-3P-BPW" id="YeY-Bp-qRZ"/>
                         <outlet property="imageView" destination="nTg-mC-jFk" id="0qQ-sU-hxD"/>
                         <outlet property="scrollView" destination="Jm0-A2-L0n" id="Ex6-QH-Kfe"/>
-                        <outlet property="searchView" destination="RIR-PM-pmB" id="vlN-y6-WuX"/>
+                        <outlet property="searchView" destination="Qm1-zD-z5z" id="KnG-6E-xOv"/>
                     </connections>
                 </viewController>
             </objects>
@@ -289,15 +286,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back-dim~ipad.png" width="35" height="32"/>
-        <image name="back~ipad.png" width="35" height="32"/>
-        <image name="eyeglass.png" width="20" height="20"/>
-        <image name="forward-dim~ipad.png" width="35" height="32"/>
-        <image name="forward~ipad.png" width="35" height="32"/>
-        <image name="history~ipad.png" width="20" height="21"/>
-        <image name="saved~ipad.png" width="23" height="21"/>
-        <image name="search~ipad.png" width="290" height="27"/>
-        <image name="share~ipad.png" width="27" height="21"/>
+        <image name="back-dim.png" width="16" height="16"/>
+        <image name="back.png" width="16" height="16"/>
+        <image name="export.png" width="36" height="31"/>
+        <image name="forward-dim.png" width="16" height="16"/>
+        <image name="forward.png" width="16" height="16"/>
+        <image name="history.png" width="16" height="16"/>
+        <image name="saved.png" width="32" height="31"/>
+        <image name="search.png" width="16" height="16"/>
+        <image name="searchbar.png" width="264" height="40"/>
     </resources>
     <classes>
         <class className="DetailViewController" superclassName="UIViewController">

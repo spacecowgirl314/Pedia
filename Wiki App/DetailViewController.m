@@ -660,7 +660,7 @@
         label.text = NSLocalizedString(@"Article", @"");
         [label sizeToFit];*/
     }
-    UIImage *image = [UIImage imageNamed:@"titlebar.png"];
+    UIImage *image = [UIImage imageNamed:@"topbar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }     
