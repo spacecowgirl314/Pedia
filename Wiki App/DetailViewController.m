@@ -30,6 +30,7 @@
 @synthesize articleView;
 @synthesize historyArray;
 @synthesize previousHistoryArray;
+@synthesize titleLabel;
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -244,6 +245,11 @@
     [tableOfContents removeAllObjects];
     // set title of the nav bar to the article name
     [self setTitle:(NSString*)object];
+    // if we are on the iPhone then additonally set the custom title view
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        titleLabel.text = (NSString*)object;
+        [titleLabel sizeToFit];
+    }
     // enable and disable the back and forward buttons here respectively
     // there is history. enable the back button
     NSLog(@"count of HistoryArray:%i", [historyArray count]);
@@ -650,15 +656,15 @@
         self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
         self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
         // this will appear as the title in the navigation bar
-        /*UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont boldSystemFontOfSize:20.0];
-        label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        label.textAlignment = UITextAlignmentCenter;
-        label.textColor = [UIColor darkGrayColor]; // change this color
-        self.navigationItem.titleView = label;
-        label.text = NSLocalizedString(@"Article", @"");
-        [label sizeToFit];*/
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        titleLabel.textAlignment = UITextAlignmentCenter;
+        titleLabel.textColor = [UIColor grayColor]; // change this color
+        self.navigationItem.titleView = titleLabel;
+        titleLabel.text = NSLocalizedString(@"Article", @"");
+        [titleLabel sizeToFit];
     }
     UIImage *image = [UIImage imageNamed:@"topbar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {

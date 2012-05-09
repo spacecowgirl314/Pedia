@@ -157,10 +157,13 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="16" id="Kbq-k8-7jP">
-                                        <rect key="frame" x="39" y="38" width="217" height="30"/>
+                                        <rect key="frame" x="40" y="38" width="217" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="4" id="u3d-ru-1K7"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -286,14 +289,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back-dim.png" width="16" height="16"/>
-        <image name="back.png" width="16" height="16"/>
+        <image name="back-dim.png" width="32" height="31"/>
+        <image name="back.png" width="32" height="31"/>
         <image name="export.png" width="36" height="31"/>
-        <image name="forward-dim.png" width="16" height="16"/>
-        <image name="forward.png" width="16" height="16"/>
-        <image name="history.png" width="16" height="16"/>
+        <image name="forward-dim.png" width="32" height="31"/>
+        <image name="forward.png" width="32" height="31"/>
+        <image name="history.png" width="32" height="31"/>
         <image name="saved.png" width="32" height="31"/>
-        <image name="search.png" width="16" height="16"/>
+        <image name="search.png" width="32" height="31"/>
         <image name="searchbar.png" width="264" height="40"/>
     </resources>
     <classes>

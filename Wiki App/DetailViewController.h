@@ -34,6 +34,7 @@
     UIView *overlay;
     int historyIndex;
     UIDownloadBar *imageBar;
+    UILabel *titleLabel;
 }
 
 @property (strong, nonatomic) id detailItem;
@@ -46,6 +47,7 @@
 @property (nonatomic, retain) UIPopoverController *historyControllerPopover;
 @property (retain) NSMutableArray *historyArray;
 @property (retain) NSMutableArray *previousHistoryArray;
+@property (retain) UILabel *titleLabel;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
 - (IBAction)submitFeedback:(id)sender;

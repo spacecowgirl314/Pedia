@@ -115,7 +115,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" id="wHG-EZ-yDt">
-                                <rect key="frame" x="0.0" y="-1" width="320" height="373"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="373"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -208,7 +208,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="disabled" image="forward-dim.png"/>
-                                        <state key="highlighted" image="forward-pressed~iphone.png">
+                                        <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -227,7 +227,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="16" id="VoZ-dG-3la">
-                                        <rect key="frame" x="39" y="38" width="217" height="30"/>
+                                        <rect key="frame" x="40" y="38" width="217" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
@@ -248,7 +248,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
                         <outlet property="articleSearchBox" destination="VoZ-dG-3la" id="QLL-GZ-AbC"/>
                         <outlet property="articleView" destination="wHG-EZ-yDt" id="yUL-06-oVt"/>
@@ -267,7 +266,6 @@
         <image name="back.png" width="32" height="31"/>
         <image name="export.png" width="36" height="31"/>
         <image name="forward-dim.png" width="32" height="31"/>
-        <image name="forward-pressed~iphone.png" width="33" height="27"/>
         <image name="forward.png" width="32" height="31"/>
         <image name="history.png" width="32" height="31"/>
         <image name="saved.png" width="32" height="31"/>
