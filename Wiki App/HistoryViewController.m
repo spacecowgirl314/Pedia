@@ -47,7 +47,21 @@
 // goes with the notification
 - (void)populateHistory:(NSNotification*)notification {
     self.entries = (NSArray*)[notification object];
-    //NSLog(@"history received %@", [self.entries description]);
+    NSLog(@"history received %@", [self.entries description]);
+    [self.tableView reloadData];
+    // somehow deal with saving and loading the history to iCloud
+    // will be managed by saving single files with the individual HistoryItem object and reloading them sorted by the date property
+    // [NSKeyedArchiver archiveRootObject:myObject toFile:path];
+    /*for (int i = 0; i < tableOfContents.count; i++) {
+     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+     }*/
+}
+
+- (void)doTheHistoryThing:(NSArray*)array {
+    NSLog(@"count of things:%i",[array count]);
+    self.entries = array;
+    NSLog(@"history received %@", [self.entries description]);
     [self.tableView reloadData];
     // somehow deal with saving and loading the history to iCloud
     // will be managed by saving single files with the individual HistoryItem object and reloading them sorted by the date property

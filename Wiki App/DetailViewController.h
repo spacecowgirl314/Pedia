@@ -13,6 +13,7 @@
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
+#import "MasterViewController.h"
 #import "UIDownloadBar.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate> {
@@ -49,6 +50,7 @@
 @property (retain) NSMutableArray *historyArray;
 @property (retain) NSMutableArray *previousHistoryArray;
 @property (retain) UILabel *titleLabel;
+@property (retain) NSMutableArray *tableOfContents;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
 - (IBAction)submitFeedback:(id)sender;

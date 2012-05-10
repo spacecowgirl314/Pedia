@@ -14,4 +14,6 @@
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
+- (void)populateTableOfContents:(NSNotification*)notification;
+
 @end

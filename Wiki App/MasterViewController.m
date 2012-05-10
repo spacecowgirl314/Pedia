@@ -41,6 +41,20 @@
     [self.tableView setSeparatorColor:[UIColor grayColor]];
     self.tableView.backgroundView = imageView;
     self.title = NSLocalizedString(@"Contents", @"Contents");
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // change item button color to match gray
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
+        // change color of font to gray on the iPhone in the navigation bar
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        titleLabel.textAlignment = UITextAlignmentCenter;
+        titleLabel.textColor = [UIColor grayColor]; // change this color
+        self.navigationItem.titleView = titleLabel;
+        titleLabel.text = self.title;
+        [titleLabel sizeToFit];
+    }
     /*self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.opaque = YES;
     self.navigationController.navigationBar.tintColor = [UIColor clearColor];
@@ -70,12 +84,18 @@
     // reload reset data
     [[self tableView] reloadData];
     tableOfContents = (NSArray*)[notification object];
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-    for (int i=0; i < tableOfContents.count; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        [indexPaths addObject:indexPath];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+        for (int i=0; i < tableOfContents.count; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // don't need to animate loading the cells on iPhone
+        [self.tableView reloadData];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -171,6 +191,8 @@
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"gotoAnchor" 
      object:[tableOfContents objectAtIndex:indexPath.row]];
+    // return from the segue that pushed this view
+    [self.navigationController popViewControllerAnimated:YES];
     [TestFlight passCheckpoint:@"Opened an Anchor"];
 }
 

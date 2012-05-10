@@ -211,12 +211,14 @@
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     //http://vlntno.me/_projects/wiki/style.css
     [articleView
-     loadHTMLString:[@"<head><link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
+     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
      baseURL:baseURL];
-    NSLog(@"HTML:%@",article);
+    //NSLog(@"HTML:%@",article);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     HTMLNode *bodyNode = [parser body];
     NSArray *tableOfContentsNode = [bodyNode findChildrenOfClass:@"toc"];
+    // reset the tableOfContents before loading a new one
+    [tableOfContents removeAllObjects];
     for (HTMLNode *tableOfContent in tableOfContentsNode) {
         NSArray *anchorsToContents = [tableOfContent findChildTags:@"a"];
         for (HTMLNode *anchor in anchorsToContents) {
@@ -243,7 +245,6 @@
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
-    [tableOfContents removeAllObjects];
     // set title of the nav bar to the article name
     [self setTitle:(NSString*)object];
     // if we are on the iPhone then additonally set the custom title view
@@ -810,7 +811,33 @@
 {
 	if ([segue.identifier isEqualToString:@"History"])
 	{
-		//HistoryViewController *historyViewController = segue.destinationViewController;
+        NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
+        // append resulting array to the temporary array
+        [temporaryArray addObjectsFromArray:[(NSArray*)historyArray copy]];
+        // add the previous history to be populated also
+        [temporaryArray addObjectsFromArray:[(NSArray*)previousHistoryArray copy]];
+        // keep the array sorted by date by newest first
+        [temporaryArray sortUsingComparator:^(id a, id b) {
+            NSDate *first = [(HistoryItem*)a date];
+            NSDate *second = [(HistoryItem*)b date];
+            return [second compare:first];
+        }];
+        NSLog(@"temporary count of things:%i",[temporaryArray count]);
+		HistoryViewController *historyViewController = segue.destinationViewController;
+        [historyViewController doTheHistoryThing:[(NSArray*)temporaryArray copy]];
+        //[historyViewController viewDidLoad];
+        // Load history from previous sessions. Also from sessions on other devices via iCloud.
+        //[self loadHistory];
+        //historyIndex = 0;
+		//historyViewController.delegate = self;
+	}
+    if ([segue.identifier isEqualToString:@"Contents"])
+	{
+		MasterViewController *masterViewController = segue.destinationViewController;
+        NSLog(@"actual contents:%@", [tableOfContents description]);
+        NSLog(@"contents:%i", [tableOfContents count]);
+        NSNotification *notification = [NSNotification notificationWithName:@"Contents" object:tableOfContents];
+        [masterViewController populateTableOfContents:notification];
         //[historyViewController viewDidLoad];
         // Load history from previous sessions. Also from sessions on other devices via iCloud.
         //[self loadHistory];
