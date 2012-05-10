@@ -125,7 +125,7 @@
     
     
     // Append html and body tags, Add some style
-    formatedHtmlSrc = [NSString stringWithFormat:@"<body style=\"font-size: 13px; font-family: Helvetica, Verdana\">%@<br/><br/><br/>The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under „Creative Commons Attribution/Share Alike“. Here you find versions/authors.</body>", formatedHtmlSrc];
+    formatedHtmlSrc = [NSString stringWithFormat:@"<body>%@<br/><br/><br/>The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under “Creative Commons Attribution/Share Alike”.</body>", formatedHtmlSrc];
     
     return formatedHtmlSrc;
 }

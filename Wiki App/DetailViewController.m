@@ -211,8 +211,9 @@
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     //http://vlntno.me/_projects/wiki/style.css
     [articleView
-     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
+     loadHTMLString:[@"<head><link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
      baseURL:baseURL];
+    NSLog(@"HTML:%@",article);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     HTMLNode *bodyNode = [parser body];
     NSArray *tableOfContentsNode = [bodyNode findChildrenOfClass:@"toc"];
@@ -279,6 +280,7 @@
 - (void)loadHistory {
     // start a new array. also doubles as wiping the array when reloading periodically
     previousHistoryArray = [[NSMutableArray alloc] init];
+    //NSFileManager*  fm = [NSFileManager defaultManager];
     NSURL *ubiq = [[NSFileManager defaultManager] 
                    URLForUbiquityContainerIdentifier:nil];
     NSArray *items;
@@ -287,6 +289,13 @@
     if (ubiq) {
         NSLog(@"iCloud access at %@", ubiq);
         items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
+        metadataQuery = [[NSMetadataQuery alloc] init];
+        [metadataQuery setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE '*'", NSMetadataItemFSNameKey]];
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(queryDidReceiveNotification:) 
+                                                     name:NSMetadataQueryDidUpdateNotification 
+                                                   object:metadataQuery];
+        [metadataQuery startQuery];
     }
     else {
         NSURL *documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
@@ -294,13 +303,13 @@
     }
     // load each item from iCloud
     for (NSURL *item in items) {
-        NSLog(@"item:%@", [item description]);
+        //NSLog(@"item:%@", [item description]);
         NSData *data = [[NSMutableData alloc] initWithContentsOfURL:item];
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         // don't let a NULL get loaded
         if (unarchiver!=NULL) {
             HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
-            NSLog(@"history item loaded:%@", [historyItem description]);
+            //NSLog(@"history item loaded:%@", [historyItem description]);
             [previousHistoryArray addObject:historyItem];
         }
     }
@@ -316,7 +325,33 @@
      object:[(NSArray*)previousHistoryArray copy]];
 }
 
+- (void)queryDidReceiveNotification:(NSNotification *)notification {
+    NSArray *results = [metadataQuery results];
+    
+    for(NSMetadataItem *item in results) {
+        NSString *filename = [item valueForAttribute:NSMetadataItemDisplayNameKey];
+        NSNumber *filesize = [item valueForAttribute:NSMetadataItemFSSizeKey]; 
+        NSDate *updated = [item valueForAttribute:NSMetadataItemFSContentChangeDateKey];
+        NSLog(@"%@ (%@ bytes, updated %@)", filename, filesize, updated);
+    }
+}
+
 - (void)processHistory:(NSString*)title {
+    // check both history arrays for duplicate and remove it
+    for (int i = 0; i<[historyArray count]; i++) {
+        // wow what a mouthful, checks to see if the object is a duplicate
+        if ([[(HistoryItem*)[historyArray objectAtIndex:i] title] isEqualToString:title]) {
+            // was a duplicate, remove it
+            [historyArray removeObjectAtIndex:i];
+        }
+    }
+    for (int i = 0; i<[previousHistoryArray count]; i++) {
+        // wow what a mouthful, checks to see if the object is a duplicate
+        if ([[(HistoryItem*)[previousHistoryArray objectAtIndex:i] title] isEqualToString:title]) {
+            // was a duplicate, remove it
+            [previousHistoryArray removeObjectAtIndex:i];
+        }
+    }
     // Adding from local session
     // NOTE: By maintaining a separate array we keep from using the history in iCloud as part of our local session
     NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
@@ -729,6 +764,8 @@
     // jump straight to load a new article
     // likely to be used from the history
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:(NSString*)[notification object]];
+    // rewrite history
+    [self processHistory:(NSString*)[notification object]];
     // dismiss the popover for the history controller if it is visible
     if ([_historyControllerPopover isPopoverVisible]) {
         [_historyControllerPopover dismissPopoverAnimated:YES];

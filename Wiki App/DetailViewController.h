@@ -35,6 +35,7 @@
     int historyIndex;
     UIDownloadBar *imageBar;
     UILabel *titleLabel;
+    NSMetadataQuery *metadataQuery;
 }
 
 @property (strong, nonatomic) id detailItem;
