@@ -196,6 +196,12 @@
     [TestFlight passCheckpoint:@"Opened an Anchor"];
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // disable editing of the cells. can no longer swipe to delete
+    return UITableViewCellEditingStyleNone;
+}
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     /*if ([[segue identifier] isEqualToString:@"showDetail"]) {
