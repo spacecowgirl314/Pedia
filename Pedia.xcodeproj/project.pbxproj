@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 371488E41541445E00BE1E4E /* libxml2.dylib */; };
+		37197FA2155CCDBE00BCCA06 /* bottombar@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37197FA0155CCDBE00BCCA06 /* bottombar@2x~ipad.png */; };
+		37197FA3155CCDBE00BCCA06 /* bottombar~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37197FA1155CCDBE00BCCA06 /* bottombar~ipad.png */; };
 		372116501558F28200BB587A /* back-dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 3721163E1558F28200BB587A /* back-dim.png */; };
 		372116511558F28200BB587A /* back-dim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3721163F1558F28200BB587A /* back-dim@2x.png */; };
 		372116521558F28200BB587A /* bottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 372116401558F28200BB587A /* bottombar.png */; };
@@ -92,6 +94,8 @@
 		371488E11541442F00BE1E4E /* HTMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		371488E21541442F00BE1E4E /* HTMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		371488E41541445E00BE1E4E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		37197FA0155CCDBE00BCCA06 /* bottombar@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar@2x~ipad.png"; sourceTree = "<group>"; };
+		37197FA1155CCDBE00BCCA06 /* bottombar~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar~ipad.png"; sourceTree = "<group>"; };
 		3721163E1558F28200BB587A /* back-dim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-dim.png"; sourceTree = "<group>"; };
 		3721163F1558F28200BB587A /* back-dim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-dim@2x.png"; sourceTree = "<group>"; };
 		372116401558F28200BB587A /* bottombar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottombar.png; sourceTree = "<group>"; };
@@ -304,6 +308,8 @@
 				3721163F1558F28200BB587A /* back-dim@2x.png */,
 				372116401558F28200BB587A /* bottombar.png */,
 				372116411558F28200BB587A /* bottombar@2x.png */,
+				37197FA0155CCDBE00BCCA06 /* bottombar@2x~ipad.png */,
+				37197FA1155CCDBE00BCCA06 /* bottombar~ipad.png */,
 				372116421558F28200BB587A /* contents.png */,
 				372116431558F28200BB587A /* contents@2x.png */,
 				372116441558F28200BB587A /* export.png */,
@@ -470,6 +476,8 @@
 				3721166B1558F2B000BB587A /* back@2x.png in Resources */,
 				3721166C1558F2B000BB587A /* forward.png in Resources */,
 				3721166D1558F2B000BB587A /* forward@2x.png in Resources */,
+				37197FA2155CCDBE00BCCA06 /* bottombar@2x~ipad.png in Resources */,
+				37197FA3155CCDBE00BCCA06 /* bottombar~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

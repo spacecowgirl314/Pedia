@@ -101,6 +101,8 @@
                      }];
 }
 
+#pragma mark - Button Actions
+
 - (IBAction)loadArticle:(id)sender {
     if (![loadingThread isExecuting]) {
         loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
@@ -152,6 +154,8 @@
     [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [TestFlight passCheckpoint:@"Viewed history"];
 }
+
+#pragma mark -
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     // get url
@@ -338,6 +342,7 @@
 }
 
 - (void)processHistory:(NSString*)title {
+    // TODO: Only add to history if the page is a valid article
     // check both history arrays for duplicate and remove it
     for (int i = 0; i<[historyArray count]; i++) {
         // wow what a mouthful, checks to see if the object is a duplicate
