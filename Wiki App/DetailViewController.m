@@ -9,6 +9,7 @@
 #import "DetailViewController.h"
 #import "HTMLParser.h"
 #import "HistoryItem.h"
+#import "Reachability.h"
 
 
 #define NSLog TFLog
@@ -689,6 +690,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"www.apple.com"];
+    
+    // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
+    reach.reachableOnWWAN = YES;
+    
+    // here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(reachabilityChanged:) 
+                                                 name:kReachabilityChangedNotification 
+                                               object:nil];
+    
+    [reach startNotifier];
     //NSURL *ubiq = [[NSFileManager defaultManager] 
     //               URLForUbiquityContainerIdentifier:nil];
     /*if (ubiq) {
@@ -769,6 +784,21 @@
 }
 
 #pragma mark - Responds to Notifications
+
+- (void)reachabilityChanged:(NSNotification*)notification {
+    // internet is not available
+    // show the internet not available page
+    // alternatively, we could automatically open the offline reading dialog under this circumstance
+    Reachability * reach = [notification object];
+    
+    if([reach isReachable]) {
+        // all is good
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Internet is not available." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+}
 
 - (void)becomeActive:(NSNotification*)object {
     // reload history if iCloud is active

@@ -60,6 +60,8 @@
 		3763C77915314BB600814E54 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3763C76E15314BB600814E54 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3763C77A15314EBF00814E54 /* WikipediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3763C75515314B3800814E54 /* WikipediaHelper.m */; };
 		377F07501547B9FE008E8187 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 377F074F1547B9FE008E8187 /* ImageScrollView.m */; };
+		377FBA75155E47530052C8E1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 377FBA74155E47530052C8E1 /* Reachability.m */; };
+		377FBA7B155E49170052C8E1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */; };
 		3787D0C01541E9E60057446A /* TableOfContentsAnchor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */; };
 		3787D0C11541F2620057446A /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E01541442F00BE1E4E /* HTMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3787D0C21541F2650057446A /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E21541442F00BE1E4E /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -169,6 +171,9 @@
 		3763C76E15314BB600814E54 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		377F074E1547B9FE008E8187 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		377F074F1547B9FE008E8187 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
+		377FBA73155E47530052C8E1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		377FBA74155E47530052C8E1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableOfContentsAnchor.h; sourceTree = "<group>"; };
 		3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableOfContentsAnchor.m; sourceTree = "<group>"; };
 		379DE81F15564B6D00688A78 /* progress-bar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-background.png"; sourceTree = "<group>"; };
@@ -209,6 +214,7 @@
 			files = (
 				37A782471544D1DE00390CEF /* libz.dylib in Frameworks */,
 				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
+				377FBA7B155E49170052C8E1 /* SystemConfiguration.framework in Frameworks */,
 				37AC6161154F652500694BF8 /* MessageUI.framework in Frameworks */,
 				37AC6150154F5FEE00694BF8 /* Twitter.framework in Frameworks */,
 				37A782531544E98C00390CEF /* QuartzCore.framework in Frameworks */,
@@ -245,6 +251,7 @@
 				37A782461544D1DD00390CEF /* libz.dylib */,
 				37A782441544D1A600390CEF /* libTestFlight.a */,
 				371488E41541445E00BE1E4E /* libxml2.dylib */,
+				377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */,
 				37AC6160154F652500694BF8 /* MessageUI.framework */,
 				37AC614F154F5FEE00694BF8 /* Twitter.framework */,
 				37A782521544E98C00390CEF /* QuartzCore.framework */,
@@ -258,6 +265,7 @@
 		3763C73315313DFE00814E54 /* Wiki App */ = {
 			isa = PBXGroup;
 			children = (
+				377FBA71155E47400052C8E1 /* Reachability */,
 				3763C75715314BB600814E54 /* SBJson */,
 				37A6597F15546E810030EF77 /* DownloadBar */,
 				3728575515466E2700EF076C /* Pedia.entitlements */,
@@ -374,6 +382,15 @@
 				3763C76E15314BB600814E54 /* SBJsonWriter.m */,
 			);
 			path = SBJson;
+			sourceTree = "<group>";
+		};
+		377FBA71155E47400052C8E1 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				377FBA73155E47530052C8E1 /* Reachability.h */,
+				377FBA74155E47530052C8E1 /* Reachability.m */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		37A6597F15546E810030EF77 /* DownloadBar */ = {
@@ -517,6 +534,7 @@
 				37A7826F15454FC700390CEF /* HistoryItem.m in Sources */,
 				377F07501547B9FE008E8187 /* ImageScrollView.m in Sources */,
 				37ACB5D7155DFE3000C98092 /* ImageViewController.m in Sources */,
+				377FBA75155E47530052C8E1 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
