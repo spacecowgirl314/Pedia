@@ -14,6 +14,7 @@
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
 #import "MasterViewController.h"
+#import "ImageViewController.h"
 #import "UIDownloadBar.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate> {

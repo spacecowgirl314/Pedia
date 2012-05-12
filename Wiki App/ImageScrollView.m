@@ -54,8 +54,9 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    // only hide if touched and didn't zoom or tap to zoom
-    if (touchesMoved==NO) {
+    /* Only hide if touched and didn't zoom or tap to zoom.
+     This only applies to the iPad because the iPhone doesn't use an overlay it uses a separate view*/
+    if (touchesMoved==NO && [[UIDevice currentDevice] userInterfaceIdiom]==UIUserInterfaceIdiomPad) {
         self.hidden=YES;
         // reset zoom
         CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);

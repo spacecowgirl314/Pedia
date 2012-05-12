@@ -32,6 +32,7 @@
 @synthesize previousHistoryArray;
 @synthesize titleLabel;
 
+#pragma mark - Search Field
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == articleSearchBox) {
@@ -55,6 +56,25 @@
     }
     return YES;
 }
+
+// either when tapping the black overlay or when exiting the keyboard return everything to normal
+- (void)closeSearchField:(UITapGestureRecognizer *)recognizer {
+    [UIView animateWithDuration:0.50
+                          delay:0
+                        options:UIViewAnimationCurveEaseIn
+                     animations:^{
+                         [articleSearchBox resignFirstResponder];
+                         self.navigationController.navigationBar.alpha = 1.0f;
+                         overlay.alpha = 0.0f;
+                         searchView.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         [searchView setHidden:YES];
+                         [overlay removeFromSuperview];
+                     }];
+}
+
+#pragma mark - Button Actions
 
 - (IBAction)showSearchField:(id)sender {
     // darken background
@@ -83,25 +103,6 @@
                          [overlay addGestureRecognizer:singleFingerTap];
                      }];
 }
-
-// either when tapping the black overlay or when exiting the keyboard return everything to normal
-- (void)closeSearchField:(UITapGestureRecognizer *)recognizer {
-    [UIView animateWithDuration:0.50
-                          delay:0
-                        options:UIViewAnimationCurveEaseIn
-                     animations:^{
-                         [articleSearchBox resignFirstResponder];
-                         self.navigationController.navigationBar.alpha = 1.0f;
-                         overlay.alpha = 0.0f;
-                         searchView.alpha = 0.0f;
-                     }
-                     completion:^(BOOL finished){
-                         [searchView setHidden:YES];
-                         [overlay removeFromSuperview];
-                     }];
-}
-
-#pragma mark - Button Actions
 
 - (IBAction)loadArticle:(id)sender {
     if (![loadingThread isExecuting]) {
@@ -155,7 +156,7 @@
     [TestFlight passCheckpoint:@"Viewed history"];
 }
 
-#pragma mark -
+#pragma mark - Sharing
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     // get url
@@ -199,6 +200,8 @@
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
+
+#pragma mark - Main Parsing Method
 
 // main parsing method
 - (void)downloadHTMLandParse:(id)object {
@@ -403,6 +406,25 @@
 	[data writeToFile:file atomically:YES];
 }
 
+- (void)futureHistoryChopping {
+    if (historyIndex!=0) {
+        // reset the history index because we are now as forward as we can get
+        //historyIndex=0;
+        // chop what we don't need any more off the historyArray
+        NSLog(@"attempting to get rid of old future history");
+        NSLog(@"before: %@", [historyArray description]);
+        // remove all the previous future history we don't need anymore
+        for (int i = 0; i < historyIndex; i++) {
+            NSLog(@"index:%i i:%i", historyIndex, i);
+            [historyArray removeLastObject];
+        }
+        historyIndex=0;
+        //[historyArray removeLastObject];
+        //historyIndex=0;
+        NSLog(@"here are the results from this attempt: %@", [historyArray description]);
+    }
+}
+
 #pragma mark - UIWebView Management
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -462,39 +484,48 @@
     //return YES;
 }
 
+#pragma mark - Image Viewing
+
 - (void)downloadImageAndView:(id)object {
     //[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSLog(@"Image attempted:%@", (NSString*)object);
-    // darken background
-    overlay = [[UIView alloc] initWithFrame:super.view.bounds];
-    overlay.backgroundColor = [UIColor blackColor];
-    overlay.alpha = 0.0f;
-    overlay.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-    [self.view addSubview:overlay];
-    [UIView animateWithDuration:0.50
-                          delay:0
-                        options:UIViewAnimationCurveEaseOut
-                     animations:^{
-                         self.navigationController.navigationBar.alpha = 0.5f;
-                         overlay.alpha = 0.5f;
-                     }
-                     completion:^(BOOL finished){
-                         //nil
-                     }];
-    // animate progess bar here
-    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
-    //NSLog(@"Image url:%@", );
-    NSString *imageURL = [wikiHelper getUrlOfImageFile:(NSString*)object];
-    NSURL *url = [NSURL URLWithString:imageURL];
-    int width = 200;
-    int height = 20;
-    imageBar = [[UIDownloadBar alloc] initWithURL:url
-                                    progressBarFrame:CGRectMake(self.view.frame.size.width / 2 - width/2, self.view.frame.size.height / 2 - height/2, width, height)
-                                             timeout:15
-                                            delegate:self];
-    imageBar.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
-    //[imageBar forceContinue];
-    [self.view addSubview:imageBar];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // darken background
+        overlay = [[UIView alloc] initWithFrame:super.view.bounds];
+        overlay.backgroundColor = [UIColor blackColor];
+        overlay.alpha = 0.0f;
+        overlay.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+        [self.view addSubview:overlay];
+        [UIView animateWithDuration:0.50
+                              delay:0
+                            options:UIViewAnimationCurveEaseOut
+                         animations:^{
+                             self.navigationController.navigationBar.alpha = 0.5f;
+                             overlay.alpha = 0.5f;
+                         }
+                         completion:^(BOOL finished){
+                             //nil
+                         }];
+        // animate progess bar here
+        WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+        //NSLog(@"Image url:%@", );
+        NSString *imageURL = [wikiHelper getUrlOfImageFile:(NSString*)object];
+        NSURL *url = [NSURL URLWithString:imageURL];
+        int width = 200;
+        int height = 20;
+        imageBar = [[UIDownloadBar alloc] initWithURL:url
+                                     progressBarFrame:CGRectMake(self.view.frame.size.width / 2 - width/2, self.view.frame.size.height / 2 - height/2, width, height)
+                                              timeout:15
+                                             delegate:self];
+        imageBar.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
+        //[imageBar forceContinue];
+        [self.view addSubview:imageBar];
+    }
+    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // additionally pass the image string object to the prepare segue
+        [self performSegueWithIdentifier: @"Image" 
+                                  sender: object];
+    }
     //NSData *data = [NSData dataWithContentsOfURL:url];
     //UIImage *image = [[UIImage alloc] initWithData:data];
     //[[articleView scrollView] setHidden:YES];
@@ -536,25 +567,6 @@
                          // after being undimmed we no longer need this
                          [overlay removeFromSuperview];
                      }];
-}
-
-- (void)futureHistoryChopping {
-    if (historyIndex!=0) {
-        // reset the history index because we are now as forward as we can get
-        //historyIndex=0;
-        // chop what we don't need any more off the historyArray
-        NSLog(@"attempting to get rid of old future history");
-        NSLog(@"before: %@", [historyArray description]);
-        // remove all the previous future history we don't need anymore
-        for (int i = 0; i < historyIndex; i++) {
-            NSLog(@"index:%i i:%i", historyIndex, i);
-            [historyArray removeLastObject];
-        }
-        historyIndex=0;
-        //[historyArray removeLastObject];
-        //historyIndex=0;
-        NSLog(@"here are the results from this attempt: %@", [historyArray description]);
-    }
 }
 
 /*- (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -666,11 +678,13 @@
     //... do something
 }
 
+#pragma mark - Important for image viewing
+
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return imageView;
 }
 
-#pragma mark -
+#pragma mark - Setup the View
 
 - (void)viewDidLoad
 {
@@ -754,6 +768,8 @@
     scrollView.maximumZoomScale = 2.0f;
 }
 
+#pragma mark - Responds to Notifications
+
 - (void)becomeActive:(NSNotification*)object {
     // reload history if iCloud is active
     [self loadHistory];
@@ -836,7 +852,7 @@
         //historyIndex = 0;
 		//historyViewController.delegate = self;
 	}
-    if ([segue.identifier isEqualToString:@"Contents"])
+    else if ([segue.identifier isEqualToString:@"Contents"])
 	{
 		MasterViewController *masterViewController = segue.destinationViewController;
         NSLog(@"actual contents:%@", [tableOfContents description]);
@@ -849,6 +865,11 @@
         //historyIndex = 0;
 		//historyViewController.delegate = self;
 	}
+    else if ([segue.identifier isEqualToString:@"Image"])
+    {
+        ImageViewController *imageViewController = segue.destinationViewController;
+        [imageViewController imageLoadWithName:(NSString*)sender];
+    }
 }
 
 @end

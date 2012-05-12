@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="phq-AM-6qj" style="IBUITableViewCellStyleDefault" id="lJ0-d7-vTF">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContentsCell" textLabel="phq-AM-6qj" style="IBUITableViewCellStyleDefault" id="lJ0-d7-vTF">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -73,7 +73,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="9a5-Ff-8fp" style="IBUITableViewCellStyleDefault" id="ThC-s5-tct">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryCell" textLabel="9a5-Ff-8fp" style="IBUITableViewCellStyleDefault" id="ThC-s5-tct">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -101,6 +101,40 @@
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="599" y="-513"/>
+        </scene>
+        <!--Image View Controller - Image-->
+        <scene sceneID="3DF-22-z9d">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DAH-eO-RRI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="gw4-Q4-4Zq" customClass="ImageViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IDH-ZH-ZQ7">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="GLA-mM-rmB" customClass="ImageScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="UYt-iR-ZDD">
+                                        <rect key="frame" x="10" y="58" width="300" height="300"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="tileContainerView" destination="UYt-iR-ZDD" id="t3g-he-lFR"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Image" id="Yff-dg-8RR"/>
+                    <connections>
+                        <outlet property="imageView" destination="UYt-iR-ZDD" id="bnJ-eM-F7I"/>
+                        <outlet property="scrollView" destination="GLA-mM-rmB" id="GR6-4E-osk"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1055" y="-510"/>
         </scene>
         <!--Detail View Controller - Detail-->
         <scene sceneID="24">
@@ -252,6 +286,7 @@
                         <outlet property="bottomBar" destination="TAO-EW-qdv" id="HVT-nv-KGn"/>
                         <outlet property="forwardButton" destination="zDy-l1-2lD" id="715-nx-CF6"/>
                         <outlet property="searchView" destination="rxg-At-U08" id="ySb-Du-X1r"/>
+                        <segue destination="gw4-Q4-4Zq" kind="push" identifier="Image" id="JgE-fc-nIN"/>
                     </connections>
                 </viewController>
             </objects>
@@ -289,6 +324,19 @@
         </class>
         <class className="HistoryViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryViewController.h"/>
+        </class>
+        <class className="ImageScrollView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageScrollView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tileContainerView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="ImageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+            </relationships>
         </class>
         <class className="MasterViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>

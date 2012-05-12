@@ -43,7 +43,7 @@
     self.title = NSLocalizedString(@"Contents", @"Contents");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         // change item button color to match gray
-        self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
+        self.navigationItem.backBarButtonItem.tintColor = [UIColor grayColor];
         // change color of font to gray on the iPhone in the navigation bar
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.backgroundColor = [UIColor clearColor];
@@ -132,7 +132,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContentsCell"];
 
     //NSDate *object = [_objects objectAtIndex:indexPath.row];
     TableOfContentsAnchor *anchor = [tableOfContents objectAtIndex:indexPath.row];
