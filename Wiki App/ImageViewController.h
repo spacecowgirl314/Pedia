@@ -13,6 +13,7 @@
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIImageView *imageView;
     UIDownloadBar *imageBar;
+    UILabel *titleLabel;
 }
 
 - (void)imageLoadWithName:(NSString*)name;

@@ -35,15 +35,13 @@
     // change item button color to match gray
     self.navigationItem.backBarButtonItem.tintColor = [UIColor grayColor];
     // change color of font to gray on the iPhone in the navigation bar
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
     titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     titleLabel.textAlignment = UITextAlignmentCenter;
     titleLabel.textColor = [UIColor grayColor]; // change this color
     self.navigationItem.titleView = titleLabel;
-    titleLabel.text = @"200x200"; // change to 200x402 later
-    [titleLabel sizeToFit];
     // make the image viewer work
     [scrollView setDelegate:self];
     [scrollView setClipsToBounds:YES];
@@ -79,6 +77,10 @@
         UIImage *image = [[UIImage alloc] initWithData:fileData];
         //[[articleView scrollView] setHidden:YES];
         [downloadBar removeFromSuperview];
+        // set title to the resolution size of the image
+        NSString *resolutionString = [[NSString alloc] initWithFormat:@"%ix%i", (int)image.size.width, (int)image.size.height];
+        titleLabel.text = resolutionString;
+        [titleLabel sizeToFit];
         [imageView setImage:image];
         [imageView setHidden:NO];
         [scrollView setHidden:NO];
