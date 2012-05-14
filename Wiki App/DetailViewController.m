@@ -449,10 +449,25 @@
         if (range.location == NSNotFound) {
             //if (![loadingThread isExecuting]) {
             // strip underscores from lastPathComponent to make it user readable
-            NSString *removeUnderscores = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
-            [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:removeUnderscores];
-            // also save history
-            [self processHistory:removeUnderscores];
+            NSString *host = [url host];
+            NSLog(@"host:%@", host);
+            // work some magic here to ensure that we also have the proper apiURL regardless of locale
+            // TODO: Make a instance variable of WikipediaHelper
+            WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
+            NSString *apiURLString = [wikiHelper apiUrl];
+            NSURL *apiURL = [NSURL URLWithString:apiURLString];
+            // if we are local, that is we're on wikipedia, do our thing
+            if ([host isEqualToString:[apiURL host]]) {
+                NSString *removeUnderscores = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+                [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:removeUnderscores];
+                // also save history
+                [self processHistory:removeUnderscores];
+            }
+            // otherwise we open the page in Safari because it's external
+            else {
+                // TODO: also prompt to make sure we want to do this
+                [[UIApplication sharedApplication] openURL:url];
+            }
         }
         // we found an image. display it
         else {
@@ -693,7 +708,7 @@
     // allocate a reachability object
     Reachability* reach = [Reachability reachabilityWithHostname:@"www.apple.com"];
     
-    // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
+    // tell the reachability that we DO want to be reachable on 3G/EDGE/CDMA
     reach.reachableOnWWAN = YES;
     
     // here we set up a NSNotification observer. The Reachability that caused the notification
@@ -729,9 +744,10 @@
         titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        titleLabel.shadowColor = [UIColor whiteColor];
+        titleLabel.shadowOffset = CGSizeMake(0,1);
         titleLabel.textAlignment = UITextAlignmentCenter;
-        titleLabel.textColor = [UIColor grayColor]; // change this color
+        titleLabel.textColor = [UIColor darkGrayColor]; // change this color
         self.navigationItem.titleView = titleLabel;
         titleLabel.text = NSLocalizedString(@"Article", @"");
         [titleLabel sizeToFit];

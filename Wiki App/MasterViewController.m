@@ -48,9 +48,9 @@
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        titleLabel.shadowColor = [UIColor clearColor];
         titleLabel.textAlignment = UITextAlignmentCenter;
-        titleLabel.textColor = [UIColor grayColor]; // change this color
+        titleLabel.textColor = [UIColor darkGrayColor]; // change this color
         self.navigationItem.titleView = titleLabel;
         titleLabel.text = self.title;
         [titleLabel sizeToFit];

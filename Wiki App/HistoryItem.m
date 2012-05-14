@@ -10,17 +10,20 @@
 
 @implementation HistoryItem
 @synthesize title;
+@synthesize html;
 @synthesize date;
 
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)encoder {
 	[encoder encodeObject:title forKey:@"title"];
+    [encoder encodeObject:html forKey:@"html"];
 	[encoder encodeObject:date forKey:@"date"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	if(self = [super init]) {
 		self.title = [decoder decodeObjectForKey:@"title"];
+        self.html = [decoder decodeObjectForKey:@"html"];
 		self.date = [decoder decodeObjectForKey:@"date"];
 	}
 	return self;

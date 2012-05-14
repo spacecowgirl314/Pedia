@@ -10,10 +10,12 @@
 
 @interface HistoryItem : NSObject {
     NSString *title;
+    NSString *html;
     NSDate *date;
 }
 
 @property (strong) NSString *title;
+@property (strong) NSString *html;
 @property (strong) NSDate *date;
 
 @end

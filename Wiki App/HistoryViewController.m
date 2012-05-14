@@ -32,6 +32,20 @@
     self.clearsSelectionOnViewWillAppear = NO;
     self.contentSizeForViewInPopover = CGSizeMake(253.0, 352.0);
     self.entries = [NSArray array];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // change item button color to match gray
+        self.navigationItem.backBarButtonItem.tintColor = [UIColor grayColor];
+        // change color of font to gray on the iPhone in the navigation bar
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.shadowColor = [UIColor clearColor];
+        titleLabel.textAlignment = UITextAlignmentCenter;
+        titleLabel.textColor = [UIColor grayColor]; // change this color
+        self.navigationItem.titleView = titleLabel;
+        titleLabel.text = self.title;
+        [titleLabel sizeToFit];
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

@@ -7,6 +7,7 @@
 //
 
 #import "ImageScrollView.h"
+#import <QuartzCore/CALayer.h>
 
 @implementation ImageScrollView
 
@@ -28,6 +29,12 @@
     [doubleTap setNumberOfTapsRequired:2];
     
     [self addGestureRecognizer:doubleTap];
+    
+    // add shadow to the image
+    tileContainerView.layer.shadowColor = [UIColor blackColor].CGColor;
+    tileContainerView.layer.shadowOffset = CGSizeMake(0, 0);
+    tileContainerView.layer.shadowOpacity = 1;
+    tileContainerView.layer.shadowRadius = 1.0;
 }
 
 // Double tap to Zoom!
