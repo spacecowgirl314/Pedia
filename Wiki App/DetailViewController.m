@@ -241,6 +241,10 @@
                 if ([[spanNode className] isEqualToString:@"toctext"]) {
                     // title of contents entry
                     NSString *titleOfContentsEntry = [spanNode contents];
+                    if (titleOfContentsEntry==NULL) {
+                        // if it is not directly inside the span then it's inside an italics tag
+                        titleOfContentsEntry = [[spanNode findChildTag:@"i"] contents];
+                    }
                     [anchorItem setTitle:titleOfContentsEntry];
                 }
             }

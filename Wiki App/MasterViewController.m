@@ -38,7 +38,7 @@
     [super viewDidLoad];
     // style the table
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_sidebar.png"]];
-    [self.tableView setSeparatorColor:[UIColor grayColor]];
+    [self.tableView setSeparatorColor:[UIColor darkGrayColor]];
     self.tableView.backgroundView = imageView;
     self.title = NSLocalizedString(@"Contents", @"Contents");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
