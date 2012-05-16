@@ -36,8 +36,6 @@
         self.entries = [NSArray array];
     }
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        // change item button color to match gray
-        self.navigationItem.backBarButtonItem.tintColor = [UIColor grayColor];
         // change color of font to gray on the iPhone in the navigation bar
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.backgroundColor = [UIColor clearColor];

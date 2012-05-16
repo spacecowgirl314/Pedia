@@ -36,14 +36,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // style the table
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_sidebar.png"]];
-    [self.tableView setSeparatorColor:[UIColor darkGrayColor]];
-    self.tableView.backgroundView = imageView;
     self.title = NSLocalizedString(@"Contents", @"Contents");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        // change item button color to match gray
-        self.navigationItem.backBarButtonItem.tintColor = [UIColor grayColor];
         // change color of font to gray on the iPhone in the navigation bar
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.backgroundColor = [UIColor clearColor];
@@ -54,6 +48,12 @@
         self.navigationItem.titleView = titleLabel;
         titleLabel.text = self.title;
         [titleLabel sizeToFit];
+    }
+    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // style the table
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"linen_sidebar.png"]];
+        [self.tableView setSeparatorColor:[UIColor darkGrayColor]];
+        self.tableView.backgroundView = imageView;
     }
     /*self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.opaque = YES;
@@ -138,9 +138,12 @@
 
     //NSDate *object = [_objects objectAtIndex:indexPath.row];
     TableOfContentsAnchor *anchor = [tableOfContents objectAtIndex:indexPath.row];
-    cell.backgroundColor = [UIColor clearColor];
+    // this style is specific to the iPad
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        cell.backgroundColor = [UIColor clearColor];
+        cell.textLabel.textColor = [UIColor whiteColor];
+    }
     cell.textLabel.text = [anchor title]; //[object description];
-    cell.textLabel.textColor = [UIColor whiteColor];
     return cell;
 }
 

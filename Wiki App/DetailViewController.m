@@ -844,6 +844,12 @@
 
 #pragma mark - Setup the View
 
+// this has precedence over view did load. before the view is loaded
+- (void)awakeFromNib {
+    // set tint color of all UIBarButtons to gray
+    [[UIBarButtonItem appearance] setTintColor:[UIColor grayColor]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -880,7 +886,7 @@
     self.title = NSLocalizedString(@"Article", @"Article");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         //articleSearchBox.inputAccessoryView = bottomBar;
-        self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
+        //self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
         self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
         // this will appear as the title in the navigation bar
         titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
