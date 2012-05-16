@@ -84,8 +84,10 @@
     // reload reset data
     [[self tableView] reloadData];
     tableOfContents = (NSArray*)[notification object];
+    // only animate the cells being added on the iPad. It slows down the interface ready time on the iPhone.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+        // in order to animate each cell being added we have to iterate through the array add an index for each object that exists
         for (int i=0; i < tableOfContents.count; i++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
             [indexPaths addObject:indexPath];

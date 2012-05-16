@@ -67,7 +67,7 @@
         <scene sceneID="RuB-Ow-3My">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ewF-HJ-xbc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="6a8-0J-LV5" customClass="HistoryViewController" sceneMemberID="viewController">
+                <tableViewController title="History" id="6a8-0J-LV5" customClass="HistoryViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="MM3-FM-MtW">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -33,11 +33,14 @@
     NSMutableArray *historyArray;
     NSMutableArray *previousHistoryArray;
     NSThread *loadingThread;
+    NSThread *processHistoryThread;
     UIView *overlay;
     int historyIndex;
     UIDownloadBar *imageBar;
     UILabel *titleLabel;
     NSMetadataQuery *metadataQuery;
+    int iCloudIndex;
+    int iCloudCount;
 }
 
 @property (strong, nonatomic) id detailItem;
