@@ -250,7 +250,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" id="rxg-At-U08">
-                                <rect key="frame" x="20" y="71" width="280" height="104"/>
+                                <rect key="frame" x="20" y="0.0" width="280" height="364.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="searchbar.png" id="K7n-96-7W7">
@@ -266,6 +266,31 @@
                                             <outlet property="delegate" destination="21" id="6My-ba-QVO"/>
                                         </connections>
                                     </textField>
+                                    <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="nYD-hy-q6g">
+                                        <rect key="frame" x="20" y="81" width="240" height="263.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <prototypes>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="SuggestionCell" textLabel="ztJ-O3-5eJ" style="IBUITableViewCellStyleDefault" id="O6f-Cz-Nel">
+                                                <rect key="frame" x="0.0" y="22" width="240" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ztJ-O3-5eJ">
+                                                            <rect key="frame" x="10" y="0.0" width="220" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -286,6 +311,7 @@
                         <outlet property="bottomBar" destination="TAO-EW-qdv" id="HVT-nv-KGn"/>
                         <outlet property="forwardButton" destination="zDy-l1-2lD" id="715-nx-CF6"/>
                         <outlet property="searchView" destination="rxg-At-U08" id="ySb-Du-X1r"/>
+                        <outlet property="suggestionTableView" destination="nYD-hy-q6g" id="2Mz-iW-9Q8"/>
                         <segue destination="gw4-Q4-4Zq" kind="push" identifier="Image" id="JgE-fc-nIN"/>
                     </connections>
                 </viewController>
@@ -320,6 +346,7 @@
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="searchView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="suggestionTableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="HistoryViewController" superclassName="UITableViewController">
