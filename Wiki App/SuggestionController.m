@@ -11,7 +11,22 @@
 @implementation SuggestionController
 @synthesize suggestionTableView;
 
-#pragma mark - Table View
+- (void)setSuggestions:(NSMutableArray*)_suggestions {
+    suggestions = _suggestions;
+    NSLog(@"suggestion count:%i", [suggestions count]);
+    [suggestionTableView reloadData];
+}
+
+#pragma mark - View Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // dismiss the keyboard
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"resignSearchField" 
+     object:nil];
+}
+
+#pragma mark - Data Source Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -38,12 +53,6 @@
     return NO;
 }
 
-- (void)setSuggestions:(NSMutableArray*)_suggestions {
-    suggestions = _suggestions;
-    NSLog(@"suggestion count:%i", [suggestions count]);
-    [suggestionTableView reloadData];
-}
-
 /*
  // Override to support rearranging the table view.
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -63,6 +72,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    // pass the title of the current item to the app to be loaded as the next article
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"gotoArticle" 
+     object:[suggestions objectAtIndex:indexPath.row]];
+    // dissmiss search view and reset suggestions
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"closeSearchView" 
+     object:nil];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

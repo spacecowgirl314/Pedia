@@ -63,7 +63,21 @@
 }
 
 - (void)textFieldDidChange:(id)sender {
-    // Threads can't acces UIKit. Grab text first and make it a block string.
+    // bring suggestion view out of hiding once we start typing
+    if ([[articleSearchBox text] isEqualToString:@""]) {
+        [suggestionTableView setHidden:YES];
+    }
+    else {
+        [UIView animateWithDuration:0.50
+                              delay:0
+                            options:UIViewAnimationCurveEaseIn
+                         animations:^{
+                             [suggestionTableView setHidden:NO];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
+    // Threads can't access UIKit. Grab text first and make it a block string.
     __block NSString *searchText = [articleSearchBox text];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue,^{
@@ -812,7 +826,7 @@
 
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
-    [self closeSearchField:nil];
+    //[self closeSearchField:nil];
     /*NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -933,6 +947,11 @@
                           name:@"gotoAnchor" object:nil];
     [defaultCenter addObserver:self selector:@selector(gotoArticle:)
                           name:@"gotoArticle" object:nil];
+    // notifications for the suggestion controller
+    [defaultCenter addObserver:self selector:@selector(closeSearchField:)
+                          name:@"closeSearchView" object:nil];
+    [defaultCenter addObserver:articleSearchBox selector:@selector(resignFirstResponder) 
+                          name:@"resignSearchField" object:nil];
     //[articleSearchBox setInputAccessoryView:bottomBar];
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
