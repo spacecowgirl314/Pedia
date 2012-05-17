@@ -16,6 +16,7 @@
 #import "MasterViewController.h"
 #import "ImageViewController.h"
 #import "UIDownloadBar.h"
+#import "SuggestionController.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate> {
     IBOutlet UITextField *articleSearchBox;
@@ -27,6 +28,7 @@
     IBOutlet UINavigationItem *detailItem;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIImageView *imageView;
+    IBOutlet UITableView *suggestionTableView;
     NSMutableArray *tableOfContents;
     HistoryViewController *_historyController;
     UIPopoverController *_historyControllerPopover;
@@ -41,6 +43,7 @@
     NSMetadataQuery *metadataQuery;
     int iCloudIndex;
     int iCloudCount;
+    SuggestionController *suggestionController;
 }
 
 @property (strong, nonatomic) id detailItem;

@@ -33,6 +33,9 @@
 // Return a formatted url of the article with the given name
 - (NSString *) getURLForArticle:(NSString *)name;
 
+// Returns an array of suggestions for the given string
+- (NSArray*)getSuggestionsFor:(NSString*)string;
+
 // Checks if the returned image is on the blacklist
 - (BOOL) isOnBlackList:(NSString *)imageURL;
 

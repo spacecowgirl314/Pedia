@@ -62,6 +62,20 @@
     return YES;
 }
 
+- (void)textFieldDidChange:(id)sender {
+    // Threads can't acces UIKit. Grab text first and make it a block string.
+    __block NSString *searchText = [articleSearchBox text];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
+        NSArray *suggestions = [wikipediaHelper getSuggestionsFor:searchText];
+        // Execute loading the table on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [suggestionController setSuggestions:suggestions];
+        });
+    });
+}
+
 // either when tapping the black overlay or when exiting the keyboard return everything to normal
 - (void)closeSearchField:(UITapGestureRecognizer *)recognizer {
     [UIView animateWithDuration:0.50
@@ -426,11 +440,11 @@
         items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
         metadataQuery = [[NSMetadataQuery alloc] init];
         [metadataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        [metadataQuery setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE '*.plist'", NSMetadataItemFSNameKey]];
+        [metadataQuery setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE '*'", NSMetadataItemFSNameKey]];
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(queryDidReceiveNotification:) 
                                                      name:NSMetadataQueryDidUpdateNotification 
-                                                   object:metadataQuery];
+                                                   object:nil];
         [metadataQuery startQuery];
     }
     else {
@@ -944,6 +958,15 @@
     [scrollView setClipsToBounds:YES];
     scrollView.minimumZoomScale = 1.0f;
     scrollView.maximumZoomScale = 2.0f;
+    // set suggestion table view to be rounded
+    suggestionTableView.layer.cornerRadius = 10;
+    // wire the suggestions to the search box
+    [articleSearchBox addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    // setup the suggestion controller
+    suggestionController = [[SuggestionController alloc] init];
+    [suggestionController setSuggestionTableView:suggestionTableView];
+    [suggestionTableView setDataSource:suggestionController];
+    [suggestionTableView setDelegate:suggestionController];
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
 }
 

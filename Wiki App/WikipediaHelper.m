@@ -194,6 +194,32 @@
     return imageURL;
 }
 
+- (NSArray*)getSuggestionsFor:(NSString*)string {
+    // parse
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    
+    NSURLRequest *request;
+    
+    //http://en.wikipedia.org/w/api.php?action=opensearch&search=gr&limit=100&namespace=0&format=json
+    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=opensearch&search=%@&limit=100&namespace=0&format=json", apiUrl, [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    // Perform request and get JSON back as a NSData object
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    
+    // Get JSON as a NSString from NSData response
+    NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    
+    // parse the JSON response into an object
+    // Here we're using NSArray since we're parsing an array of JSON status objects
+    NSArray *wikipediaResponseObject = [parser objectWithString:json_string error:nil];
+    
+    // NOTE: when an image doesn't exist we only have the query object and not pages object
+    NSArray *suggestions = [wikipediaResponseObject objectAtIndex:1];
+    return suggestions;
+}
+
 - (BOOL) isOnBlackList:(NSString *)imageURL {
     // Check if its not the correct image (Sometimes there are articles where the first image is an icon..)
     for(NSString *img in imageBlackList) {
