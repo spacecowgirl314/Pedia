@@ -62,7 +62,7 @@
 // goes with the notification
 - (void)populateHistory:(NSNotification*)notification {
     self.entries = (NSArray*)[notification object];
-    NSLog(@"history received %@", [self.entries description]);
+    //NSLog(@"history received %@", [self.entries description]);
     [self.tableView reloadData];
     // somehow deal with saving and loading the history to iCloud
     // will be managed by saving single files with the individual HistoryItem object and reloading them sorted by the date property

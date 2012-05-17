@@ -55,8 +55,8 @@
             }
             // also save history
             //[self processHistory:[articleSearchBox text]];
-            /*processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
-            [processHistoryThread start];*/
+            processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
+            [processHistoryThread start];
         }
     }
     return YES;
@@ -116,8 +116,8 @@
         //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
         // also save history
         //[self processHistory:[articleSearchBox text]];
-        /*processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
-        [processHistoryThread start];*/
+        processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
+        [processHistoryThread start];
     }
 }
 
@@ -137,10 +137,10 @@
         //[articleView goBack];
         historyIndex++;
         HistoryItem *item = [historyArray objectAtIndex:[historyArray count]-historyIndex-1];
-        loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[item title]];
-        [loadingThread start];
+        //loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[item title]];
+        //[loadingThread start];
+        [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[item title]];
     }
-    //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[item title]];
     // we definitely don't add to the history
     // we are going back in history
 }
@@ -295,9 +295,6 @@
         [forwardButton setEnabled:NO];
     }
     [TestFlight passCheckpoint:@"Loaded an article"];
-    // start process history thread
-    processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
-    [processHistoryThread start];
 }
 
 #pragma mark - iCloud
@@ -427,13 +424,14 @@
                                    attributes:nil 
                                         error:nil];
         items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
-        /*metadataQuery = [[NSMetadataQuery alloc] init];
+        metadataQuery = [[NSMetadataQuery alloc] init];
+        [metadataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
         [metadataQuery setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE '*.plist'", NSMetadataItemFSNameKey]];
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(queryDidReceiveNotification:) 
                                                      name:NSMetadataQueryDidUpdateNotification 
                                                    object:metadataQuery];
-        [metadataQuery startQuery];*/
+        [metadataQuery startQuery];
     }
     else {
         NSURL *documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
