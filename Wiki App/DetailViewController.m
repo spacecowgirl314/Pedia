@@ -100,10 +100,12 @@
                          self.navigationController.navigationBar.alpha = 1.0f;
                          overlay.alpha = 0.0f;
                          searchView.alpha = 0.0f;
+                         [[[self navigationItem] leftBarButtonItem] setEnabled:YES];
                      }
                      completion:^(BOOL finished){
                          [searchView setHidden:YES];
                          [overlay removeFromSuperview];
+                         [searchUnderlay removeFromSuperview];
                      }];
 }
 
@@ -115,7 +117,27 @@
     overlay.backgroundColor = [UIColor blackColor];
     overlay.alpha = 0.0f;
     overlay.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+    // touching the overaly closes the search view
+    UITapGestureRecognizer *singleFingerTap = 
+    [[UITapGestureRecognizer alloc] initWithTarget:self 
+                                            action:@selector(closeSearchField:)];
+    // Set required taps and number of touches
+    [singleFingerTap setNumberOfTapsRequired:1];
+    [singleFingerTap setNumberOfTouchesRequired:1];
+    [overlay addGestureRecognizer:singleFingerTap];
     [self.view addSubview:overlay];
+    // create the view for the search view to close the view when the table is hidden
+    searchUnderlay = [[UIView alloc] initWithFrame:searchView.bounds];
+    [searchView addSubview:searchUnderlay];
+    [searchView sendSubviewToBack:searchUnderlay];
+    // we can't reuse the other gesture recognizer. doing that disables it for the the previous view it was in
+    UITapGestureRecognizer *anotherSingleFingerTap = 
+    [[UITapGestureRecognizer alloc] initWithTarget:self 
+                                            action:@selector(closeSearchField:)];
+    // Set required taps and number of touches
+    [anotherSingleFingerTap setNumberOfTapsRequired:1];
+    [anotherSingleFingerTap setNumberOfTouchesRequired:1];
+    [searchUnderlay addGestureRecognizer:anotherSingleFingerTap];
     [searchView setAlpha:0.0f];
     [searchView setHidden:NO];
     [self.view bringSubviewToFront:searchView];
@@ -127,13 +149,9 @@
                          self.navigationController.navigationBar.alpha = 0.5f;
                          overlay.alpha = 0.5f;
                          searchView.alpha = 1.0f;
+                         [[[self navigationItem] leftBarButtonItem] setEnabled:NO];
                      }
                      completion:^(BOOL finished){
-                         // nothing to see here
-                         UITapGestureRecognizer *singleFingerTap = 
-                         [[UITapGestureRecognizer alloc] initWithTarget:self 
-                                                                 action:@selector(closeSearchField:)];
-                         [overlay addGestureRecognizer:singleFingerTap];
                      }];
 }
 

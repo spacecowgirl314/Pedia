@@ -37,6 +37,7 @@
     NSThread *loadingThread;
     NSThread *processHistoryThread;
     UIView *overlay;
+    UIView *searchUnderlay;
     int historyIndex;
     UIDownloadBar *imageBar;
     UILabel *titleLabel;
