@@ -345,6 +345,68 @@
 
 #pragma mark - iCloud
 
+- (void)loadData:(NSNotification*)notification {
+    // load this in a thread because selectors don't work with threads
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSArray *results = [metadataQuery results];
+        
+        // NOTE: iCloud loading is really messy
+        // reset the iCloud index
+        iCloudIndex = 0;
+        // reset count for dispatch loader
+        iCloudCount = [results count];
+        
+        // load each item from iCloud
+        for (NSMetadataItem *result in results) {
+            NSURL *item = [result valueForAttribute:NSMetadataItemURLKey];
+            //NSLog(@"item:%@", [item description]);
+            NSData *data = [[NSMutableData alloc] initWithContentsOfURL:item];
+            NSKeyedUnarchiver *unarchiver;
+            @try
+            {
+                unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Ignoring incomprehensible data");
+            }
+            // don't let a NULL get loaded
+            if (unarchiver!=NULL) {
+                HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
+                //NSLog(@"history item loaded:%@", [historyItem description]);
+                [previousHistoryArray addObject:historyItem];
+            }
+            if ([self downloadFileIfNotAvailable:item]) {
+                // TODO: keep a count of how many need to be downloaded. only reload when count is full. saves having to reload multiple times
+                [self waitForDownloadThenLoad:item];
+                iCloudIndex++;
+            }
+        }
+    });
+}
+
+- (void)queryDidReceiveNotification:(NSNotification *)notification {
+    // load this in a thread because selectors don't work with threads
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSArray *results = [metadataQuery results];
+        
+        // NOTE: iCloud loading is really messy
+        // reset the iCloud index
+        iCloudIndex = 0;
+        // reset count for dispatch loader
+        iCloudCount = [results count];
+        
+        for(NSMetadataItem *result in results) {
+            if ([self downloadFileIfNotAvailable:[result valueForAttribute:NSMetadataItemURLKey]]) {
+                // TODO: keep a count of how many need to be downloaded. only reload when count is full. saves having to reload multiple times
+                [self waitForDownloadThenLoad:[result valueForAttribute:NSMetadataItemURLKey]];
+                iCloudIndex++;
+            }
+        }
+    });
+}
+
 - (BOOL)downloadFileIfNotAvailable:(NSURL*)file {
     NSNumber*  isIniCloud = nil;
     
@@ -404,11 +466,13 @@
 }
 
 - (void)dispatchLoad:(NSURL*)file {
+    NSLog(@"File:%@", [file description]);
     NSData *data = [[NSMutableData alloc] initWithContentsOfURL:file];
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     // don't let a NULL get loaded
     if (unarchiver!=NULL) {
         HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
+        NSLog(@"item:%@", [historyItem title]);
         // if it already exists remove it
         for (int i = 0; i<[previousHistoryArray count]; i++) {
             // wow what a mouthful, checks to see if the object is a duplicate
@@ -419,34 +483,27 @@
         }
         [previousHistoryArray addObject:historyItem];
     }
-    // NOTE: By maintaining a separate array we keep from using the history in iCloud as part of our local session
-    NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
-    // append resulting array to the temporary array
-    [temporaryArray addObjectsFromArray:[(NSArray*)historyArray copy]];
-    // add the previous history to be populated also
-    [temporaryArray addObjectsFromArray:[(NSArray*)previousHistoryArray copy]];
-    // keep the array sorted by date by newest first
-    [temporaryArray sortUsingComparator:^(id a, id b) {
-        NSDate *first = [(HistoryItem*)a date];
-        NSDate *second = [(HistoryItem*)b date];
-        return [second compare:first];
-    }];
-    iCloudCount++;
+    //iCloudCount++;
     // each time we add an object to the array from iCloud don't reload the table
     // only reload it when the count reaches the index maximum
-    if (iCloudIndex==iCloudCount) {
+    NSLog(@"index:%i count:%i", iCloudIndex, iCloudCount);
+    if (iCloudIndex==iCloudCount-1) {
+        // NOTE: By maintaining a separate array we keep from using the history in iCloud as part of our local session
+        NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
+        // append resulting array to the temporary array
+        [temporaryArray addObjectsFromArray:[(NSArray*)historyArray copy]];
+        // add the previous history to be populated also
+        [temporaryArray addObjectsFromArray:[(NSArray*)previousHistoryArray copy]];
+        // keep the array sorted by date by newest first
+        [temporaryArray sortUsingComparator:^(id a, id b) {
+            NSDate *first = [(HistoryItem*)a date];
+            NSDate *second = [(HistoryItem*)b date];
+            return [second compare:first];
+        }];
         // popover controllers only work on the iPad
-        [[NSNotificationCenter defaultCenter] 
-         postNotificationName:@"populateHistory" 
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"populateHistory"
          object:(NSArray*)temporaryArray];
-    }
-}
-
-- (void)reloadiCloud {
-    NSLog(@"Reloading iCloud");
-    // make sure we aren't already process history. if we are skip reloading from iCloud this time around
-    if (![processHistoryThread isExecuting] && ![loadingThread isExecuting]) {
-        [NSThread detachNewThreadSelector:@selector(loadHistory) toTarget:self withObject:nil];
     }
 }
 
@@ -460,49 +517,25 @@
                    URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"];
     NSArray *items;
     NSError *error;
-    // iCloud is enabled. Use it
-    if (ubiq) {
-        NSLog(@"iCloud access at %@", ubiq);
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:[ubiq path]] == NO)
-            [fileManager createDirectoryAtURL:ubiq
-                  withIntermediateDirectories:YES 
-                                   attributes:nil 
-                                        error:nil];
-        items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:[NSArray array] options:0 error:&error];
-        metadataQuery = [[NSMetadataQuery alloc] init];
-        [metadataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        [metadataQuery setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE '*'", NSMetadataItemFSNameKey]];
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(queryDidReceiveNotification:) 
-                                                     name:NSMetadataQueryDidUpdateNotification 
-                                                   object:nil];
-        [metadataQuery startQuery];
-    }
-    else {
-        NSURL *documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-        items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:documentsDirectory includingPropertiesForKeys:[NSArray array] options:0 error:&error];
-    }
+    NSURL *documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:documentsDirectory includingPropertiesForKeys:[NSArray array] options:0 error:&error];
     // load each item from iCloud
     for (NSURL *item in items) {
         //NSLog(@"item:%@", [item description]);
         NSData *data = [[NSMutableData alloc] initWithContentsOfURL:item];
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        NSKeyedUnarchiver *unarchiver;
+        @try
+        {
+            unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Ignoring incomprehensible data");
+        }
         // don't let a NULL get loaded
         if (unarchiver!=NULL && !ubiq) {
             HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
             //NSLog(@"history item loaded:%@", [historyItem description]);
             [previousHistoryArray addObject:historyItem];
-        }
-        // NOTE: iCloud loading is really messy
-        // reset the iCloud index
-        iCloudIndex = 0;
-        // reset count for dispatch loader
-        iCloudCount = 0;
-        if ([self downloadFileIfNotAvailable:item] && ubiq) {
-            // TODO: keep a count of how many need to be downloaded. only reload when count is full. saves having to reload multiple times
-            [self waitForDownloadThenLoad:item];
-            iCloudIndex++;
         }
     }
     // sort the objects by date
@@ -515,17 +548,6 @@
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateHistory" 
      object:[(NSArray*)previousHistoryArray copy]];
-}
-
-- (void)queryDidReceiveNotification:(NSNotification *)notification {
-    NSArray *results = [metadataQuery results];
-    
-    for(NSMetadataItem *item in results) {
-        NSString *filename = [item valueForAttribute:NSMetadataItemDisplayNameKey];
-        NSNumber *filesize = [item valueForAttribute:NSMetadataItemFSSizeKey]; 
-        NSDate *updated = [item valueForAttribute:NSMetadataItemFSContentChangeDateKey];
-        NSLog(@"%@ (%@ bytes, updated %@)", filename, filesize, updated);
-    }
 }
 
 - (void)processHistory:(NSString*)title {
@@ -947,7 +969,7 @@
     UIImage *image = [UIImage imageNamed:@"topbar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    }     
+    }
     // listen for these notifications
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
@@ -970,26 +992,44 @@
                           name:@"closeSearchView" object:nil];
     [defaultCenter addObserver:articleSearchBox selector:@selector(resignFirstResponder) 
                           name:@"resignSearchField" object:nil];
-    //[articleSearchBox setInputAccessoryView:bottomBar];
-    // transparent bottom bar image
-    bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
-    searchView.backgroundColor = [UIColor clearColor];
-    articleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"linen_bg@2x.png"]];
-    [searchView.layer setOpaque:NO];
-    [bottomBar.layer setOpaque:NO];
-    bottomBar.opaque = NO;
-    tableOfContents = [[NSMutableArray alloc] init];
+    // must prepare history engine first
+    previousHistoryArray = [[NSMutableArray alloc] init];
     historyArray = [[NSMutableArray alloc] init];
+    historyIndex = 0;
     // UIPopoverController only exists on the iPad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         // allows us to prepopulate the view otherwise nsnotifications are going nowhere
         self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
         self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
     }
-    // Load history from previous sessions. Also from sessions on other devices via iCloud.
-    //[self loadHistory];
-    [NSThread detachNewThreadSelector:@selector(loadHistory) toTarget:self withObject:nil];
-    historyIndex = 0;
+    NSURL *ubiq = [[[NSFileManager defaultManager] 
+                    URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"];
+    if (ubiq) {
+        // watch iCloud folder
+        metadataQuery = [[NSMetadataQuery alloc] init];
+        [defaultCenter addObserver:self selector:@selector(queryDidReceiveNotification:) 
+                              name:NSMetadataQueryDidUpdateNotification object:metadataQuery];
+        [defaultCenter addObserver:self selector:@selector(loadData:) 
+                              name:NSMetadataQueryDidFinishGatheringNotification object:metadataQuery];
+        [metadataQuery setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE '*'", NSMetadataItemFSNameKey]];
+        [metadataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
+        if ([metadataQuery startQuery]) {
+            NSLog(@"Query started successfully");
+        } else {
+            NSLog(@"Query failed");
+        }
+    } else {
+        [NSThread detachNewThreadSelector:@selector(loadHistory) toTarget:self withObject:nil];
+    }
+    //[articleSearchBox setInputAccessoryView:bottomBar];
+    // transparent bottom bar image
+    bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
+    searchView.backgroundColor = [UIColor clearColor];
+    //articleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"linen_bg@2x.png"]];
+    [searchView.layer setOpaque:NO];
+    [bottomBar.layer setOpaque:NO];
+    bottomBar.opaque = NO;
+    tableOfContents = [[NSMutableArray alloc] init];
     // make the image viewer work
     [scrollView setDelegate:self];
     [scrollView setClipsToBounds:YES];
@@ -1004,7 +1044,7 @@
     [suggestionController setSuggestionTableView:suggestionTableView];
     [suggestionTableView setDataSource:suggestionController];
     [suggestionTableView setDelegate:suggestionController];
-    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
+    //[NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
 }
 
 #pragma mark - Responds to Notifications
