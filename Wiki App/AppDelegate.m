@@ -26,6 +26,20 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
     }
+
+    return YES;
+}
+
+// load the article from the pedia url scheme
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if (!url) {  return NO; }
+    
+    // pass the title of the current item to the app to be loaded as the next article
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"gotoArticle" 
+     object:[url host]];
+
     return YES;
 }
 							

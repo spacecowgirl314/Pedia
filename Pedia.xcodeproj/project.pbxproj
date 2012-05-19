@@ -87,6 +87,8 @@
 		37AC6150154F5FEE00694BF8 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AC614F154F5FEE00694BF8 /* Twitter.framework */; };
 		37AC6161154F652500694BF8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AC6160154F652500694BF8 /* MessageUI.framework */; };
 		37ACB5D7155DFE3000C98092 /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37ACB5D6155DFE3000C98092 /* ImageViewController.m */; };
+		37B166BA1566FF0D009DE159 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B166B91566FF0D009DE159 /* SidebarViewController.m */; };
+		37B166BE1566FF5B009DE159 /* ContentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B166BD1566FF5B009DE159 /* ContentsController.m */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 		37F09947154D2F8F008D778F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37F09945154D2F8F008D778F /* Localizable.strings */; };
 		37F09949154D2FB4008D778F /* Amplitude-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821A154490E800390CEF /* Amplitude-Book.ttf */; };
@@ -205,6 +207,10 @@
 		37AC6160154F652500694BF8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		37ACB5D5155DFE3000C98092 /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		37ACB5D6155DFE3000C98092 /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		37B166B81566FF0D009DE159 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
+		37B166B91566FF0D009DE159 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
+		37B166BC1566FF5B009DE159 /* ContentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentsController.h; sourceTree = "<group>"; };
+		37B166BD1566FF5B009DE159 /* ContentsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentsController.m; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		37F09946154D2F8F008D778F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		37F09948154D2FB4008D778F /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -286,8 +292,6 @@
 				37A7826E15454FC700390CEF /* HistoryItem.m */,
 				377F074E1547B9FE008E8187 /* ImageScrollView.h */,
 				377F074F1547B9FE008E8187 /* ImageScrollView.m */,
-				378D68DB1564958500336BD0 /* SuggestionController.h */,
-				378D68DC1564958500336BD0 /* SuggestionController.m */,
 				37A782481544D2FB00390CEF /* TestFlight.h */,
 				3763C73415313DFE00814E54 /* Supporting Files */,
 			);
@@ -399,6 +403,12 @@
 				372C81901543BF9500991587 /* HistoryViewController.m */,
 				37ACB5D5155DFE3000C98092 /* ImageViewController.h */,
 				37ACB5D6155DFE3000C98092 /* ImageViewController.m */,
+				378D68DB1564958500336BD0 /* SuggestionController.h */,
+				378D68DC1564958500336BD0 /* SuggestionController.m */,
+				37B166B81566FF0D009DE159 /* SidebarViewController.h */,
+				37B166B91566FF0D009DE159 /* SidebarViewController.m */,
+				37B166BC1566FF5B009DE159 /* ContentsController.h */,
+				37B166BD1566FF5B009DE159 /* ContentsController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -557,6 +567,8 @@
 				37ACB5D7155DFE3000C98092 /* ImageViewController.m in Sources */,
 				377FBA75155E47530052C8E1 /* Reachability.m in Sources */,
 				378D68DD1564958500336BD0 /* SuggestionController.m in Sources */,
+				37B166BA1566FF0D009DE159 /* SidebarViewController.m in Sources */,
+				37B166BE1566FF5B009DE159 /* ContentsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
