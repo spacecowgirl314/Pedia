@@ -46,13 +46,14 @@
 
 - (NSString *) getWikipediaArticle:(NSString *)name {
     // Create new SBJSON parser object
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    //SBJsonParser *parser = [[SBJsonParser alloc] init];
     
     // JSON Request url
     NSURLRequest *request;
     
     // escape the string with UTF8 so that multilanguages work
-    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    //NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *url = [[NSString alloc] initWithFormat:@"%@/wiki/%@", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     NSLog(@"url:%@", url);
     
@@ -62,7 +63,7 @@
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     
     // Get JSON as a NSString from NSData response
-    NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    /*NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
     
     // parse the JSON response into an object
     // Here we're using NSArray since we're parsing an array of JSON status objects
@@ -74,9 +75,9 @@
         return @"";
     }
     
-    NSString *htmlSrc = [[[[htmlTemp objectAtIndex:0] objectForKey:@"revisions"] objectAtIndex:0] objectForKey:@"*"];
+    NSString *htmlSrc = [[[[htmlTemp objectAtIndex:0] objectForKey:@"revisions"] objectAtIndex:0] objectForKey:@"*"];*/
     
-    return htmlSrc;
+    return [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]; //htmlSrc;
 }
 
 // used for sharing

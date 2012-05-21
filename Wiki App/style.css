@@ -1,14 +1,20 @@
 @font-face {
 	font-family: 'Amplitude';
-	src: url('Amplitude-Book.ttf') format('truetype');
+	src: url('Amplitude-Book.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'Amplitude Bold';
+	src: url('Amplitude-Medium.otf') format('opentype');
 }
 
 * {
-	
+
+
+
 }
 
 html {
-	background: #f2f2f2;
 	outline: none;
 	box-shadow: none;
 	border: none;
@@ -16,15 +22,26 @@ html {
 
 body {
 	font-family: Amplitude !important;
-	font-size: 18px !important;
+	font-size: 24px !important;
 	color: #555555 !important;
 	line-height: 1.5em;
-	background: #f2f2f2;
-	padding: 0 25px;
+	padding: 25px;
 	margin: 0 auto;
-	text-shadow: 2px 2px 4px #ffffff;
+	text-shadow: 1px 1px 2px #ffffff;
 	position: relative;
-	overflow: hidden;
+	overflow: hidden !important;
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #EDEDED), color-stop(0.15, #F8F8F8), color-stop(0.85, #F8F8F8), color-stop(1, #EDEDED)) !important;
+}
+
+#mw-panel, #mp-sister, #mp-lang, #footer-icons, #p-personal, #left-navigation, #p-views, #p-cactions, #mw-page-base, #articlecount, .editsection, .magnify, #mw-fr-revisiontag, .portlet, .tmbox-notice, .mbox-image, #featured-star, #good-star, #protected-icon {
+	display: none !important;
+}
+
+/* iPhone Portrait */
+@media screen and (max-device-width: 480px) {
+
+body { font-size: 24px !important; }
+
 }
 
 .dablink {
@@ -40,9 +57,7 @@ a {
 	text-decoration: none;
 }
 
-sup {
-	display: none;
-}
+
 
 table.infobox {
 	float: right;
@@ -53,26 +68,68 @@ table.infobox {
 	border-radius: 6px;
 	border: 2px solid #cdcdcd;
 	box-shadow: 0 0 4px #fff;
+	font-size: 20px !important;
+	width: 35% !important;
+	overflow: hidden !important;
+	-webkit-box-shadow:inset 0px 0px 6px rgba(0,0,0,.25) !important;
+}
+
+table.infobox.biography.vcard tbody tr:first-child {
+	font-weight: bold !important;
+	font-family: "Amplitude Bold" !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-align: left !important;
+	overflow: visible !important;
 }
 
 h2 span, h3 span {
 	display: none;
 }
 
+h2 span.mw-headline {
+	font-weight: normal !important;
+	font-family: "Amplitude Bold" !important;
+	
+	font-size: 1em !important;
+	display: block !important;
+	margin-top: .25em !important;
+	padding-bottom: 0.25em !important;
+}
+
 h2 span.mw-headline, h3 span.mw-headline {
 	display: block !important;
+	font-size: 1em !important;
+	margin-top: .25em !important;
+	padding-bottom: 0.25em !important;
+	font-family: "Amplitude Bold" !important;
 }
 
 .thumb {
 	font-size: 0.8em !important;
 	line-height: 1.5em !important;
-	float: right !important;
 	padding: 15px;
 	background: #fff;
 	margin: 0 0 0 25px;
 	border-radius: 6px;
 	border: 2px solid #cdcdcd;
 	box-shadow: 0 0 4px #fff;
+	float: right !important;
+	-webkit-box-shadow:inset 0px 0px 6px rgba(0,0,0,.25) !important;
+}
+
+.thumb img, table.infobox img {
+	border-radius: 3px !important;
+}
+
+.thumb.tright, .thumb.tleft {
+	float: right !important;
+	width: auto !important;
+}
+
+.thumb.tright .thumbcaption, .thumb.tleft .thumbcaption {
+	display: none !important;
 }
 
 .portal {
@@ -91,6 +148,143 @@ table.navbox {
 	display: none !important;
 }
 
-.reflist.references-column-width {
-	-webkit-column-width: 200px !important;
+.reflist.references-column-width, .refbegin.references-column-width, .reflist.references-column-count.references-column-count-4 {
+	-webkit-column-width: 250px !important;
+}
+
+.reflist ol.references {
+	-webkit-column-width: 720px !important;
+}
+
+.references-small {
+	-webkit-column-width: 720px !important;
+}
+
+sup {
+	display: none !important;
+}
+
+table.wikitable {
+	font-size: 24px !important;
+	width: 100% !important;
+}
+
+table.wikitable.collapsible {
+	width: 90% !important;
+	font-size: 90% !important;
+}
+
+table.wikitable tr {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
+
+table.wikitable tr:first-child {
+	font-weight: bold !important;
+}
+
+table.wikitable td {
+	width: auto !important;
+	padding: 15px !important;
+	vertical-align: top !important;
+	border: 1px solid #cccccc !important;
+	border-radius: 3px !important;
+}
+
+table.wikitable th {
+	border: 1px solid #cccccc !important;
+	background: #dddddd !important;
+	padding: 15px !important;
+	border-radius: 5px !important;
+}
+
+table.metadata.mbox-small.plainlinks {
+	display: none;
+}
+
+table.multicol {
+	font-size: 24px !important;
+}
+
+div.navFrame div {
+	padding-left: 0 !important;
+}
+
+table.metadata.plainlinks.ambox {
+	display: none !important;
+}
+
+table.cquote {
+	font-size: 24px !important;
+	font-style: italic !important;
+}
+
+table.metadata.plainlinks.stub {
+	display: none !important;
+}
+
+table.vertical-navbox.nowraplinks {
+	margin-top: 25px !important;
+}
+
+table.vertical-navbox.nowraplinks li {
+	list-style: none !important;
+}
+
+.noprint.plainlinks.hlist.navbar.mini {
+	display: none !important;
+}
+
+/* Gallery */
+ul.gallery {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+ul.gallery li {
+	list-style: none !important;
+	display: inline-block !important;
+	width: 225px !important;
+	margin-top: 25px !important;
+}
+
+li.gallerybox {
+	padding: 0 !important;
+}
+
+li.gallerybox div {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+li.gallerybox div div.thumb {
+	text-align: center !important;
+	padding: 15px 0 !important;
+	-webkit-box-shadow:inset 0px 0px 6px rgba(0,0,0,.25) !important;
+}
+
+.gallerytext {
+	width: 154px !important;
+}
+
+.gallerytext p {
+	padding: 10px 0 0 0 !important;
+	margin: 0 !important;
+	font-size: 0.75em !important;
+	text-align: center !important;
+	width: 154px !important;
+	line-height: 100% !important;
+}
+
+/* Coords */
+
+p > span > #coordinates {
+	display: none !important;
+}
+
+/* Code */
+
+pre {
+	white-space: pre-wrap !important;
+	word-wrap: break-word !important;
 }

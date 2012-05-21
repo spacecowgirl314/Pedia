@@ -261,24 +261,68 @@
 
 // main parsing method
 - (void)downloadHTMLandParse:(id)object {
+    /*NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"beautipedia" 
+     ofType:@"css"];
+     NSString *js = @"document.getElementsByTagName('link')[0].setAttribute('href','";
+     NSString *js2 = [js stringByAppendingString:cssPath];
+     NSString *finalJS = [js2 stringByAppendingString:@"');"];
+     [articleView stringByEvaluatingJavaScriptFromString:finalJS];*/
     NSLog(@"loaded article %@", (NSString*)object);
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    /*NSString *urlString = @"http://en.wikipedia.org/wiki/Steve%20Jobs";
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+    NSLog(@"RETURNED:%@",returnString);*/
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     //[wikiHelper setLanguage:]
     NSString *article = [wikiHelper getWikipediaHTMLPage:(NSString*)object];
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
+    // replace styling with our own
+    HTMLNode *headNode = [parser head];
+    HTMLNode *bodyNode = [parser body];
+    
+    NSString *appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\">";
+    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>%@</body></html>", appendHead, [bodyNode rawContents]];
+    NSLog(@"new:%@",newHTML);
+    NSLog(@"head:%@",[headNode rawContents]);
+    // end replace styling
     NSString *path = [[NSBundle mainBundle] bundlePath];
     //NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"]
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     //http://vlntno.me/_projects/wiki/style.css
-    [articleView
+    /*[articleView
      loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
-     baseURL:baseURL];
+     baseURL:baseURL];*/
+    //http://vlntno.me/_projects/wiki/style.css
+    /*[articleView
+     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
+     baseURL:baseURL];*/
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [articleView loadHTMLString:newHTML baseURL:baseURL];
+        //[articleView loadRequest:request];
+        //NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"style" 
+        //ofType:@"css"];
+        /*NSString *js = @"document.getElementsByTagName('link')[0].setAttribute('href','";
+        NSString *js2 = [js stringByAppendingString:@"style.css"];
+        NSString *finalJS = [js2 stringByAppendingString:@"');"];
+        NSString *awesome = [[NSString alloc] initWithFormat:@"window.addEventListener('load', function(e) {"
+                             "var theLinks = document.getElementsByTagName('link');"
+                             "for(i = 0; i < theLinks.length; i++) {"
+                             "    var a = theLinks[i];"
+                             "    if(a.rel == 'stylesheet') {"
+                             "        a.setAttribute('href','style.css');"
+                             "    }"
+                             "}"
+                             "}, false);"];
+        [articleView stringByEvaluatingJavaScriptFromString:awesome];*/
+    });
     //NSLog(@"HTML:%@",article);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    HTMLNode *bodyNode = [parser body];
+    //HTMLNode *bodyNode = [parser body];
     NSArray *tableOfContentsNode = [bodyNode findChildrenOfClass:@"toc"];
     // reset the tableOfContents before loading a new one
     [tableOfContents removeAllObjects];
