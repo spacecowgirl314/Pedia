@@ -285,10 +285,9 @@
     HTMLNode *headNode = [parser head];
     HTMLNode *bodyNode = [parser body];
     
-    NSString *appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\">";
+    NSString *appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
     NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>%@</body></html>", appendHead, [bodyNode rawContents]];
-    NSLog(@"new:%@",newHTML);
-    NSLog(@"head:%@",[headNode rawContents]);
+    //NSLog(@"new:%@",newHTML);
     // end replace styling
     NSString *path = [[NSBundle mainBundle] bundlePath];
     //NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"]
@@ -417,10 +416,10 @@
             // don't let a NULL get loaded
             if (unarchiver!=NULL) {
                 HistoryItem *historyItem = [unarchiver decodeObjectForKey:@"HistoryItem"];
-                //NSLog(@"history item loaded:%@", [historyItem description]);
+                NSLog(@"history item loaded:%@", [historyItem description]);
                 [previousHistoryArray addObject:historyItem];
             }
-            if ([self downloadFileIfNotAvailable:item]) {
+            else if ([self downloadFileIfNotAvailable:item]) {
                 // TODO: keep a count of how many need to be downloaded. only reload when count is full. saves having to reload multiple times
                 [self waitForDownloadThenLoad:item];
                 iCloudIndex++;
