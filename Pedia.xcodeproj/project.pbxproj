@@ -270,74 +270,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3763C71E15313DFD00814E54 = {
+		375141951576083200AFB1B9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				3763C73315313DFE00814E54 /* Wiki App */,
-				3763C72C15313DFE00814E54 /* Frameworks */,
-				3763C72A15313DFE00814E54 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		3763C72A15313DFE00814E54 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3763C72915313DFE00814E54 /* Pedia.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		3763C72C15313DFE00814E54 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				37A782461544D1DD00390CEF /* libz.dylib */,
-				37A782441544D1A600390CEF /* libTestFlight.a */,
-				371488E41541445E00BE1E4E /* libxml2.dylib */,
-				377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */,
-				37AC6160154F652500694BF8 /* MessageUI.framework */,
-				37AC614F154F5FEE00694BF8 /* Twitter.framework */,
-				37A782521544E98C00390CEF /* QuartzCore.framework */,
-				3763C72D15313DFE00814E54 /* UIKit.framework */,
-				3763C72F15313DFE00814E54 /* Foundation.framework */,
-				3763C73115313DFE00814E54 /* CoreGraphics.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3763C73315313DFE00814E54 /* Wiki App */ = {
-			isa = PBXGroup;
-			children = (
-				377FBA71155E47400052C8E1 /* Reachability */,
-				3763C75715314BB600814E54 /* SBJson */,
-				37A6597F15546E810030EF77 /* DownloadBar */,
-				378D68E01564963C00336BD0 /* HTML Parser */,
-				378D68DE156495CF00336BD0 /* Controllers */,
-				3728575515466E2700EF076C /* Pedia.entitlements */,
-				3763C73C15313DFE00814E54 /* AppDelegate.h */,
-				3763C73D15313DFE00814E54 /* AppDelegate.m */,
-				3763C73F15313DFE00814E54 /* MainStoryboard_iPhone.storyboard */,
-				3763C74215313DFE00814E54 /* MainStoryboard_iPad.storyboard */,
-				3763C75415314B3800814E54 /* WikipediaHelper.h */,
-				3763C75515314B3800814E54 /* WikipediaHelper.m */,
-				3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */,
-				3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */,
-				37A7826D15454FC700390CEF /* HistoryItem.h */,
-				37A7826E15454FC700390CEF /* HistoryItem.m */,
-				377F074E1547B9FE008E8187 /* ImageScrollView.h */,
-				377F074F1547B9FE008E8187 /* ImageScrollView.m */,
-				37A782481544D2FB00390CEF /* TestFlight.h */,
-				3763C73415313DFE00814E54 /* Supporting Files */,
-			);
-			path = "Wiki App";
-			sourceTree = "<group>";
-		};
-		3763C73415313DFE00814E54 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				3763C73515313DFE00814E54 /* Pedia-Info.plist */,
-				3763C73615313DFE00814E54 /* InfoPlist.strings */,
-				37F09945154D2F8F008D778F /* Localizable.strings */,
-				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
+				375141971576085800AFB1B9 /* Icons */,
 				37B166D215682936009DE159 /* contents-title.png */,
 				37B166D315682936009DE159 /* contents-title@2x.png */,
 				37B166CE156827FB009DE159 /* sidebar-linen.png */,
@@ -386,8 +322,13 @@
 				3721164F1558F28200BB587A /* topbar@2x.png */,
 				372116621558F2A200BB587A /* searchbar.png */,
 				372116631558F2A200BB587A /* searchbar@2x.png */,
-				37DB3FEC153D06B500C3C243 /* style.css */,
-				3787A66B1575F50700E2F796 /* jquery-1.7.2.min.js */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		375141971576085800AFB1B9 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
 				37A782341544C81A00390CEF /* Icon-72.png */,
 				37A782351544C81A00390CEF /* Icon-72@2x.png */,
 				37A782361544C81B00390CEF /* Icon-Small-50.png */,
@@ -396,8 +337,94 @@
 				37A782391544C81C00390CEF /* Icon-Small@2x.png */,
 				37A7823A1544C81C00390CEF /* Icon.png */,
 				37A7823B1544C81D00390CEF /* Icon@2x.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		375141981576087C00AFB1B9 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				37DB3FEC153D06B500C3C243 /* style.css */,
+				3787A66B1575F50700E2F796 /* jquery-1.7.2.min.js */,
+				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
+			);
+			name = Web;
+			sourceTree = "<group>";
+		};
+		375141991576092900AFB1B9 /* ImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				377F074E1547B9FE008E8187 /* ImageScrollView.h */,
+				377F074F1547B9FE008E8187 /* ImageScrollView.m */,
+			);
+			name = ImageViewer;
+			sourceTree = "<group>";
+		};
+		3763C71E15313DFD00814E54 = {
+			isa = PBXGroup;
+			children = (
+				3763C73315313DFE00814E54 /* Wiki App */,
+				3763C72C15313DFE00814E54 /* Frameworks */,
+				3763C72A15313DFE00814E54 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3763C72A15313DFE00814E54 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3763C72915313DFE00814E54 /* Pedia.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3763C72C15313DFE00814E54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37A782461544D1DD00390CEF /* libz.dylib */,
+				37A782441544D1A600390CEF /* libTestFlight.a */,
+				371488E41541445E00BE1E4E /* libxml2.dylib */,
+				377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */,
+				37AC6160154F652500694BF8 /* MessageUI.framework */,
+				37AC614F154F5FEE00694BF8 /* Twitter.framework */,
+				37A782521544E98C00390CEF /* QuartzCore.framework */,
+				3763C72D15313DFE00814E54 /* UIKit.framework */,
+				3763C72F15313DFE00814E54 /* Foundation.framework */,
+				3763C73115313DFE00814E54 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3763C73315313DFE00814E54 /* Wiki App */ = {
+			isa = PBXGroup;
+			children = (
+				3763C73C15313DFE00814E54 /* AppDelegate.h */,
+				3763C73D15313DFE00814E54 /* AppDelegate.m */,
+				378D68DE156495CF00336BD0 /* Controllers */,
+				375141991576092900AFB1B9 /* ImageViewer */,
+				3787A66E1576058300E2F796 /* Wikipedia */,
+				378D68E01564963C00336BD0 /* HTML Parser */,
+				377FBA71155E47400052C8E1 /* Reachability */,
+				3763C75715314BB600814E54 /* SBJson */,
+				37A6597F15546E810030EF77 /* DownloadBar */,
+				3763C73415313DFE00814E54 /* Supporting Files */,
+			);
+			path = "Wiki App";
+			sourceTree = "<group>";
+		};
+		3763C73415313DFE00814E54 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3763C73515313DFE00814E54 /* Pedia-Info.plist */,
+				3763C73615313DFE00814E54 /* InfoPlist.strings */,
+				37F09945154D2F8F008D778F /* Localizable.strings */,
+				3763C73F15313DFE00814E54 /* MainStoryboard_iPhone.storyboard */,
+				3763C74215313DFE00814E54 /* MainStoryboard_iPad.storyboard */,
+				375141981576087C00AFB1B9 /* Web */,
+				375141951576083200AFB1B9 /* Images */,
 				3763C73915313DFE00814E54 /* main.m */,
+				37A782481544D2FB00390CEF /* TestFlight.h */,
 				3763C73B15313DFE00814E54 /* Pedia-Prefix.pch */,
+				3728575515466E2700EF076C /* Pedia.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -441,6 +468,38 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
+		3787A66E1576058300E2F796 /* Wikipedia */ = {
+			isa = PBXGroup;
+			children = (
+				3763C75415314B3800814E54 /* WikipediaHelper.h */,
+				3763C75515314B3800814E54 /* WikipediaHelper.m */,
+				3787A66F1576066B00E2F796 /* Model */,
+			);
+			name = Wikipedia;
+			sourceTree = "<group>";
+		};
+		3787A66F1576066B00E2F796 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */,
+				3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */,
+				37A7826D15454FC700390CEF /* HistoryItem.h */,
+				37A7826E15454FC700390CEF /* HistoryItem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		3787A670157606D000E2F796 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				37B166B81566FF0D009DE159 /* SidebarViewController.h */,
+				37B166B91566FF0D009DE159 /* SidebarViewController.m */,
+				37B166BC1566FF5B009DE159 /* ContentsController.h */,
+				37B166BD1566FF5B009DE159 /* ContentsController.m */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		378D68DE156495CF00336BD0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,10 +513,7 @@
 				37ACB5D6155DFE3000C98092 /* ImageViewController.m */,
 				378D68DB1564958500336BD0 /* SuggestionController.h */,
 				378D68DC1564958500336BD0 /* SuggestionController.m */,
-				37B166B81566FF0D009DE159 /* SidebarViewController.h */,
-				37B166B91566FF0D009DE159 /* SidebarViewController.m */,
-				37B166BC1566FF5B009DE159 /* ContentsController.h */,
-				37B166BD1566FF5B009DE159 /* ContentsController.m */,
+				3787A670157606D000E2F796 /* iPad */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
