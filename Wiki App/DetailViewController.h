@@ -17,6 +17,7 @@
 #import "ImageViewController.h"
 #import "UIDownloadBar.h"
 #import "SuggestionController.h"
+#import "GettingStartedViewController.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate> {
     IBOutlet UITextField *articleSearchBox;

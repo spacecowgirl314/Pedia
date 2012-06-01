@@ -32,6 +32,7 @@
 @synthesize historyArray;
 @synthesize previousHistoryArray;
 @synthesize titleLabel;
+@synthesize tableOfContents;
 
 #pragma mark - Search Field
 
@@ -282,7 +283,6 @@
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
     // replace styling with our own
-    HTMLNode *headNode = [parser head];
     HTMLNode *bodyNode = [parser body];
     
     NSString *appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
@@ -1088,6 +1088,19 @@
     [suggestionTableView setDataSource:suggestionController];
     [suggestionTableView setDelegate:suggestionController];
     //[NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
+    GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+        [self presentModalViewController:navigationController animated:YES];
+    }
+    else
+    {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+        [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+        [[self splitViewController] presentModalViewController:navigationController animated:YES];
+    }
 }
 
 #pragma mark - Responds to Notifications

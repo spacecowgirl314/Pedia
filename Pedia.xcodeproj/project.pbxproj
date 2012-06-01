@@ -34,6 +34,9 @@
 		3721166B1558F2B000BB587A /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 372116671558F2B000BB587A /* back@2x.png */; };
 		3721166C1558F2B000BB587A /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 372116681558F2B000BB587A /* forward.png */; };
 		3721166D1558F2B000BB587A /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 372116691558F2B000BB587A /* forward@2x.png */; };
+		3725014A1578603A001C57CF /* GettingStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372501481578603A001C57CF /* GettingStartedViewController.m */; };
+		3725014B1578603A001C57CF /* GettingStartedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 372501491578603A001C57CF /* GettingStartedViewController.xib */; };
+		3725014E157860AD001C57CF /* GettingStartedViewController~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */; };
 		372C81911543BF9500991587 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372C81901543BF9500991587 /* HistoryViewController.m */; };
 		372C81961543CA0300991587 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 372C81951543CA0300991587 /* bg.png */; };
 		3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72D15313DFE00814E54 /* UIKit.framework */; };
@@ -143,6 +146,10 @@
 		372116671558F2B000BB587A /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		372116681558F2B000BB587A /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		372116691558F2B000BB587A /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
+		372501471578603A001C57CF /* GettingStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GettingStartedViewController.h; sourceTree = "<group>"; };
+		372501481578603A001C57CF /* GettingStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GettingStartedViewController.m; sourceTree = "<group>"; };
+		372501491578603A001C57CF /* GettingStartedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GettingStartedViewController.xib; sourceTree = "<group>"; };
+		3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GettingStartedViewController~iPad.xib"; sourceTree = "<group>"; };
 		3728575515466E2700EF076C /* Pedia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Pedia.entitlements; sourceTree = "<group>"; };
 		372C818F1543BF9500991587 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		372C81901543BF9500991587 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
@@ -419,6 +426,8 @@
 				37F09945154D2F8F008D778F /* Localizable.strings */,
 				3763C73F15313DFE00814E54 /* MainStoryboard_iPhone.storyboard */,
 				3763C74215313DFE00814E54 /* MainStoryboard_iPad.storyboard */,
+				372501491578603A001C57CF /* GettingStartedViewController.xib */,
+				3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */,
 				375141981576087C00AFB1B9 /* Web */,
 				375141951576083200AFB1B9 /* Images */,
 				3763C73915313DFE00814E54 /* main.m */,
@@ -503,6 +512,8 @@
 		378D68DE156495CF00336BD0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				372501471578603A001C57CF /* GettingStartedViewController.h */,
+				372501481578603A001C57CF /* GettingStartedViewController.m */,
 				3763C74515313DFE00814E54 /* MasterViewController.h */,
 				3763C74615313DFE00814E54 /* MasterViewController.m */,
 				3763C74815313DFE00814E54 /* DetailViewController.h */,
@@ -652,6 +663,8 @@
 				3787A6661575D6E000E2F796 /* saved-pressed@2x.png in Resources */,
 				3787A6691575D6E700E2F796 /* search-pressed.png in Resources */,
 				3787A66A1575D6E700E2F796 /* search-pressed@2x.png in Resources */,
+				3725014B1578603A001C57CF /* GettingStartedViewController.xib in Resources */,
+				3725014E157860AD001C57CF /* GettingStartedViewController~iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +704,7 @@
 				37B166BA1566FF0D009DE159 /* SidebarViewController.m in Sources */,
 				37B166BE1566FF5B009DE159 /* ContentsController.m in Sources */,
 				3787A66C1575F50800E2F796 /* jquery-1.7.2.min.js in Sources */,
+				3725014A1578603A001C57CF /* GettingStartedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
