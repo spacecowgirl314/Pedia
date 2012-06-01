@@ -105,6 +105,8 @@
 - (void)next {
     // check if we're done and dimiss if so
     if (self.pageControl.currentPage+1==self.pageControl.numberOfPages) {
+        // don't let this run again
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
         [self dismissModalViewControllerAnimated:YES];
     }
     // move the page controller forward

@@ -1,12 +1,12 @@
 //
-//  DetailViewController.m
+//  ArticleViewController.m
 //  Wiki App
 //
 //  Created by Chloe Stars on 4/7/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "ArticleViewController.h"
 #import "HTMLParser.h"
 #import "HistoryItem.h"
 #import "Reachability.h"
@@ -14,12 +14,12 @@
 
 #define NSLog TFLog
 
-@interface DetailViewController ()
+@interface ArticleViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 @end
 
-@implementation DetailViewController
+@implementation ArticleViewController
 
 @synthesize detailItem = _detailItem;
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
@@ -1088,18 +1088,22 @@
     [suggestionTableView setDataSource:suggestionController];
     [suggestionTableView setDelegate:suggestionController];
     //[NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
-    GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-        [self presentModalViewController:navigationController animated:YES];
-    }
-    else
-    {
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-        [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-        [[self splitViewController] presentModalViewController:navigationController animated:YES];
+    // Only run the Getting Started Once
+    // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
+        GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+            [self presentModalViewController:navigationController animated:YES];
+        }
+        else
+        {
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+            [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+            [[self splitViewController] presentModalViewController:navigationController animated:YES];
+        }
     }
 }
 

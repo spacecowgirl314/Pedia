@@ -8,7 +8,7 @@
 
 #import "MasterViewController.h"
 
-#import "DetailViewController.h"
+#import "ArticleViewController.h"
 #import "TableOfContentsAnchor.h"
 
 #define NSLog TFLog

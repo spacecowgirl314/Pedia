@@ -88,6 +88,7 @@
 						<string key="NSFrame">{{251, 593}, {38, 36}}</string>
 						<reference key="NSSuperview" ref="1072373269"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
