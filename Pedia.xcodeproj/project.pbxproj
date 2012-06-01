@@ -168,7 +168,7 @@
 		3763C74315313DFE00814E54 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		3763C74515313DFE00814E54 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		3763C74615313DFE00814E54 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		3763C74815313DFE00814E54 /* ArticleViewController.h */ = {isa = PBXFileReference; path = ArticleViewController.h; sourceTree = "<group>"; };
+		3763C74815313DFE00814E54 /* ArticleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
 		3763C74915313DFE00814E54 /* ArticleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
 		3763C75415314B3800814E54 /* WikipediaHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WikipediaHelper.h; sourceTree = "<group>"; };
 		3763C75515314B3800814E54 /* WikipediaHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WikipediaHelper.m; sourceTree = "<group>"; };

@@ -1090,7 +1090,7 @@
     //[NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
     // Only run the Getting Started Once
     // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
+    if (NO) {
         GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
