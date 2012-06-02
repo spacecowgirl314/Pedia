@@ -126,7 +126,7 @@
     
     
     // Append html and body tags, Add some style
-    formatedHtmlSrc = [NSString stringWithFormat:@"<body>%@<br/><br/><br/>The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under “Creative Commons Attribution/Share Alike”.</body>", formatedHtmlSrc];
+    formatedHtmlSrc = [NSString stringWithFormat:@"<body>%@<span class=\"attribution\">The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under &ldquo;Creative Commons Attribution/Share Alike&rdquo;.</span></body>", formatedHtmlSrc];
     
     return formatedHtmlSrc;
 }
