@@ -62,6 +62,8 @@
                                              selector:@selector(populateHistory:) 
                                                  name:@"populateHistory" 
                                                object:nil];
+    // observe the app delegate telling us when it's finished asynchronously setting up the persistent store
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFetchedResults:) name:@"RefetchAllDatabaseData" object:[[UIApplication sharedApplication] delegate]];
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
 		// Update to handle the error appropriately.
@@ -87,6 +89,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -288,6 +291,26 @@
      object:(NSString*)[(HistoryItem*)[fetchedResultsController_ objectAtIndexPath:indexPath] title]];
     // return from the segue that pushed this view
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+// because the app delegate now loads the NSPersistentStore into the NSPersistentStoreCoordinator asynchronously
+// we will see the NSManagedObjectContext set up before any persistent stores are registered
+// we will need to fetch again after the persistent store is loaded
+- (void)reloadFetchedResults:(NSNotification*)note {
+    NSError *error = nil;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        /*
+         Replace this implementation with code to handle the error appropriately.
+         
+         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+         */
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }             
+    
+    if (note) {
+        [self.tableView reloadData];
+    }
 }
 
 @end

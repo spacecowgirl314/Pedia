@@ -10,6 +10,12 @@
 #import "ArticleViewController.h"
 #import <CoreData/CoreData.h>
 
+#define IOS_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define IOS_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define IOS_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define IOS_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -104,12 +110,24 @@
     }
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    
     if (coordinator != nil)
     {
-        __managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [__managedObjectContext setPersistentStoreCoordinator:coordinator];
+        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
+            NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            
+            [moc performBlockAndWait:^{
+                [moc setPersistentStoreCoordinator: coordinator];
+                
+                [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mergeChangesFrom_iCloud:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:coordinator];
+            }];
+            __managedObjectContext = moc;
+        } else {
+            __managedObjectContext = [[NSManagedObjectContext alloc] init];
+            [__managedObjectContext setPersistentStoreCoordinator:coordinator];
+        }
+        
     }
-	
     return __managedObjectContext;
 }
 
@@ -134,15 +152,69 @@
     }
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"History.sqlite"];
-    NSError *error = nil;
-    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-	
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }    
     
+    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    
+    
+    NSPersistentStoreCoordinator* psc = __persistentStoreCoordinator;
+    
+    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            
+            // Migrate datamodel
+            NSDictionary *options = nil;
+            
+            // this needs to match the entitlements and provisioning profile
+            NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
+            NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
+            if ([coreDataCloudContent length] != 0) {
+                // iCloud is available
+                cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
+                
+                options = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                           @"Pedia.store", NSPersistentStoreUbiquitousContentNameKey,
+                           cloudURL, NSPersistentStoreUbiquitousContentURLKey,
+                           nil];
+            } else {
+                // iCloud is not available
+                options = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                           nil];
+            }
+            
+            NSError *error = nil;
+            [psc lock];
+            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+            {
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+            [psc unlock];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"asynchronously added persistent store!");
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+            });
+            
+        });
+        
+    } else {
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                                 nil];
+        
+        NSError *error = nil;
+        if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+        {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
     return __persistentStoreCoordinator;
 }
 
@@ -151,6 +223,27 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (void)mergeiCloudChanges:(NSNotification*)note forContext:(NSManagedObjectContext*)moc {
+    [moc mergeChangesFromContextDidSaveNotification:note]; 
+    
+    NSNotification* refreshNotification = [NSNotification notificationWithName:@"RefreshAllViews" object:self  userInfo:[note userInfo]];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:refreshNotification];
+}
+
+// NSNotifications are posted synchronously on the caller's thread
+// make sure to vector this back to the thread we want, in this case
+// the main thread for our views & controller
+- (void)mergeChangesFrom_iCloud:(NSNotification *)notification {
+    NSManagedObjectContext* moc = [self managedObjectContext];
+    
+    // this only works if you used NSMainQueueConcurrencyType
+    // otherwise use a dispatch_async back to the main thread yourself
+    [moc performBlock:^{
+        [self mergeiCloudChanges:notification forContext:moc];
+    }];
 }
 
 @end
