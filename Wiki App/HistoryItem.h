@@ -7,15 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface HistoryItem : NSObject {
-    NSString *title;
-    NSString *html;
-    NSDate *date;
-}
+@interface HistoryItem : NSManagedObject
 
-@property (strong) NSString *title;
-@property (strong) NSString *html;
-@property (strong) NSDate *date;
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSDate *date;
+
+@end
+
+@interface HistoryItemLocal : NSObject
+
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSDate *date;
 
 @end

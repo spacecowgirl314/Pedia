@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
-@interface HistoryViewController : UITableViewController {
+@interface HistoryViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
     NSArray *_entries;
+    NSManagedObjectContext *managedObjectContext_;
+	NSFetchedResultsController *fetchedResultsController_;
 }
 
 @property (nonatomic) NSArray *entries;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
 
 - (void)populateHistory:(NSNotification*)notification;
 - (void)doTheHistoryThing:(NSArray*)array;

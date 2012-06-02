@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Twitter/Twitter.h>
 #import <MessageUI/MessageUI.h>
+#import <CoreData/CoreData.h>
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
@@ -46,6 +47,7 @@
     int iCloudIndex;
     int iCloudCount;
     SuggestionController *suggestionController;
+    NSManagedObjectContext *managedObjectContext__;
 }
 
 @property (strong, nonatomic) id detailItem;
@@ -60,6 +62,7 @@
 @property (retain) NSMutableArray *previousHistoryArray;
 @property (retain) UILabel *titleLabel;
 @property (retain) NSMutableArray *tableOfContents;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
 - (IBAction)submitFeedback:(id)sender;

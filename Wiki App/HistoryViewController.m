@@ -8,13 +8,18 @@
 
 #import "HistoryViewController.h"
 #import "HistoryItem.h"
+#import "AppDelegate.h"
 
 @interface HistoryViewController ()
+
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
 @implementation HistoryViewController
 @synthesize entries = _entries;
+@synthesize managedObjectContext=managedObjectContext_;
+@synthesize fetchedResultsController=fetchedResultsController_;
 
 /*- (id)initWithStyle:(UITableViewStyle)style
 {
@@ -57,13 +62,19 @@
                                              selector:@selector(populateHistory:) 
                                                  name:@"populateHistory" 
                                                object:nil];
+    NSError *error;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
 }
 
 // goes with the notification
 - (void)populateHistory:(NSNotification*)notification {
-    self.entries = (NSArray*)[notification object];
-    NSLog(@"history received %@", [self.entries description]);
-    [self.tableView reloadData];
+    //self.entries = (NSArray*)[notification object];
+    //NSLog(@"history received %@", [self.entries description]);
+    //[self.tableView reloadData];
     // somehow deal with saving and loading the history to iCloud
     // will be managed by saving single files with the individual HistoryItem object and reloading them sorted by the date property
     // [NSKeyedArchiver archiveRootObject:myObject toFile:path];
@@ -85,18 +96,31 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource -
+
+- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
+{
+	return self.fetchedResultsController;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    return [[[self fetchedResultsControllerForTableView:tableView] sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [_entries count];
+	NSInteger numberOfRows = 0;
+    NSFetchedResultsController *fetchController = [self fetchedResultsControllerForTableView:tableView];
+    NSArray *sections = fetchController.sections;
+	
+    if (sections.count > 0) 
+    {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+        numberOfRows = [sectionInfo numberOfObjects];
+    }
+	
+    return numberOfRows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -104,55 +128,146 @@
     static NSString *CellIdentifier = @"HistoryCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+	
+    if (cell == nil)
+	{
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
-    // Configure the cell...
-    NSString *entry = [(HistoryItem*)[_entries objectAtIndex:indexPath.row] title];
-    cell.textLabel.text = entry;
+	
+	[self fetchedResultsController:[self fetchedResultsControllerForTableView:tableView] configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
+- (void)fetchedResultsController:(NSFetchedResultsController *)_fetchedResultsController configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    HistoryItem *historyItem = [_fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = historyItem.title;
+	
+	//[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+	{
+		NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+		[context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+		
+		NSError *error;
+        if (![context save:&error])
+		{
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			abort();
+		}
+    } 
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+	if ([[fetchedResultsController_ sections] count] > 0)
+	{
+		return [[[fetchedResultsController_ sections] objectAtIndex:section] name];
+	}
+	else
+	{
+		return nil;
+	}
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+#pragma mark - NSFetchedResultsController -
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (fetchedResultsController_ != nil) {
+        return fetchedResultsController_;
+    }
+    else {
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [self setManagedObjectContext:[app managedObjectContext]];
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"HistoryItem" inManagedObjectContext:managedObjectContext_];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc]
+                              initWithKey:@"date" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    
+    //[fetchRequest setFetchBatchSize:20];
+    
+    NSFetchedResultsController *theFetchedResultsController =
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                        managedObjectContext:managedObjectContext_ sectionNameKeyPath:nil
+                                                   cacheName:nil];
+    
+    self.fetchedResultsController = theFetchedResultsController;
+    NSLog(@"fetched objects:%@", [fetchedResultsController_ fetchedObjects]);
+    fetchedResultsController_.delegate = self;
+    
+    return fetchedResultsController_;
+    
 }
-*/
+#pragma mark - NSFetchedResultsControllerDelegate -
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+	UITableView *tableView = self.tableView;
+    [tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+	UITableView *tableView = self.tableView;
+	
+	switch(type)
+	{
+		case NSFetchedResultsChangeInsert:
+			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		case NSFetchedResultsChangeUpdate:
+			[self fetchedResultsController:controller configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			break;
+		case NSFetchedResultsChangeMove:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+		default:
+			break;
+	}
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+	UITableView *tableView = controller == self.fetchedResultsController ? self.tableView : self.searchDisplayController.searchResultsTableView;
+	
+	switch(type)
+	{
+		case NSFetchedResultsChangeInsert:
+			[tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		default:
+			break;
+	}
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+	UITableView *tableView = controller == self.fetchedResultsController ? self.tableView : self.searchDisplayController.searchResultsTableView;
+	[tableView endUpdates];
+}
 
 #pragma mark - Table view delegate
 
@@ -170,7 +285,7 @@
     // pass the title of the current item to the app to be loaded as the next article
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"gotoArticle" 
-     object:(NSString*)[(HistoryItem*)[self.entries objectAtIndex:indexPath.row] title]];
+     object:(NSString*)[(HistoryItem*)[fetchedResultsController_ objectAtIndexPath:indexPath] title]];
     // return from the segue that pushed this view
     [self.navigationController popViewControllerAnimated:YES];
 }
