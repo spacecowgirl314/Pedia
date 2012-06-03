@@ -183,12 +183,34 @@
 	}
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
+    // deselect the current cell
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    // pass the title of the current item to the app to be loaded as the next article
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:@"gotoArticle" 
+     object:(NSString*)[(HistoryItem*)[fetchedResultsController_ objectAtIndexPath:indexPath] title]];
+    // return from the segue that pushed this view
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - NSFetchedResultsController -
 
 - (NSFetchedResultsController *)fetchedResultsController {
+    
+    // if we already fetched then just return what we have
     if (fetchedResultsController_ != nil) {
         return fetchedResultsController_;
     }
+    // otherwise begin setting up from the managed object context from the app delegate
     else {
         AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [self setManagedObjectContext:[app managedObjectContext]];
@@ -270,27 +292,6 @@
 {
 	UITableView *tableView = controller == self.fetchedResultsController ? self.tableView : self.searchDisplayController.searchResultsTableView;
 	[tableView endUpdates];
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-    // deselect the current cell
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    // pass the title of the current item to the app to be loaded as the next article
-    [[NSNotificationCenter defaultCenter] 
-     postNotificationName:@"gotoArticle" 
-     object:(NSString*)[(HistoryItem*)[fetchedResultsController_ objectAtIndexPath:indexPath] title]];
-    // return from the segue that pushed this view
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 // because the app delegate now loads the NSPersistentStore into the NSPersistentStoreCoordinator asynchronously
