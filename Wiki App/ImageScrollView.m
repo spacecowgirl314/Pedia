@@ -81,21 +81,22 @@
     [super layoutSubviews];
     
     // center the image as it becomes smaller than the size of the screen
-    CGRect uiScrollViewBounds = self.bounds;
-    CGRect uiImageViewFrame = tileContainerView.frame;
+    CGSize boundsSize = self.bounds.size;
+    CGRect frameToCenter = tileContainerView.frame;
     
     // center horizontally
-    uiImageViewFrame.origin.x = (uiScrollViewBounds.size.width - uiImageViewFrame.size.width) / 2;
+    if (frameToCenter.size.width < boundsSize.width)
+        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
+    else
+        frameToCenter.origin.x = 0;
     
     // center vertically
-    uiImageViewFrame.origin.y = (uiScrollViewBounds.size.height - uiImageViewFrame.size.height) / 2;
+    if (frameToCenter.size.height < boundsSize.height)
+        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
+    else
+        frameToCenter.origin.y = 0;
     
-	NSLog(@"ImageScrollView uiImageViewFrame.size.height: %f", uiImageViewFrame.size.height);
-	NSLog(@"ImageScrollView uiScrollViewBounds.size.height: %f", uiScrollViewBounds.size.height);
-	NSLog(@"ImageScrollView uiImageViewFrame.origin.y: %f", uiImageViewFrame.origin.y);
-    
-	if (!CGRectEqualToRect(tileContainerView.frame, uiImageViewFrame))
-    	tileContainerView.frame = uiImageViewFrame;
+    tileContainerView.frame = frameToCenter;
 }
 
 /*
