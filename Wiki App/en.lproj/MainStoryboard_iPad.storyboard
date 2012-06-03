@@ -332,7 +332,7 @@
                 <relationship kind="outlet" name="detailItem" candidateClass="UINavigationItem"/>
                 <relationship kind="outlet" name="forwardButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="ImageScrollView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="searchView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="suggestionTableView" candidateClass="UITableView"/>
             </relationships>
