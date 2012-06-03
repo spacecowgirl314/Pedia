@@ -54,9 +54,10 @@
     dispatch_async(queue,^{
         // wait abit so that the observer exists
         sleep(1);
+        // don't forget to strip the underscores out of the name
         [[NSNotificationCenter defaultCenter] 
          postNotificationName:@"gotoArticle" 
-         object:[url host]];
+         object:[[url host] stringByReplacingOccurrencesOfString:@"_" withString:@" "]];
     });
 
     return YES;
@@ -243,7 +244,7 @@
 
 - (void)mergeiCloudChanges:(NSNotification*)note forContext:(NSManagedObjectContext*)moc {
     [moc mergeChangesFromContextDidSaveNotification:note]; 
-    NSLog(@"Hi. I'm iCloud");
+    NSLog(@"AppDelegate iCloud is merging changes.");
     
     NSNotification* refreshNotification = [NSNotification notificationWithName:@"RefreshAllViews" object:self  userInfo:[note userInfo]];
     
@@ -252,7 +253,7 @@
     // because notification can't be sent to segues? this works. use a singleton of the view controller
     // i don't like it very much feels hacky and likely to break in a future iOS version
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        NSLog(@"iCloud thing");
+        NSLog(@"AppDelegate Refreshing with iCloud on iPhone.");
         HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
         NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllViews" object:nil];
         [historyViewController reloadTableView:notification];
