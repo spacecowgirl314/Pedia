@@ -61,7 +61,7 @@
         [self.scrollView addSubview:subview];
     }
     
-    NSLog(@"frame:%@", NSStringFromCGRect(self.view.frame));
+    NSLog(@"GettingStartedViewController frame:%@", NSStringFromCGRect(self.view.frame));
     
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * colors.count, self.scrollView.frame.size.height);
     // prevent flickering

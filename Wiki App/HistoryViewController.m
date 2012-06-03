@@ -67,7 +67,7 @@
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
 		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
 }
@@ -165,7 +165,7 @@
 		NSError *error;
         if (![context save:&error])
 		{
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
 			abort();
 		}
     } 
@@ -211,7 +211,7 @@
                                                    cacheName:nil];
     
     self.fetchedResultsController = theFetchedResultsController;
-    NSLog(@"fetched objects:%@", [fetchedResultsController_ fetchedObjects]);
+    NSLog(@"HistoryViewController fetched objects:%@", [fetchedResultsController_ fetchedObjects]);
     fetchedResultsController_.delegate = self;
     
     return fetchedResultsController_;
@@ -297,6 +297,7 @@
 // we will see the NSManagedObjectContext set up before any persistent stores are registered
 // we will need to fetch again after the persistent store is loaded
 - (void)reloadFetchedResults:(NSNotification*)note {
+    NSLog(@"HistoryViewController reloaded from iCloud.");
     NSError *error = nil;
     if (![[self fetchedResultsController] performFetch:&error]) {
         /*
@@ -304,7 +305,7 @@
          
          abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
          */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
         abort();
     }             
     

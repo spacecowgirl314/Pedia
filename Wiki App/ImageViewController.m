@@ -89,7 +89,9 @@
 }
 
 - (void)downloadBar:(UIDownloadBar *)downloadBar didFailWithError:(NSError *)error {
-	NSLog(@"%@", error);
+    if (error) {
+        NSLog(@"ImageViewConroller downloadBar error: %@", error);
+    }
 }
 
 - (void)downloadBarUpdated:(UIDownloadBar *)downloadBar {}

@@ -90,9 +90,9 @@
     // center vertically
     uiImageViewFrame.origin.y = (uiScrollViewBounds.size.height - uiImageViewFrame.size.height) / 2;
     
-	NSLog(@"uiImageViewFrame.size.height: %f", uiImageViewFrame.size.height);
-	NSLog(@"uiScrollViewBounds.size.height: %f", uiScrollViewBounds.size.height);
-	NSLog(@"uiImageViewFrame.origin.y: %f", uiImageViewFrame.origin.y);
+	NSLog(@"ImageScrollView uiImageViewFrame.size.height: %f", uiImageViewFrame.size.height);
+	NSLog(@"ImageScrollView uiScrollViewBounds.size.height: %f", uiScrollViewBounds.size.height);
+	NSLog(@"ImageScrollView uiImageViewFrame.origin.y: %f", uiImageViewFrame.origin.y);
     
 	if (!CGRectEqualToRect(tileContainerView.frame, uiImageViewFrame))
     	tileContainerView.frame = uiImageViewFrame;

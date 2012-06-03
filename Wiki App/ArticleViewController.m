@@ -270,7 +270,7 @@
      NSString *js2 = [js stringByAppendingString:cssPath];
      NSString *finalJS = [js2 stringByAppendingString:@"');"];
      [articleView stringByEvaluatingJavaScriptFromString:finalJS];*/
-    NSLog(@"loaded article %@", (NSString*)object);
+    NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     /*NSString *urlString = @"http://en.wikipedia.org/wiki/Steve%20Jobs";
@@ -288,8 +288,8 @@
     HTMLNode *bodyNode = [parser body];
     
     NSString *appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
-    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>%@</body></html>", appendHead, [bodyNode rawContents]];
-    //NSLog(@"new:%@",newHTML);
+    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>%@<span class=\"attribution\">The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under &ldquo;Creative Commons Attribution/Share Alike&rdquo;.</span></body></html>", appendHead, [bodyNode rawContents]];
+    //NSLog(@"ArticleViewController new HTML:%@",newHTML);
     // end replace styling
     NSString *path = [[NSBundle mainBundle] bundlePath];
     //NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"]
@@ -366,7 +366,7 @@
     }
     // enable and disable the back and forward buttons here respectively
     // there is history. enable the back button
-    NSLog(@"count of HistoryArray:%i", [historyArray count]);
+    NSLog(@"ArticleViewController count of HistoryArray:%i", [historyArray count]);
     if ([historyArray count]!=0) {
         // if we have gone too far back in history don't let us go out of the array
         if (historyIndex==[historyArray count]-1) {
@@ -441,17 +441,17 @@
         // reset the history index because we are now as forward as we can get
         //historyIndex=0;
         // chop what we don't need any more off the historyArray
-        NSLog(@"attempting to get rid of old future history");
-        NSLog(@"before: %@", [historyArray description]);
+        NSLog(@"ArticleViewController is attempting to get rid of old future history.");
+        NSLog(@"ArticleViewController before: %@", [historyArray description]);
         // remove all the previous future history we don't need anymore
         for (int i = 0; i < historyIndex; i++) {
-            NSLog(@"index:%i i:%i", historyIndex, i);
+            NSLog(@"ArticleViewController index:%i i:%i", historyIndex, i);
             [historyArray removeLastObject];
         }
         historyIndex=0;
         //[historyArray removeLastObject];
         //historyIndex=0;
-        NSLog(@"here are the results from this attempt: %@", [historyArray description]);
+        NSLog(@"ArticleViewController here are the results from this attempt: %@", [historyArray description]);
     }
 }
 
@@ -479,7 +479,7 @@
             //if (![loadingThread isExecuting]) {
             // strip underscores from lastPathComponent to make it user readable
             NSString *host = [url host];
-            NSLog(@"host:%@", host);
+            NSLog(@"ArticleViewController host:%@", host);
             // work some magic here to ensure that we also have the proper apiURL regardless of locale
             // TODO: Make a instance variable of WikipediaHelper
             WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
@@ -535,7 +535,7 @@
 
 - (void)downloadImageAndView:(id)object {
     //[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    NSLog(@"Image attempted:%@", (NSString*)object);
+    NSLog(@"ArticleViewController image attempted:%@", (NSString*)object);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         // darken background
         overlay = [[UIView alloc] initWithFrame:super.view.bounds];
@@ -596,7 +596,9 @@
 }
 
 - (void)downloadBar:(UIDownloadBar *)downloadBar didFailWithError:(NSError *)error {
-	NSLog(@"%@", error);
+    if (error) {
+        NSLog(@"ArticleViewController downloadBar error:%@", error);
+    }
 }
 
 - (void)downloadBarUpdated:(UIDownloadBar *)downloadBar {}
@@ -963,7 +965,7 @@
             NSDate *second = [(HistoryItem*)b date];
             return [second compare:first];
         }];
-        NSLog(@"temporary count of things:%i",[temporaryArray count]);
+        NSLog(@"ArticleViewController temporary count of things:%i",[temporaryArray count]);
         HistoryViewController *historyViewController = segue.destinationViewController;
         NSNotification *notification = [NSNotification notificationWithName:@"History" object:temporaryArray];
         [historyViewController populateHistory:notification];
@@ -971,8 +973,8 @@
     else if ([segue.identifier isEqualToString:@"Contents"])
 	{
 		MasterViewController *masterViewController = segue.destinationViewController;
-        NSLog(@"actual contents:%@", [tableOfContents description]);
-        NSLog(@"contents:%i", [tableOfContents count]);
+        NSLog(@"ArticleViewController actual contents:%@", [tableOfContents description]);
+        NSLog(@"ArticleViewController contents:%i", [tableOfContents count]);
         NSNotification *notification = [NSNotification notificationWithName:@"Contents" object:tableOfContents];
         [masterViewController populateTableOfContents:notification];
 	}

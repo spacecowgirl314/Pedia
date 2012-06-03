@@ -55,7 +55,7 @@
     //NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSString *url = [[NSString alloc] initWithFormat:@"%@/wiki/%@", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-    NSLog(@"url:%@", url);
+    NSLog(@"WikipediaHelper url:%@", url);
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
@@ -101,7 +101,7 @@
 {
     //[data_ appendData: data];
     downloadProgress = ((float) [data length] / (float) downloadSize);
-    NSLog(@"progress: %f", downloadProgress);
+    NSLog(@"WikipediaHelper connection progress: %f", downloadProgress);
     // Broadcast a notification with the progress change, or call a delegate
 }
 
@@ -126,7 +126,7 @@
     
     
     // Append html and body tags, Add some style
-    formatedHtmlSrc = [NSString stringWithFormat:@"<body>%@<span class=\"attribution\">The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under &ldquo;Creative Commons Attribution/Share Alike&rdquo;.</span></body>", formatedHtmlSrc];
+    /*formatedHtmlSrc = [NSString stringWithFormat:@"<body>%@<span class=\"attribution\">The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under &ldquo;Creative Commons Attribution/Share Alike&rdquo;.</span></body>", formatedHtmlSrc];*/
     
     return formatedHtmlSrc;
 }
