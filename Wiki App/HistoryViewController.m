@@ -64,12 +64,21 @@
                                                object:nil];
     // observe the app delegate telling us when it's finished asynchronously setting up the persistent store
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFetchedResults:) name:@"RefetchAllDatabaseData" object:[[UIApplication sharedApplication] delegate]];
-    NSError *error;
-    if (![[self fetchedResultsController] performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
-		exit(-1);  // Fail
-	}
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"RefreshAllViews" object:nil];
+    // load data
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSError *error;
+        if (![[self fetchedResultsController] performFetch:&error]) {
+            // Update to handle the error appropriately.
+            NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
+            exit(-1);  // Fail
+        }
+        // reload on main thread. keeps ui glitches from happening
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 // goes with the notification
@@ -273,7 +282,7 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
-	UITableView *tableView = controller == self.fetchedResultsController ? self.tableView : self.searchDisplayController.searchResultsTableView;
+	UITableView *tableView = self.tableView;
 	
 	switch(type)
 	{
@@ -290,29 +299,49 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	UITableView *tableView = controller == self.fetchedResultsController ? self.tableView : self.searchDisplayController.searchResultsTableView;
+	UITableView *tableView = self.tableView;
 	[tableView endUpdates];
 }
 
 // because the app delegate now loads the NSPersistentStore into the NSPersistentStoreCoordinator asynchronously
 // we will see the NSManagedObjectContext set up before any persistent stores are registered
 // we will need to fetch again after the persistent store is loaded
-- (void)reloadFetchedResults:(NSNotification*)note {
+- (void)reloadFetchedResults:(NSNotification*)notification {
     NSLog(@"HistoryViewController reloaded from iCloud.");
-    NSError *error = nil;
-    if (![[self fetchedResultsController] performFetch:&error]) {
-        /*
-         Replace this implementation with code to handle the error appropriately.
-         
-         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-         */
-        NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }             
-    
-    if (note) {
-        [self.tableView reloadData];
-    }
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSError *error = nil;
+        if (![[self fetchedResultsController] performFetch:&error]) {
+            /*
+             Replace this implementation with code to handle the error appropriately.
+             
+             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+             */
+            NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        if (notification) {
+            // reload on main thread. keeps ui glitches from happening
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        }
+    });
+}
+
+- (void)reloadTableView:(NSNotification*)notification {
+    [self.tableView reloadData];
+}
+
++ (id)sharedInstance
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedObject = nil;
+    dispatch_once(&pred, ^{
+        _sharedObject = [[self alloc] init]; // or some other init method
+    });
+    return _sharedObject;
 }
 
 @end

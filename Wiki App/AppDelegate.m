@@ -203,6 +203,11 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"asynchronously added persistent store!");
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+                NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+                [historyViewController reloadFetchedResults:notification];
+                }
             });
             
         });
@@ -232,10 +237,18 @@
 
 - (void)mergeiCloudChanges:(NSNotification*)note forContext:(NSManagedObjectContext*)moc {
     [moc mergeChangesFromContextDidSaveNotification:note]; 
+    NSLog(@"Hi. I'm iCloud");
     
     NSNotification* refreshNotification = [NSNotification notificationWithName:@"RefreshAllViews" object:self  userInfo:[note userInfo]];
     
     [[NSNotificationCenter defaultCenter] postNotification:refreshNotification];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        NSLog(@"iCloud thing");
+        HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+        NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllViews" object:nil];
+        [historyViewController reloadTableView:notification];
+    }
 }
 
 // NSNotifications are posted synchronously on the caller's thread

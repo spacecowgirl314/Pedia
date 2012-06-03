@@ -409,10 +409,38 @@
     item.date = [NSDate date];
     [historyArray addObject:item];
     
-    HistoryItem *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"HistoryItem" inManagedObjectContext:[self managedObjectContext]];
+    // Retrieve possible duplicate and change date instead of creating new one.
+    // Retrieve the entity from the local store -- much like a table in a database
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"HistoryItem" inManagedObjectContext:managedObjectContext__];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
     
-    [historyEntry setTitle:title];
-    [historyEntry setDate:[NSDate date]];
+    // Set the predicate -- much like a WHERE statement in a SQL database
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title == %@", title];
+    [request setPredicate:predicate];
+    
+    // Set the sorting -- mandatory, even if you're fetching a single record/object
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    
+    // Request the data -- NOTE, this assumes only one match, that 
+    // yourIdentifyingQualifier is unique. It just grabs the first object in the array. 
+    NSError *otherError = nil;
+    @try {
+        HistoryItem *matchingItem = [[managedObjectContext__ executeFetchRequest:request error:&otherError] objectAtIndex:0];
+        // if matched just update date. don't create new entry
+        if ([matchingItem.title isEqualToString:title]) {
+            [matchingItem setDate:[NSDate date]];
+        }
+    }
+    @catch (NSException *exception) {
+        // not matched create new
+        HistoryItem *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"HistoryItem" inManagedObjectContext:[self managedObjectContext]];
+        
+        [historyEntry setTitle:title];
+        [historyEntry setDate:[NSDate date]];
+    }
     
     NSError *error = nil;
     if (![self.managedObjectContext save:&error])

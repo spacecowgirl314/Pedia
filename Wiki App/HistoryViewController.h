@@ -20,6 +20,9 @@
 @property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
 
 - (void)populateHistory:(NSNotification*)notification;
+- (void)reloadFetchedResults:(NSNotification*)notification;
+- (void)reloadTableView:(NSNotification*)notification;
 - (void)doTheHistoryThing:(NSArray*)array;
++ (id)sharedInstance;
 
 @end
