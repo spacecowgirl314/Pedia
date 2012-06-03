@@ -25,6 +25,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set version number for settings everytime
+    [[NSUserDefaults standardUserDefaults] setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"kVersion"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     // Override point for customization after application launch.
     [TestFlight takeOff:@"753c33637a2c1537937bccda8bf49ec8_MTcyODAyMDEyLTA0LTIyIDE1OjU5OjIzLjc4NDIxNg"];
     // do remove this before uploading. this is a violation of app store policy using the UDID

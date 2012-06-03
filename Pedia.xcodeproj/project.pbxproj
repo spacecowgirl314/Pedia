@@ -23,6 +23,7 @@
 		37206D87157B55EA00860192 /* ASIWebPageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 37206D7E157B55EA00860192 /* ASIWebPageRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		37206D8A157B579A00860192 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37206D89157B579A00860192 /* CFNetwork.framework */; };
 		37206D8C157B57C600860192 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37206D8B157B57C600860192 /* MobileCoreServices.framework */; };
+		37206D93157B5D9500860192 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 37206D92157B5D9500860192 /* Settings.bundle */; };
 		372116501558F28200BB587A /* back-dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 3721163E1558F28200BB587A /* back-dim.png */; };
 		372116511558F28200BB587A /* back-dim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3721163F1558F28200BB587A /* back-dim@2x.png */; };
 		372116521558F28200BB587A /* bottombar.png in Resources */ = {isa = PBXBuildFile; fileRef = 372116401558F28200BB587A /* bottombar.png */; };
@@ -160,6 +161,7 @@
 		37206D7E157B55EA00860192 /* ASIWebPageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIWebPageRequest.m; sourceTree = "<group>"; };
 		37206D89157B579A00860192 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		37206D8B157B57C600860192 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		37206D92157B5D9500860192 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		3721163E1558F28200BB587A /* back-dim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-dim.png"; sourceTree = "<group>"; };
 		3721163F1558F28200BB587A /* back-dim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-dim@2x.png"; sourceTree = "<group>"; };
 		372116401558F28200BB587A /* bottombar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottombar.png; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 			children = (
 				3763C73515313DFE00814E54 /* Pedia-Info.plist */,
 				3763C73615313DFE00814E54 /* InfoPlist.strings */,
+				37206D92157B5D9500860192 /* Settings.bundle */,
 				37F09945154D2F8F008D778F /* Localizable.strings */,
 				3763C73F15313DFE00814E54 /* MainStoryboard_iPhone.storyboard */,
 				3763C74215313DFE00814E54 /* MainStoryboard_iPad.storyboard */,
@@ -756,6 +759,7 @@
 				3787A66A1575D6E700E2F796 /* search-pressed@2x.png in Resources */,
 				3725014B1578603A001C57CF /* GettingStartedViewController.xib in Resources */,
 				3725014E157860AD001C57CF /* GettingStartedViewController~iPad.xib in Resources */,
+				37206D93157B5D9500860192 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
