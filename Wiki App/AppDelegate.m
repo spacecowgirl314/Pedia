@@ -203,10 +203,13 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"asynchronously added persistent store!");
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+                
+                // because notification can't be sent to segues? this works. use a singleton of the view controller
+                // i don't like it very much feels hacky and likely to break in a future iOS version
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
-                NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
-                [historyViewController reloadFetchedResults:notification];
+                    HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+                    NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+                    [historyViewController reloadFetchedResults:notification];
                 }
             });
             
@@ -243,6 +246,8 @@
     
     [[NSNotificationCenter defaultCenter] postNotification:refreshNotification];
     
+    // because notification can't be sent to segues? this works. use a singleton of the view controller
+    // i don't like it very much feels hacky and likely to break in a future iOS version
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         NSLog(@"iCloud thing");
         HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
