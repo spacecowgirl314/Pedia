@@ -47,9 +47,14 @@
     if (!url) {  return NO; }
     
     // pass the title of the current item to the app to be loaded as the next article
-    [[NSNotificationCenter defaultCenter] 
-     postNotificationName:@"gotoArticle" 
-     object:[url host]];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        // wait abit so that the observer exists
+        sleep(1);
+        [[NSNotificationCenter defaultCenter] 
+         postNotificationName:@"gotoArticle" 
+         object:[url host]];
+    });
 
     return YES;
 }
