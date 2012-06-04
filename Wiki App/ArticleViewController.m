@@ -11,6 +11,7 @@
 #import "HistoryItem.h"
 #import "Reachability.h"
 #import "AppDelegate.h"
+#import "UINavigationBar+DropShadow.h"
 
 
 #define NSLog TFLog
@@ -559,6 +560,31 @@
     //return YES;
 }
 
+/*
+ UIWebView *webView;
+ float offset = webView.scrollView.contentOffset.y;
+ */
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView_
+{
+    // make sure scroll view is articleView.
+    // we need to make sure of this because we are the delegate to two UIScrollViews
+    if (scrollView_==articleView.scrollView) {
+        //NSLog(@"ArticleViewController scrolling UIWebView");
+        //The webview is is scrolling
+        float offset = articleView.scrollView.contentOffset.y;
+        NSLog(@"ArticleViewController offset.y:%f", offset);
+        if (offset<=0) {
+            // add shadow to navigation top bar
+            NSLog(@"ArticleViewController scroll at top");
+            [self.navigationController.navigationBar removeDropShadow];
+        }
+        else {
+            [self.navigationController.navigationBar applyDropShadow];
+        }
+    }
+}
+
 #pragma mark - Image Viewing
 
 - (void)downloadImageAndView:(id)object {
@@ -866,6 +892,8 @@
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
+    // allows the shadow to the top bar to work
+    articleView.scrollView.delegate = self;
     // make the image viewer work
     [scrollView setDelegate:self];
     [scrollView setClipsToBounds:YES];

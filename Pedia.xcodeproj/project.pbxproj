@@ -78,6 +78,7 @@
 		377F07501547B9FE008E8187 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 377F074F1547B9FE008E8187 /* ImageScrollView.m */; };
 		377FBA75155E47530052C8E1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 377FBA74155E47530052C8E1 /* Reachability.m */; };
 		377FBA7B155E49170052C8E1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */; };
+		3782071E157C47D100943CD8 /* UINavigationBar+DropShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3782071D157C47D100943CD8 /* UINavigationBar+DropShadow.m */; };
 		3787A6541575D4D400E2F796 /* back-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6521575D4D400E2F796 /* back-pressed.png */; };
 		3787A6551575D4D400E2F796 /* back-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6531575D4D400E2F796 /* back-pressed@2x.png */; };
 		3787A6591575D4E400E2F796 /* export-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6571575D4E400E2F796 /* export-pressed.png */; };
@@ -240,6 +241,8 @@
 		377FBA73155E47530052C8E1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		377FBA74155E47530052C8E1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3782071C157C47D100943CD8 /* UINavigationBar+DropShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+DropShadow.h"; sourceTree = "<group>"; };
+		3782071D157C47D100943CD8 /* UINavigationBar+DropShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+DropShadow.m"; sourceTree = "<group>"; };
 		3787A6521575D4D400E2F796 /* back-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed.png"; sourceTree = "<group>"; };
 		3787A6531575D4D400E2F796 /* back-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed@2x.png"; sourceTree = "<group>"; };
 		3787A6571575D4E400E2F796 /* export-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "export-pressed.png"; sourceTree = "<group>"; };
@@ -501,6 +504,7 @@
 				375141991576092900AFB1B9 /* ImageViewer */,
 				3787A66E1576058300E2F796 /* Wikipedia */,
 				370AEACD1579D3EF0095F510 /* Core Data */,
+				37820724157C4BC800943CD8 /* Categories */,
 				378D68E01564963C00336BD0 /* HTML Parser */,
 				377FBA71155E47400052C8E1 /* Reachability */,
 				3763C75715314BB600814E54 /* SBJson */,
@@ -569,6 +573,15 @@
 				377FBA74155E47530052C8E1 /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		37820724157C4BC800943CD8 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3782071C157C47D100943CD8 /* UINavigationBar+DropShadow.h */,
+				3782071D157C47D100943CD8 /* UINavigationBar+DropShadow.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		3787A66E1576058300E2F796 /* Wikipedia */ = {
@@ -809,6 +822,7 @@
 				37206D85157B55EA00860192 /* ASIDataDecompressor.m in Sources */,
 				37206D86157B55EA00860192 /* ASIDataCompressor.m in Sources */,
 				37206D87157B55EA00860192 /* ASIWebPageRequest.m in Sources */,
+				3782071E157C47D100943CD8 /* UINavigationBar+DropShadow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
