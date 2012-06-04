@@ -71,6 +71,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [TestFlight passCheckpoint:@"Used a suggestion"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // pass the title of the current item to the app to be loaded as the next article
     [[NSNotificationCenter defaultCenter] 

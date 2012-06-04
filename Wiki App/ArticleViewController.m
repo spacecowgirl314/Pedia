@@ -288,39 +288,23 @@
     // replace styling with our own
     HTMLNode *bodyNode = [parser body];
     
-    NSString *appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
-    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>%@<span class=\"attribution\">The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under &ldquo;Creative Commons Attribution/Share Alike&rdquo;.</span></body></html>", appendHead, [bodyNode rawContents]];
+    // replace styling
+    NSString *appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
+    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>", appendHead];
+    // only retreive what's in the body
+    for (HTMLNode *node in [bodyNode children]) {
+        newHTML = [newHTML stringByAppendingString:[node rawContents]];
+    }
+    newHTML = [newHTML stringByAppendingString:@"<span class=\"attribution\">The article above is based on this article of the free encyclopedia Wikipedia and it is licensed under &ldquo;Creative Commons Attribution/Share Alike&rdquo;.</span></body></html>"];
     //NSLog(@"ArticleViewController new HTML:%@",newHTML);
     // end replace styling
     NSString *path = [[NSBundle mainBundle] bundlePath];
     //NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"]
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     //http://vlntno.me/_projects/wiki/style.css
-    /*[articleView
-     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
-     baseURL:baseURL];*/
-    //http://vlntno.me/_projects/wiki/style.css
-    /*[articleView
-     loadHTMLString:[@"<head><link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"></head>" stringByAppendingString:article]
-     baseURL:baseURL];*/
+    //http://vlntno.me/_projects/wiki/wizardry.js
     dispatch_async(dispatch_get_main_queue(), ^{
         [articleView loadHTMLString:newHTML baseURL:baseURL];
-        //[articleView loadRequest:request];
-        //NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"style" 
-        //ofType:@"css"];
-        /*NSString *js = @"document.getElementsByTagName('link')[0].setAttribute('href','";
-        NSString *js2 = [js stringByAppendingString:@"style.css"];
-        NSString *finalJS = [js2 stringByAppendingString:@"');"];
-        NSString *awesome = [[NSString alloc] initWithFormat:@"window.addEventListener('load', function(e) {"
-                             "var theLinks = document.getElementsByTagName('link');"
-                             "for(i = 0; i < theLinks.length; i++) {"
-                             "    var a = theLinks[i];"
-                             "    if(a.rel == 'stylesheet') {"
-                             "        a.setAttribute('href','style.css');"
-                             "    }"
-                             "}"
-                             "}, false);"];
-        [articleView stringByEvaluatingJavaScriptFromString:awesome];*/
     });
     //NSLog(@"HTML:%@",article);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];

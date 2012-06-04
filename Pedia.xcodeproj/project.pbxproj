@@ -82,6 +82,7 @@
 		37820729157C6FAD00943CD8 /* landing-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 37820726157C6FAD00943CD8 /* landing-image.png */; };
 		3782072A157C6FAD00943CD8 /* landing-image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37820727157C6FAD00943CD8 /* landing-image@2x.png */; };
 		3782072B157C6FAD00943CD8 /* welcome.html in Resources */ = {isa = PBXBuildFile; fileRef = 37820728157C6FAD00943CD8 /* welcome.html */; };
+		37820731157CA18500943CD8 /* Amplitude-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37820730157CA18500943CD8 /* Amplitude-Medium.ttf */; };
 		3787A6541575D4D400E2F796 /* back-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6521575D4D400E2F796 /* back-pressed.png */; };
 		3787A6551575D4D400E2F796 /* back-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6531575D4D400E2F796 /* back-pressed@2x.png */; };
 		3787A6591575D4E400E2F796 /* export-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6571575D4E400E2F796 /* export-pressed.png */; };
@@ -249,6 +250,8 @@
 		37820726157C6FAD00943CD8 /* landing-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "landing-image.png"; sourceTree = "<group>"; };
 		37820727157C6FAD00943CD8 /* landing-image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "landing-image@2x.png"; sourceTree = "<group>"; };
 		37820728157C6FAD00943CD8 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = welcome.html; sourceTree = "<group>"; };
+		3782072C157C89DA00943CD8 /* wizardry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = wizardry.js; sourceTree = "<group>"; };
+		37820730157CA18500943CD8 /* Amplitude-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Medium.ttf"; sourceTree = "<group>"; };
 		3787A6521575D4D400E2F796 /* back-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed.png"; sourceTree = "<group>"; };
 		3787A6531575D4D400E2F796 /* back-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed@2x.png"; sourceTree = "<group>"; };
 		3787A6571575D4E400E2F796 /* export-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "export-pressed.png"; sourceTree = "<group>"; };
@@ -450,7 +453,9 @@
 			children = (
 				37DB3FEC153D06B500C3C243 /* style.css */,
 				3787A66B1575F50700E2F796 /* jquery-1.7.2.min.js */,
+				3782072C157C89DA00943CD8 /* wizardry.js */,
 				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
+				37820730157CA18500943CD8 /* Amplitude-Medium.ttf */,
 				37820726157C6FAD00943CD8 /* landing-image.png */,
 				37820727157C6FAD00943CD8 /* landing-image@2x.png */,
 				37820728157C6FAD00943CD8 /* welcome.html */,
@@ -785,6 +790,7 @@
 				37820729157C6FAD00943CD8 /* landing-image.png in Resources */,
 				3782072A157C6FAD00943CD8 /* landing-image@2x.png in Resources */,
 				3782072B157C6FAD00943CD8 /* welcome.html in Resources */,
+				37820731157CA18500943CD8 /* Amplitude-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +937,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Wiki App/Pedia.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chloe Stars (7HU4NHXL9M)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Wiki App/Pedia-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
@@ -940,6 +947,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1805A3DD-4696-4F78-887D-550FBFC71BD3";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -951,6 +959,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Wiki App/Pedia.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chloe Stars (7HU4NHXL9M)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Wiki App/Pedia-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
@@ -960,6 +969,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1805A3DD-4696-4F78-887D-550FBFC71BD3";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
