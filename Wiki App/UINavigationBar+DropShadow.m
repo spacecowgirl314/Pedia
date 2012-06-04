@@ -12,31 +12,17 @@
 @implementation UINavigationBar (DropShadow)
 
 - (void)applyDropShadow {
-    [UIView animateWithDuration:0.50
-                          delay:0
-                        options:UIViewAnimationCurveEaseIn
-                     animations:^{
-                         // add the drop shadow
-                         self.layer.shadowColor = [[UIColor blackColor] CGColor];
-                         self.layer.shadowOffset = CGSizeMake(0.0, 1);
-                         self.layer.shadowOpacity = 0.25;
-                         self.layer.masksToBounds = NO;
-                         self.layer.shouldRasterize = YES;
-                     }
-                     completion:^(BOOL finished){
-                     }];
+    // add the drop shadow
+    self.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.layer.shadowOffset = CGSizeMake(0.0, 0.25);
+    self.layer.shadowOpacity = 0.25;
+    self.layer.masksToBounds = NO;
+    self.layer.shouldRasterize = YES;
 }
 
 - (void)removeDropShadow {
-    [UIView animateWithDuration:0.50
-                          delay:0
-                        options:UIViewAnimationCurveEaseIn
-                     animations:^{
-                         // add the drop shadow
-                         self.layer.shadowOpacity = 0.0;
-                     }
-                     completion:^(BOOL finished){
-                     }];
+    // remove the shadow
+    self.layer.shadowOpacity = 0.0;
 }
 
 @end

@@ -1039,6 +1039,8 @@
         ImageViewController *imageViewController = segue.destinationViewController;
         [imageViewController imageLoadWithName:(NSString*)sender];
     }
+    // remove shadow from the nav bar when segueing
+    [self.navigationController.navigationBar removeDropShadow];
 }
 
 @end
