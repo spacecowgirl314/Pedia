@@ -8,12 +8,14 @@
 
 #import "SuggestionController.h"
 
+#define NSLog TFLog
+
 @implementation SuggestionController
 @synthesize suggestionTableView;
 
 - (void)setSuggestions:(NSMutableArray*)_suggestions {
     suggestions = _suggestions;
-    NSLog(@"suggestion count:%i", [suggestions count]);
+    NSLog(@"SuggestionController suggestion count:%i", [suggestions count]);
     [suggestionTableView reloadData];
 }
 

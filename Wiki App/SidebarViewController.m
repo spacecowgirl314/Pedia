@@ -8,6 +8,7 @@
 
 #import "SidebarViewController.h"
 
+#define NSLog TFLog
 
 @interface SidebarViewController ()
 

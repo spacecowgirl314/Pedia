@@ -10,6 +10,8 @@
 #import "ContentsController.h"
 #import "TableOfContentsAnchor.h"
 
+#define NSLog TFLog
+
 @implementation ContentsController
 
 #pragma mark - init for iPad

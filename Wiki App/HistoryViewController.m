@@ -10,6 +10,8 @@
 #import "HistoryItem.h"
 #import "AppDelegate.h"
 
+#define NSLog TFLog
+
 @interface HistoryViewController ()
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;

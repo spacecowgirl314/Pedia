@@ -10,6 +10,8 @@
 #import "ArticleViewController.h"
 #import <CoreData/CoreData.h>
 
+#define NSLog TFLog
+
 #define IOS_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define IOS_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
 #define IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -103,7 +105,7 @@
              
              abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
              */
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
             abort();
         } 
     }
@@ -199,13 +201,13 @@
             [psc lock];
             if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
             {
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
                 abort();
             }
             [psc unlock];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"asynchronously added persistent store!");
+                NSLog(@"AppDelegate asynchronously added persistent store!");
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
                 
                 // because notification can't be sent to segues? this works. use a singleton of the view controller
@@ -228,7 +230,7 @@
         NSError *error = nil;
         if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
         {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
     }
