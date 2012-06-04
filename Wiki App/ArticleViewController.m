@@ -798,6 +798,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // load welcome page
+    [articleView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"html"]isDirectory:NO]]];
+
+    // remove shadows in UIWebView
+    for(UIScrollView* webScrollView in [self.articleView subviews]) {
+        if ([webScrollView isKindOfClass:[UIScrollView class]]) {
+            for(UIView* subview in [webScrollView subviews]) {
+                if ([subview isKindOfClass:[UIImageView class]]) {
+                    ((UIImageView*)subview).image = nil;
+                    subview.backgroundColor = [UIColor clearColor];
+                }
+            }
+        }
+    }
     // allocate a reachability object
     Reachability* reach = [Reachability reachabilityWithHostname:@"www.apple.com"];
     
@@ -812,21 +826,7 @@
                                                object:nil];
     
     [reach startNotifier];
-    //NSURL *ubiq = [[NSFileManager defaultManager] 
-    //               URLForUbiquityContainerIdentifier:nil];
-    /*if (ubiq) {
-        NSLog(@"iCloud access at %@", ubiq);
-        NSArray *items = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:ubiq includingPropertiesForKeys:nil options:nil error:nil];
-        // load each item from iCloud
-        for (NSURL *item in items) {
-            
-        }
-        // TODO: Load document... 
-    } else {
-        // USER IS AN IDIOT. Demote them to local file usage.
-        NSLog(@"No iCloud access");
-    }*/
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self setManagedObjectContext:[app managedObjectContext]];
@@ -887,13 +887,13 @@
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
     searchView.backgroundColor = [UIColor clearColor];
-    //articleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"linen_bg@2x.png"]];
+    articleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     [searchView.layer setOpaque:NO];
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;
     tableOfContents = [[NSMutableArray alloc] init];
     // allows the shadow to the top bar to work
-    articleView.scrollView.delegate = self;
+    //articleView.scrollView.delegate = self;
     // make the image viewer work
     [scrollView setDelegate:self];
     [scrollView setClipsToBounds:YES];
@@ -1039,8 +1039,8 @@
         ImageViewController *imageViewController = segue.destinationViewController;
         [imageViewController imageLoadWithName:(NSString*)sender];
     }
-    // remove shadow from the nav bar when segueing
-    [self.navigationController.navigationBar removeDropShadow];
+    // remove shadow from the navigation bar when segueing
+    //[self.navigationController.navigationBar removeDropShadow];
 }
 
 @end
