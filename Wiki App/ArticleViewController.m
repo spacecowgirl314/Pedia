@@ -796,6 +796,7 @@
             }
         }
     }
+    
     // allocate a reachability object
     Reachability* reach = [Reachability reachabilityWithHostname:@"www.apple.com"];
     
@@ -827,6 +828,11 @@
         titleLabel.shadowOffset = CGSizeMake(0,1);
         titleLabel.textAlignment = UITextAlignmentCenter;
         titleLabel.textColor = [UIColor darkGrayColor]; // change this color
+        // recognize tap to close search when hitting the label
+        UITapGestureRecognizer *navigationSingleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeSearchField:)];
+        navigationSingleTap.numberOfTapsRequired = 1;
+        [titleLabel setUserInteractionEnabled:YES];
+        [titleLabel addGestureRecognizer:navigationSingleTap];
         self.navigationItem.titleView = titleLabel;
         titleLabel.text = NSLocalizedString(@"Article", @"");
         [titleLabel sizeToFit];
