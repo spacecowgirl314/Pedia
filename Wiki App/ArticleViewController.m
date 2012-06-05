@@ -159,16 +159,10 @@
                      }];
 }
 
-- (IBAction)loadArticle:(id)sender {
-    if (![loadingThread isExecuting]) {
-        loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:[articleSearchBox text]];
-        [loadingThread start];
-        //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
-        // also save history
-        //[self processHistory:[articleSearchBox text]];
-        processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
-        [processHistoryThread start];
-    }
+- (IBAction)selectArticleFromSaved:(id)sender {
+    // shortest way to toggle something!
+    isDebugging = isDebugging ? NO : YES;
+    NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
 }
 
 - (IBAction)pressForward:(id)sender {
@@ -289,7 +283,13 @@
     HTMLNode *bodyNode = [parser body];
     
     // replace styling
-    NSString *appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
+    NSString *appendHead;
+    if (!isDebugging) {
+        appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
+    }
+    else {
+        appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
+    }
     NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>", appendHead];
     // only retreive what's in the body
     for (HTMLNode *node in [bodyNode children]) {

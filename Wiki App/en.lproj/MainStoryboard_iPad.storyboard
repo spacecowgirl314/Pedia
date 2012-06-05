@@ -54,6 +54,9 @@
                                         <state key="highlighted" image="saved-pressed.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="selectArticleFromSaved:" destination="4" eventType="touchUpInside" id="Qrc-Gc-enC"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wMY-lh-nfV">
                                         <rect key="frame" x="660" y="8" width="36" height="31"/>

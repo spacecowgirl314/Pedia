@@ -48,6 +48,7 @@
     int iCloudCount;
     SuggestionController *suggestionController;
     NSManagedObjectContext *managedObjectContext__;
+    BOOL isDebugging;
 }
 
 @property (strong, nonatomic) id detailItem;
