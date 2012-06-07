@@ -110,6 +110,7 @@
 		379DE82415564B6D00688A78 /* progress-bar-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82015564B6D00688A78 /* progress-bar-background@2x.png */; };
 		379DE82515564B6D00688A78 /* progress-bar-fill.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82115564B6D00688A78 /* progress-bar-fill.png */; };
 		379DE82615564B6D00688A78 /* progress-bar-fill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82215564B6D00688A78 /* progress-bar-fill@2x.png */; };
+		37A53F8515815C2B00A6D881 /* bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A53F8415815C2B00A6D881 /* bg@2x.png */; };
 		37A6598215546E810030EF77 /* UIDownloadBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A6598115546E810030EF77 /* UIDownloadBar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		37A7821E1544B6BC00390CEF /* linen_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821D1544B6BC00390CEF /* linen_bg@2x.png */; };
 		37A7823C1544C81D00390CEF /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782341544C81A00390CEF /* Icon-72.png */; };
@@ -286,6 +287,7 @@
 		379DE82015564B6D00688A78 /* progress-bar-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-background@2x.png"; sourceTree = "<group>"; };
 		379DE82115564B6D00688A78 /* progress-bar-fill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-fill.png"; sourceTree = "<group>"; };
 		379DE82215564B6D00688A78 /* progress-bar-fill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-fill@2x.png"; sourceTree = "<group>"; };
+		37A53F8415815C2B00A6D881 /* bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg@2x.png"; sourceTree = "<group>"; };
 		37A6598015546E810030EF77 /* UIDownloadBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDownloadBar.h; sourceTree = "<group>"; };
 		37A6598115546E810030EF77 /* UIDownloadBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDownloadBar.m; sourceTree = "<group>"; };
 		37A7821A154490E800390CEF /* Amplitude-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Book.ttf"; sourceTree = "<group>"; };
@@ -412,7 +414,6 @@
 				37B166CE156827FB009DE159 /* sidebar-linen.png */,
 				37B166CF156827FB009DE159 /* sidebar-linen@2x.png */,
 				37A7821D1544B6BC00390CEF /* linen_bg@2x.png */,
-				372C81951543CA0300991587 /* bg.png */,
 				379DE81F15564B6D00688A78 /* progress-bar-background.png */,
 				379DE82015564B6D00688A78 /* progress-bar-background@2x.png */,
 				379DE82115564B6D00688A78 /* progress-bar-fill.png */,
@@ -482,6 +483,8 @@
 				3782072C157C89DA00943CD8 /* wizardry.js */,
 				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
 				37820730157CA18500943CD8 /* Amplitude-Medium.ttf */,
+				372C81951543CA0300991587 /* bg.png */,
+				37A53F8415815C2B00A6D881 /* bg@2x.png */,
 				37820726157C6FAD00943CD8 /* landing-image.png */,
 				37820727157C6FAD00943CD8 /* landing-image@2x.png */,
 				37820728157C6FAD00943CD8 /* welcome.html */,
@@ -749,6 +752,7 @@
 				3787A66D1575F51F00E2F796 /* jquery-1.7.2.min.js in Resources */,
 				37820732157CA49900943CD8 /* wizardry.js in Resources */,
 				372C81961543CA0300991587 /* bg.png in Resources */,
+				37A53F8515815C2B00A6D881 /* bg@2x.png in Resources */,
 				37A7821E1544B6BC00390CEF /* linen_bg@2x.png in Resources */,
 				37A7823C1544C81D00390CEF /* Icon-72.png in Resources */,
 				37A7823D1544C81D00390CEF /* Icon-72@2x.png in Resources */,

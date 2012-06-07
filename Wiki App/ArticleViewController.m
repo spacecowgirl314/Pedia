@@ -160,7 +160,7 @@
     // shortest way to toggle something!
     isDebugging = isDebugging ? NO : YES;
     NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
-    [_archivedViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    //[_archivedViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (IBAction)pressForward:(id)sender {
@@ -267,7 +267,7 @@
     
     // replace styling
     NSString *appendHead;
-    isDebugging = YES;
+    //isDebugging = YES;
     if (!isDebugging) {
         appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
     }
