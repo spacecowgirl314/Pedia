@@ -23,8 +23,6 @@
 
 @implementation ArticleViewController
 
-@synthesize detailItem = _detailItem;
-@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize historyViewController = _historyViewController;
 @synthesize historyViewControllerPopover = _historyViewControllerPopover;
@@ -257,7 +255,7 @@
 
 // main parsing method
 - (void)downloadHTMLandParse:(id)object {
-    NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
+    //NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     //[wikiHelper setLanguage:]
     NSString *article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object];
@@ -602,31 +600,6 @@
                      }];
 }
 
-#pragma mark - Managing the detail item
-
-- (void)setDetailItem:(id)newDetailItem
-{
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
-
-    if (self.masterPopoverController != nil) {
-        [self.masterPopoverController dismissPopoverAnimated:YES];
-    }        
-}
-
-- (void)configureView
-{
-    // Update the user interface for the detail item.
-
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
-    }
-}
-
 #pragma mark - Important for image viewing
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
@@ -676,8 +649,7 @@
                                                object:nil];
     
     [reach startNotifier];
-    // Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
+    
     // setup core data for saving
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self setManagedObjectContext:[app managedObjectContext]];
@@ -777,6 +749,11 @@
     }
 }
 
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+}
+
 #pragma mark - Responds to Notifications
 
 - (void)reachabilityChanged:(NSNotification*)notification {
@@ -812,13 +789,6 @@
     if ([_historyViewControllerPopover isPopoverVisible]) {
         [_historyViewControllerPopover dismissPopoverAnimated:YES];
     }
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    self.detailDescriptionLabel = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
