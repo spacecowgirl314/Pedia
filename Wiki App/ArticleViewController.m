@@ -31,6 +31,7 @@
 @synthesize bottomBar;
 @synthesize articleSearchBox;
 @synthesize articleView;
+@synthesize backgroundView;
 @synthesize historyArray;
 @synthesize previousHistoryArray;
 @synthesize titleLabel;
@@ -266,13 +267,14 @@
     
     // replace styling
     NSString *appendHead;
+    isDebugging = YES;
     if (!isDebugging) {
         appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
     }
     else {
         appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
     }
-    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body>", appendHead];
+    NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body style=\"background-color: transparent !important;\">", appendHead];
     // only retreive what's in the body
     for (HTMLNode *node in [bodyNode children]) {
         newHTML = [newHTML stringByAppendingString:[node rawContents]];
@@ -709,7 +711,9 @@
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
     searchView.backgroundColor = [UIColor clearColor];
-    articleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.png"]];
+    backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.png"]];
+    articleView.backgroundColor = [UIColor clearColor];
+    articleView.opaque = NO;
     [searchView.layer setOpaque:NO];
     [bottomBar.layer setOpaque:NO];
     bottomBar.opaque = NO;

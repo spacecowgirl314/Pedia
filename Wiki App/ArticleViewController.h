@@ -26,6 +26,7 @@
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
     IBOutlet UIView *searchView;
+    IBOutlet UIView *backgroundView;
     IBOutlet UIButton *backButton;
     IBOutlet UIButton *forwardButton;
     IBOutlet UINavigationItem *detailItem;
@@ -57,6 +58,7 @@
 
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;
 @property (strong, nonatomic) IBOutlet UIWebView *articleView;
+@property (strong, nonatomic) IBOutlet UIView *backgroundView;
 @property (strong, nonatomic) IBOutlet UIView *bottomBar;
 @property (nonatomic, retain) HistoryViewController *historyViewController;
 @property (nonatomic, retain) UIPopoverController *historyViewControllerPopover;

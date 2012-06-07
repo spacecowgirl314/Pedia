@@ -30,8 +30,6 @@ body {
 	text-shadow: 1px 1px 2px #ffffff;
 	position: relative;
 	overflow: hidden !important;
-	background: url(bg.png) !important;
-	
 }
 
 #mw-panel, #mp-sister, #mp-lang, #footer-icons, #p-personal, #left-navigation, #p-views, #p-cactions, #mw-page-base, #articlecount, .editsection, .magnify, #mw-fr-revisiontag, .portlet, .tmbox-notice, .mbox-image, #featured-star, #good-star, #protected-icon, #siteSub, #jump-to-nav, h1#firstHeading, #catlinks, #footer, #mw-articlefeedback, #mw-head, .printfooter {

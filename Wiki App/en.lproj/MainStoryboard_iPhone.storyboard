@@ -145,6 +145,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="zrc-uF-BRk" userLabel="Background View">
+                                <rect key="frame" x="0.0" y="-0.5" width="320" height="373"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" id="wHG-EZ-yDt">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="373"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -153,7 +158,7 @@
                                     <outlet property="delegate" destination="21" id="Beq-6h-AOm"/>
                                 </connections>
                             </webView>
-                            <view contentMode="scaleToFill" id="TAO-EW-qdv">
+                            <view contentMode="scaleToFill" id="TAO-EW-qdv" userLabel="Bottom Bar View">
                                 <rect key="frame" x="0.0" y="372.5" width="320" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -252,7 +257,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" id="rxg-At-U08">
+                            <view hidden="YES" contentMode="scaleToFill" id="rxg-At-U08" userLabel="Search View">
                                 <rect key="frame" x="20" y="0.0" width="280" height="373"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -311,6 +316,7 @@
                         <outlet property="articleSearchBox" destination="VoZ-dG-3la" id="QLL-GZ-AbC"/>
                         <outlet property="articleView" destination="wHG-EZ-yDt" id="yUL-06-oVt"/>
                         <outlet property="backButton" destination="2At-Dd-WIR" id="Rk0-CF-U1p"/>
+                        <outlet property="backgroundView" destination="zrc-uF-BRk" id="3Aa-jm-bQo"/>
                         <outlet property="bottomBar" destination="TAO-EW-qdv" id="HVT-nv-KGn"/>
                         <outlet property="forwardButton" destination="zDy-l1-2lD" id="715-nx-CF6"/>
                         <outlet property="searchView" destination="rxg-At-U08" id="ySb-Du-X1r"/>
@@ -344,12 +350,11 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ArticleViewController.h"/>
             <relationships>
                 <relationship kind="action" name="selectArticleFromHistory:"/>
-                <relationship kind="action" name="submitFeedback:"/>
                 <relationship kind="outlet" name="articleSearchBox" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="articleView" candidateClass="UIWebView"/>
                 <relationship kind="outlet" name="backButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="backgroundView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="bottomBar" candidateClass="UIView"/>
-                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailItem" candidateClass="UINavigationItem"/>
                 <relationship kind="outlet" name="forwardButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
