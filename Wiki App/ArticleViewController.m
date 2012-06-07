@@ -41,8 +41,6 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == articleSearchBox) {
-        // start thread in background for loading the page
-        //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[articleSearchBox text]];
         // only allow to continue if we aren't already executing loading a page
         if (![loadingThread isExecuting]) {
             // just reuse the single tap detection from the overlay
@@ -58,7 +56,6 @@
             [loadingThread start];
             }
             // also save history
-            //[self processHistory:[articleSearchBox text]];
             processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[articleSearchBox text]];
             [processHistoryThread start];
         }
@@ -259,21 +256,8 @@
 
 // main parsing method
 - (void)downloadHTMLandParse:(id)object {
-    /*NSString *cssPath = [[NSBundle mainBundle] pathForResource:@"beautipedia" 
-     ofType:@"css"];
-     NSString *js = @"document.getElementsByTagName('link')[0].setAttribute('href','";
-     NSString *js2 = [js stringByAppendingString:cssPath];
-     NSString *finalJS = [js2 stringByAppendingString:@"');"];
-     [articleView stringByEvaluatingJavaScriptFromString:finalJS];*/
     NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
-    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"titlebar"] forBarMetrics:UIBarMetricsDefault];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    /*NSString *urlString = @"http://en.wikipedia.org/wiki/Steve%20Jobs";
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    NSLog(@"RETURNED:%@",returnString);*/
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     //[wikiHelper setLanguage:]
     NSString *article = [wikiHelper getWikipediaHTMLPage:(NSString*)object];
@@ -377,14 +361,6 @@
 
 - (void)processHistory:(NSString*)title {
     // TODO: Only add to history if the page is a valid article
-    // check both history arrays for duplicate and remove it
-    /*for (int i = 0; i<[historyArray count]; i++) {
-     // wow what a mouthful, checks to see if the object is a duplicate
-     if ([[(HistoryItem*)[historyArray objectAtIndex:i] title] isEqualToString:title]) {
-     // was a duplicate, remove it
-     [historyArray removeObje/ctAtIndex:i];
-     }
-     }*/
     // Adding from local session
     // NOTE: By maintaining a separate array we keep from using the history in iCloud as part of our local session
     NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
@@ -522,26 +498,6 @@
     else {
         return YES;
     }
-    /*NSURL *url = request.URL;
-    NSString *s = [url absoluteString];
-    // Get the last path component from the URL. This doesn't include
-    // any fragment.
-    NSString* lastComponent = [url lastPathComponent];
-    
-    // Find that last component in the string from the end to make sure
-    // to get the last one
-    NSRange fragmentRange = [s rangeOfString:lastComponent
-                                     options:NSBackwardsSearch];
-    
-    // Chop the fragment.
-    NSString* newURLString = [s substringToIndex:fragmentRange.location];
-    NSLog(@"url %@", url.absoluteString);
-    NSLog(@"newURL %@", newURLString);*/
-    //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:[url lastPathComponent]];
-    //NSLog(@"%@",[url lastPathComponent]);
-    //NSString *urlString = url.absoluteString;
-    //NSLog(urlString);
-    //return YES;
 }
 
 /*
@@ -611,14 +567,6 @@
         [self performSegueWithIdentifier: @"Image" 
                                   sender: object];
     }
-    //NSData *data = [NSData dataWithContentsOfURL:url];
-    //UIImage *image = [[UIImage alloc] initWithData:data];
-    //[[articleView scrollView] setHidden:YES];
-    /*[imageView setImage:image];
-    [imageView setHidden:NO];
-    [scrollView setHidden:NO];
-    [self.view bringSubviewToFront:scrollView];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];*/
 }
 
 - (void)downloadBar:(UIDownloadBar *)downloadBar didFinishWithData:(NSData *)fileData suggestedFilename:(NSString *)filename {
@@ -656,13 +604,6 @@
                      }];
 }
 
-/*- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSString *cssPath = [path stringByAppendingPathComponent:@"style.css"];
-    NSString *js = [NSString stringWithFormat:@"var headID = document.getElementsByTagName('head')[0];var cssNode = document.createElement('link');cssNode.type = 'text/css';cssNode.rel = 'stylesheet';cssNode.href = '%@';cssNode.media = 'screen';headID.appendChild(cssNode);", cssPath];
-    [webView stringByEvaluatingJavaScriptFromString:js];
-}*/
-
 #pragma mark - Managing the detail item
 
 - (void)setDetailItem:(id)newDetailItem
@@ -686,83 +627,6 @@
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
     }
-}
-
-#pragma mark - Keyboard Stuff
-
-- (void)keyboardWasShown:(NSNotification*)aNotification
-{
-    /*NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    [UIView animateWithDuration:0.50
-                          delay:0
-                        options:UIViewAnimationCurveEaseIn
-                     animations:^{
-                         if(orientation == 0) {
-                             //Default orientation
-                         } 
-                         //UI is in Default (Portrait) -- this is really a just a failsafe. 
-                         else if(orientation == UIInterfaceOrientationPortrait) {
-                             //Do something if the orientation is in Portrait
-                             [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
-                         }
-                         else if(orientation == UIInterfaceOrientationPortraitUpsideDown) {
-                             [bottomBar setFrame: CGRectMake(0, 910-263, 768, 50)];
-                         }
-                         else if(orientation == UIInterfaceOrientationLandscapeLeft) {
-                             // Do something if Left
-                             [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
-                         }
-                         else if(orientation == UIInterfaceOrientationLandscapeRight) {
-                             //Do something if right
-                             [bottomBar setFrame: CGRectMake(0, 654-352, 703, 50)];
-                         }
-                     }
-                     completion:^(BOOL finished){
-                         //nil
-                     }];
-    }*/
-    
-    //... do something
-}
-
-- (void)keyboardWasHidden:(NSNotification*)aNotification
-{
-    //[self closeSearchField:nil];
-    /*NSLog(@"bottom bar: %@", NSStringFromCGRect([bottomBar frame]));
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    [UIView animateWithDuration:0.50 
-                          delay:0 
-                        options:UIViewAnimationCurveEaseIn
-                     animations:^{
-                         if(orientation == 0) {
-                             //Default orientation
-                         } 
-                         //UI is in Default (Portrait) -- this is really a just a failsafe. 
-                         else if(orientation == UIInterfaceOrientationPortrait) {
-                             //Do something if the orientation is in Portrait
-                             [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
-                         }
-                         else if(orientation == UIInterfaceOrientationPortraitUpsideDown) {
-                             [bottomBar setFrame: CGRectMake(0, 910, 768, 50)];
-                         }
-                         else if(orientation == UIInterfaceOrientationLandscapeLeft) {
-                             // Do something if Left
-                             [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
-                         }
-                         else if(orientation == UIInterfaceOrientationLandscapeRight) {
-                             //Do something if right
-                             [bottomBar setFrame: CGRectMake(0, 654, 703, 50)];
-                         }
-                     }
-                     completion:^(BOOL finished){
-                         //nil
-                     }];
-    }*/
-    
-    //... do something
 }
 
 #pragma mark - Important for image viewing
@@ -813,6 +677,7 @@
     [reach startNotifier];
     // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    // setup core data for saving
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self setManagedObjectContext:[app managedObjectContext]];
     self.title = NSLocalizedString(@"Article", @"Article");
@@ -843,13 +708,6 @@
     }
     // listen for these notifications
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter addObserver:self selector:@selector(keyboardWasShown:)
-                          name:UIKeyboardDidShowNotification object:nil];
-    [defaultCenter addObserver:self selector:@selector(keyboardWasHidden:)
-                          name:UIKeyboardDidHideNotification object:nil];
-    // allow us to know when the app comes back from the foreground
-    [defaultCenter addObserver:self selector:@selector(becomeActive:)
-                          name:UIApplicationWillEnterForegroundNotification object:nil];
     // remove dimming after image has been closed
     [defaultCenter addObserver:self selector:@selector(closeImage:) 
                           name:@"closeImage" object:nil];
@@ -898,7 +756,6 @@
     [suggestionController setSuggestionTableView:suggestionTableView];
     [suggestionTableView setDataSource:suggestionController];
     [suggestionTableView setDelegate:suggestionController];
-    //[NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadiCloud) userInfo:nil repeats:YES];
     // Only run the Getting Started Once
     // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
     if (NO) {
@@ -935,15 +792,8 @@
     }
 }
 
-- (void)becomeActive:(NSNotification*)object {
-    // reload history if iCloud is active
-    //[self loadHistory];
-    //[NSThread detachNewThreadSelector:@selector(loadHistory) toTarget:self withObject:nil];
-}
-
 - (void)gotoAnchor:(NSNotification*)notification {
     // for jumping to an anchor
-    // [webview stringByEvaluatingJavaScriptFromString:@"window.location.hash = '2002'"];
     TableOfContentsAnchor *anchor = [notification object];
     [articleView stringByEvaluatingJavaScriptFromString:[[NSString alloc] initWithFormat:@"window.location.hash = '%@'",[anchor href]]];
 }
