@@ -17,12 +17,12 @@
 @interface ArchivedViewController : UIViewController <ASIHTTPRequestDelegate> {
     ASIWebPageRequest *archiveRequest;
     NSManagedObjectContext *managedObjectContext__;
-    NSString *title;
+    NSString *articleTitle;
 }
 
 - (IBAction)archiveArticle:(id)sender;
 
-@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *articleTitle;
 @property (nonatomic) ASIWebPageRequest *archiveRequest;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

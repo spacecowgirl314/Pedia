@@ -859,4 +859,14 @@
     //[self.navigationController.navigationBar removeDropShadow];
 }
 
++ (id)sharedInstance
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedObject = nil;
+    dispatch_once(&pred, ^{
+        _sharedObject = [[self alloc] init]; // or some other init method
+    });
+    return _sharedObject;
+}
+
 @end

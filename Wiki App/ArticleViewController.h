@@ -71,5 +71,6 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
++ (id)sharedInstance;
  
 @end

@@ -8,6 +8,7 @@
 
 #import "ArchivedViewController.h"
 #import "AppDelegate.h"
+#import "ArticleViewController.h"
 
 @interface ArchivedViewController ()
 
@@ -50,9 +51,11 @@
 
 - (IBAction)archiveArticle:(id)sender {
     // Acquire the article name from ArticleViewController
-    title = @"Steve Jobs";
+    ArticleViewController *app = (ArticleViewController *)[ArticleViewController sharedInstance];
+    title = [app title];
+    NSLog(@"ArticleViewController archiving: %@", [app title]);
     WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
-    NSURL *url = [NSURL URLWithString:[wikipediaHelper getURLForArticle:title]];
+    NSURL *url = [NSURL URLWithString:[wikipediaHelper getURLForArticle:articleTitle]];
     
     [[self archiveRequest] setDelegate:nil];
     [[self archiveRequest] cancel];
