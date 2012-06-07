@@ -51,6 +51,11 @@
 		3725014A1578603A001C57CF /* GettingStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372501481578603A001C57CF /* GettingStartedViewController.m */; };
 		3725014B1578603A001C57CF /* GettingStartedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 372501491578603A001C57CF /* GettingStartedViewController.xib */; };
 		3725014E157860AD001C57CF /* GettingStartedViewController~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */; };
+		3728DDBB15807A0E00A8392A /* ArchivedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728DDB915807A0E00A8392A /* ArchivedViewController.m */; };
+		3728DDBC15807A0E00A8392A /* ArchivedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3728DDBA15807A0E00A8392A /* ArchivedViewController.xib */; };
+		3728DDBE15807B0900A8392A /* ArchivedViewController~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3728DDBD15807B0900A8392A /* ArchivedViewController~iPad.xib */; };
+		3728DDC71580837400A8392A /* ArchivedArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728DDC61580837400A8392A /* ArchivedArticle.m */; };
+		3728DDCA1580863400A8392A /* Archive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3728DDC81580863400A8392A /* Archive.xcdatamodeld */; };
 		372C81911543BF9500991587 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372C81901543BF9500991587 /* HistoryViewController.m */; };
 		372C81961543CA0300991587 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 372C81951543CA0300991587 /* bg.png */; };
 		3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3763C72D15313DFE00814E54 /* UIKit.framework */; };
@@ -197,6 +202,13 @@
 		372501491578603A001C57CF /* GettingStartedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GettingStartedViewController.xib; sourceTree = "<group>"; };
 		3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GettingStartedViewController~iPad.xib"; sourceTree = "<group>"; };
 		3728575515466E2700EF076C /* Pedia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Pedia.entitlements; sourceTree = "<group>"; };
+		3728DDB815807A0E00A8392A /* ArchivedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchivedViewController.h; sourceTree = "<group>"; };
+		3728DDB915807A0E00A8392A /* ArchivedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchivedViewController.m; sourceTree = "<group>"; };
+		3728DDBA15807A0E00A8392A /* ArchivedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArchivedViewController.xib; sourceTree = "<group>"; };
+		3728DDBD15807B0900A8392A /* ArchivedViewController~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ArchivedViewController~iPad.xib"; sourceTree = "<group>"; };
+		3728DDC51580837400A8392A /* ArchivedArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchivedArticle.h; sourceTree = "<group>"; };
+		3728DDC61580837400A8392A /* ArchivedArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchivedArticle.m; sourceTree = "<group>"; };
+		3728DDC91580863400A8392A /* Archive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Archive.xcdatamodel; sourceTree = "<group>"; };
 		372C818F1543BF9500991587 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		372C81901543BF9500991587 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		372C81951543CA0300991587 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -337,6 +349,8 @@
 			isa = PBXGroup;
 			children = (
 				370AEAD21579D8EA0095F510 /* History.xcdatamodeld */,
+				3728DDC81580863400A8392A /* Archive.xcdatamodeld */,
+				3728DDC31580832100A8392A /* Model */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -376,6 +390,15 @@
 				37206D7E157B55EA00860192 /* ASIWebPageRequest.m */,
 			);
 			name = ASIWebPageRequest;
+			sourceTree = "<group>";
+		};
+		3728DDC31580832100A8392A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3728DDC51580837400A8392A /* ArchivedArticle.h */,
+				3728DDC61580837400A8392A /* ArchivedArticle.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		375141951576083200AFB1B9 /* Images */ = {
@@ -541,6 +564,8 @@
 				3763C74215313DFE00814E54 /* MainStoryboard_iPad.storyboard */,
 				372501491578603A001C57CF /* GettingStartedViewController.xib */,
 				3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */,
+				3728DDBA15807A0E00A8392A /* ArchivedViewController.xib */,
+				3728DDBD15807B0900A8392A /* ArchivedViewController~iPad.xib */,
 				375141981576087C00AFB1B9 /* Web */,
 				375141951576083200AFB1B9 /* Images */,
 				3763C73915313DFE00814E54 /* main.m */,
@@ -642,6 +667,8 @@
 				3763C74915313DFE00814E54 /* ArticleViewController.m */,
 				372C818F1543BF9500991587 /* HistoryViewController.h */,
 				372C81901543BF9500991587 /* HistoryViewController.m */,
+				3728DDB815807A0E00A8392A /* ArchivedViewController.h */,
+				3728DDB915807A0E00A8392A /* ArchivedViewController.m */,
 				37ACB5D5155DFE3000C98092 /* ImageViewController.h */,
 				37ACB5D6155DFE3000C98092 /* ImageViewController.m */,
 				378D68DB1564958500336BD0 /* SuggestionController.h */,
@@ -793,6 +820,8 @@
 				3782072A157C6FAD00943CD8 /* landing-image@2x.png in Resources */,
 				3782072B157C6FAD00943CD8 /* welcome.html in Resources */,
 				37820731157CA18500943CD8 /* Amplitude-Medium.ttf in Resources */,
+				3728DDBC15807A0E00A8392A /* ArchivedViewController.xib in Resources */,
+				3728DDBE15807B0900A8392A /* ArchivedViewController~iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +872,9 @@
 				37206D86157B55EA00860192 /* ASIDataCompressor.m in Sources */,
 				37206D87157B55EA00860192 /* ASIWebPageRequest.m in Sources */,
 				3782071E157C47D100943CD8 /* UINavigationBar+DropShadow.m in Sources */,
+				3728DDBB15807A0E00A8392A /* ArchivedViewController.m in Sources */,
+				3728DDC71580837400A8392A /* ArchivedArticle.m in Sources */,
+				3728DDCA1580863400A8392A /* Archive.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,6 +1041,16 @@
 			);
 			currentVersion = 370AEAD31579D8EA0095F510 /* History.xcdatamodel */;
 			path = History.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		3728DDC81580863400A8392A /* Archive.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3728DDC91580863400A8392A /* Archive.xcdatamodel */,
+			);
+			currentVersion = 3728DDC91580863400A8392A /* Archive.xcdatamodel */;
+			path = Archive.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

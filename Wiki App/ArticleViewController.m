@@ -26,8 +26,10 @@
 @synthesize detailItem = _detailItem;
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize masterPopoverController = _masterPopoverController;
-@synthesize historyController = _historyController;
-@synthesize historyControllerPopover = _historyControllerPopover;
+@synthesize historyViewController = _historyViewController;
+@synthesize historyViewControllerPopover = _historyViewControllerPopover;
+@synthesize archivedViewController = _archivedViewController;
+@synthesize archivedViewControllerPopover = _archivedViewControllerPopover;
 @synthesize bottomBar;
 @synthesize articleSearchBox;
 @synthesize articleView;
@@ -82,7 +84,6 @@
     __block NSString *searchText = [articleSearchBox text];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue,^{
-        WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
         NSArray *suggestions = [wikipediaHelper getSuggestionsFor:searchText];
         // Execute loading the table on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -160,6 +161,7 @@
     // shortest way to toggle something!
     isDebugging = isDebugging ? NO : YES;
     NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
+    [_archivedViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (IBAction)pressForward:(id)sender {
@@ -200,7 +202,7 @@
      self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];               
      }*/
     //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [_historyControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [_historyViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [TestFlight passCheckpoint:@"Viewed history"];
     // reload the history each time if iCloud is enabled
     // note that since it's already loaded the user won't notice anything except perhaps the table being reloaded with new history
@@ -211,8 +213,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     // get url
-    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
-    NSString *articleURLString = [wikiHelper getURLForArticle:self.title];
+    NSString *articleURLString = [wikipediaHelper getURLForArticle:self.title];
     NSURL *articleURL = [NSURL URLWithString:articleURLString];
     if (buttonIndex == 0) {
         // share via email
@@ -258,9 +259,8 @@
 - (void)downloadHTMLandParse:(id)object {
     NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     //[wikiHelper setLanguage:]
-    NSString *article = [wikiHelper getWikipediaHTMLPage:(NSString*)object];
+    NSString *article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object];
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
     // replace styling with our own
@@ -471,8 +471,7 @@
             NSLog(@"ArticleViewController host:%@", host);
             // work some magic here to ensure that we also have the proper apiURL regardless of locale
             // TODO: Make a instance variable of WikipediaHelper
-            WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
-            NSString *apiURLString = [wikiHelper apiUrl];
+            NSString *apiURLString = [wikipediaHelper apiUrl];
             NSURL *apiURL = [NSURL URLWithString:apiURLString];
             // if we are local, that is we're on wikipedia, do our thing
             if ([host isEqualToString:[apiURL host]]) {
@@ -548,9 +547,8 @@
                              //nil
                          }];
         // animate progess bar here
-        WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
         //NSLog(@"Image url:%@", );
-        NSString *imageURL = [wikiHelper getUrlOfImageFile:(NSString*)object];
+        NSString *imageURL = [wikipediaHelper getUrlOfImageFile:(NSString*)object];
         NSURL *url = [NSURL URLWithString:imageURL];
         int width = 200;
         int height = 20;
@@ -646,6 +644,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // initialize the wikipedia helper
+    wikipediaHelper = [[WikipediaHelper alloc] init];
+    
     // load welcome page
     [articleView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"html"]isDirectory:NO]]];
 
@@ -728,10 +729,11 @@
     // UIPopoverController only exists on the iPad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         // allows us to prepopulate the view otherwise nsnotifications are going nowhere
-        self.historyController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
-        self.historyControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyController];
+        self.historyViewController = [[HistoryViewController alloc] initWithStyle:UITableViewStylePlain];
+        self.historyViewControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyViewController];
+        self.archivedViewController = [[ArchivedViewController alloc] init];
+        self.archivedViewControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_archivedViewController];
     }
-    //[articleSearchBox setInputAccessoryView:bottomBar];
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
     searchView.backgroundColor = [UIColor clearColor];
@@ -807,8 +809,8 @@
     processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:(NSString*)[notification object]];
     [processHistoryThread start];
     // dismiss the popover for the history controller if it is visible
-    if ([_historyControllerPopover isPopoverVisible]) {
-        [_historyControllerPopover dismissPopoverAnimated:YES];
+    if ([_historyViewControllerPopover isPopoverVisible]) {
+        [_historyViewControllerPopover dismissPopoverAnimated:YES];
     }
 }
 

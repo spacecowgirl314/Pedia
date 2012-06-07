@@ -14,6 +14,7 @@
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
+#import "ArchivedViewController.h"
 #import "MasterViewController.h"
 #import "ImageViewController.h"
 #import "UIDownloadBar.h"
@@ -32,8 +33,10 @@
     IBOutlet UIImageView *imageView;
     IBOutlet UITableView *suggestionTableView;
     NSMutableArray *tableOfContents;
-    HistoryViewController *_historyController;
-    UIPopoverController *_historyControllerPopover;
+    HistoryViewController *_historyViewController;
+    ArchivedViewController *_archivedViewController;
+    UIPopoverController *_historyViewControllerPopover;
+    UIPopoverController *_archivedViewControllerPopover;
     NSMutableArray *historyArray;
     NSMutableArray *previousHistoryArray;
     NSThread *loadingThread;
@@ -49,16 +52,16 @@
     SuggestionController *suggestionController;
     NSManagedObjectContext *managedObjectContext__;
     BOOL isDebugging;
+    WikipediaHelper *wikipediaHelper;
 }
 
-@property (strong, nonatomic) id detailItem;
-
-@property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;
 @property (strong, nonatomic) IBOutlet UIWebView *articleView;
 @property (strong, nonatomic) IBOutlet UIView *bottomBar;
-@property (nonatomic, retain) HistoryViewController *historyController;
-@property (nonatomic, retain) UIPopoverController *historyControllerPopover;
+@property (nonatomic, retain) HistoryViewController *historyViewController;
+@property (nonatomic, retain) UIPopoverController *historyViewControllerPopover;
+@property (nonatomic, retain) ArchivedViewController *archivedViewController;
+@property (nonatomic, retain) UIPopoverController *archivedViewControllerPopover;
 @property (retain) NSMutableArray *historyArray;
 @property (retain) NSMutableArray *previousHistoryArray;
 @property (retain) UILabel *titleLabel;
@@ -66,6 +69,5 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
-- (IBAction)submitFeedback:(id)sender;
  
 @end
