@@ -22,8 +22,11 @@
 
 @synthesize window = _window;
 @synthesize managedObjectContext = __managedObjectContext;
+@synthesize archiveManagedObjectContext = __archiveManagedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
+@synthesize archiveManagedObjectModel = __archiveManagedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize archivePersistentStoreCoordinator = __archivePersistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -111,7 +114,7 @@
     }
 }
 
-#pragma mark - Core Data Stack -
+#pragma mark - Core Data Stack History -
 
 - (NSManagedObjectContext *)managedObjectContext
 {
@@ -235,6 +238,58 @@
         }
     }
     return __persistentStoreCoordinator;
+}
+
+#pragma mark - Core Data Stack Archive -
+
+- (NSManagedObjectContext *)archiveManagedObjectContext
+{
+    if (__archiveManagedObjectContext != nil)
+    {
+        return __archiveManagedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self archivePersistentStoreCoordinator];
+    if (coordinator != nil)
+    {
+        __archiveManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        [__archiveManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+	
+    return __archiveManagedObjectContext;
+}
+
+- (NSManagedObjectModel *)archiveManagedObjectModel
+{
+    if (__archiveManagedObjectModel != nil)
+    {
+        return __archiveManagedObjectModel;
+    }
+	
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Archive" withExtension:@"momd"];
+    __archiveManagedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+	
+    return __archiveManagedObjectModel;
+}
+
+- (NSPersistentStoreCoordinator *)archivePersistentStoreCoordinator
+{
+    if (__archivePersistentStoreCoordinator != nil)
+    {
+        return __archivePersistentStoreCoordinator;
+    }
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Archive.sqlite"];
+    NSError *error = nil;
+    __archivePersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self archiveManagedObjectModel]];
+	
+    if (![__archivePersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    {
+        NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }    
+    
+    return __archivePersistentStoreCoordinator;
 }
 
 #pragma mark - Documents Directory -

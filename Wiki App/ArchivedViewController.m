@@ -7,6 +7,7 @@
 //
 
 #import "ArchivedViewController.h"
+#import "AppDelegate.h"
 
 @interface ArchivedViewController ()
 
@@ -23,8 +24,8 @@
     if (self) {
         // Custom initialization
         self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
-        /*AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [self setManagedObjectContext:[app managedObjectContext]];*/
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [self setManagedObjectContext:[app archiveManagedObjectContext]];
     }
     return self;
 }
