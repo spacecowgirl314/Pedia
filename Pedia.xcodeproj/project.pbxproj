@@ -395,6 +395,8 @@
 		3728DDC31580832100A8392A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				37A7826D15454FC700390CEF /* HistoryItem.h */,
+				37A7826E15454FC700390CEF /* HistoryItem.m */,
 				3728DDC51580837400A8392A /* ArchivedArticle.h */,
 				3728DDC61580837400A8392A /* ArchivedArticle.m */,
 			);
@@ -629,20 +631,10 @@
 			children = (
 				3763C75415314B3800814E54 /* WikipediaHelper.h */,
 				3763C75515314B3800814E54 /* WikipediaHelper.m */,
-				3787A66F1576066B00E2F796 /* Model */,
-			);
-			name = Wikipedia;
-			sourceTree = "<group>";
-		};
-		3787A66F1576066B00E2F796 /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */,
 				3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */,
-				37A7826D15454FC700390CEF /* HistoryItem.h */,
-				37A7826E15454FC700390CEF /* HistoryItem.m */,
 			);
-			name = Model;
+			name = Wikipedia;
 			sourceTree = "<group>";
 		};
 		3787A670157606D000E2F796 /* iPad */ = {

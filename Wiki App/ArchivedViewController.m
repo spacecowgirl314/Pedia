@@ -90,8 +90,8 @@
     NSString *response = [NSString stringWithContentsOfFile:
                           [theRequest downloadDestinationPath] encoding:[theRequest responseEncoding] error:nil];
     // Note we're setting the baseURL to the url of the page we downloaded. This is important!
-    //[webView loadHTMLString:response baseURL:[request url]];
-    NSLog(@"ArchivedViewController response: %@", response);
+    // TODO: Clean the Cached files left behind by ASIWebRequest.
+    //NSLog(@"ArchivedViewController response: %@", response);
     
     ArchivedArticle *archiveEntry = [NSEntityDescription insertNewObjectForEntityForName:@"ArchivedArticle" inManagedObjectContext:[self managedObjectContext]];
     
@@ -103,7 +103,7 @@
     if (![self.managedObjectContext save:&error])
     {
         // TODO: Do something better than just aborting.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
 }
