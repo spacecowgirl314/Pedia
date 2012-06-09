@@ -265,6 +265,8 @@
     else {
         // if there is no internet don't do jack ignore the request and politely tell the user it's not possible
         if (![reachability isReachable]) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Internet is not available." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
             return;
         }
         article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object];
@@ -442,10 +444,6 @@
         NSDate *second = [(HistoryItemLocal*)b date];
         return [second compare:first];
     }];
-    // popover controllers only work on the iPad
-    [[NSNotificationCenter defaultCenter] 
-     postNotificationName:@"populateHistory" 
-     object:nil];
 }
 
 - (void)futureHistoryChopping {
@@ -867,21 +865,7 @@
 {
 	if ([segue.identifier isEqualToString:@"History"])
 	{
-        NSMutableArray *temporaryArray = [[NSMutableArray alloc] init];
-        // append resulting array to the temporary array
-        [temporaryArray addObjectsFromArray:[(NSArray*)historyArray copy]];
-        // add the previous history to be populated also
-        [temporaryArray addObjectsFromArray:[(NSArray*)previousHistoryArray copy]];
-        // keep the array sorted by date by newest first
-        [temporaryArray sortUsingComparator:^(id a, id b) {
-            NSDate *first = [(HistoryItem*)a date];
-            NSDate *second = [(HistoryItem*)b date];
-            return [second compare:first];
-        }];
-        NSLog(@"ArticleViewController temporary count of things:%i",[temporaryArray count]);
-        HistoryViewController *historyViewController = segue.destinationViewController;
-        NSNotification *notification = [NSNotification notificationWithName:@"History" object:temporaryArray];
-        [historyViewController populateHistory:notification];
+        // do nothing
 	}
     else if ([segue.identifier isEqualToString:@"Contents"])
 	{
