@@ -13,4 +13,9 @@
 @dynamic data;
 @dynamic date;
 
+- (id)copyWithZone: (NSZone *)zone
+{
+    return self;
+}
+
 @end

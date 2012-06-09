@@ -20,8 +20,9 @@
 #import "UIDownloadBar.h"
 #import "SuggestionController.h"
 #import "GettingStartedViewController.h"
+#import "Reachability.h"
 
-@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate> {
+@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchivedViewControllerDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
@@ -54,6 +55,7 @@
     NSManagedObjectContext *managedObjectContext__;
     BOOL isDebugging;
     WikipediaHelper *wikipediaHelper;
+    Reachability *reachability;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;
@@ -71,6 +73,5 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
-+ (id)sharedInstance;
  
 @end

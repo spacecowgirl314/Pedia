@@ -9,7 +9,6 @@
 #import "ArticleViewController.h"
 #import "HTMLParser.h"
 #import "HistoryItem.h"
-#import "Reachability.h"
 #import "AppDelegate.h"
 #import "UINavigationBar+DropShadow.h"
 
@@ -158,9 +157,9 @@
 
 - (IBAction)selectArticleFromSaved:(id)sender {
     // shortest way to toggle something!
-    isDebugging = isDebugging ? NO : YES;
-    NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
-    //[_archivedViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    //isDebugging = isDebugging ? NO : YES;
+    //NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
+    [_archivedViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (IBAction)pressForward:(id)sender {
@@ -258,8 +257,18 @@
 - (void)downloadHTMLandParse:(id)object {
     //NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    //[wikiHelper setLanguage:]
-    NSString *article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object];
+    NSString *article;
+    // if the object type is ArchivedArticle then we are loading from an archive
+    if ([object isKindOfClass:[ArchivedArticle class]]) {
+        article = (NSString*)[(ArchivedArticle*)object data];
+    }
+    else {
+        // if there is no internet don't do jack ignore the request and politely tell the user it's not possible
+        if (![reachability isReachable]) {
+            return;
+        }
+        article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object];
+    }
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
     // replace styling with our own
@@ -326,13 +335,26 @@
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
+    // pull the article name out of the archived article
+    if ([object isKindOfClass:[ArchivedArticle class]]) {
+        [self setTitle:[(ArchivedArticle*)object title]];
+    }
     // set title of the nav bar to the article name
-    [self setTitle:(NSString*)object];
+    else {
+        [self setTitle:(NSString*)object];
+    }
     // if we are on the iPhone then additonally set the custom title view
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         titleLabel.text = (NSString*)object;
         [titleLabel sizeToFit];
     }
+    [self checkToEnableButtons];
+    [TestFlight passCheckpoint:@"Loaded an article"];
+}
+
+#pragma mark - History Loading and Saving
+
+- (void)checkToEnableButtons {
     // enable and disable the back and forward buttons here respectively
     // there is history. enable the back button
     NSLog(@"ArticleViewController count of HistoryArray:%i", [historyArray count]);
@@ -354,12 +376,13 @@
     else {
         [forwardButton setEnabled:NO];
     }
-    [TestFlight passCheckpoint:@"Loaded an article"];
 }
 
-#pragma mark - History Loading and Saving
-
 - (void)processHistory:(NSString*)title {
+    // if there is no internet don't record any history
+    if (![reachability isReachable]) {
+        return;
+    }
     // TODO: Only add to history if the page is a valid article
     // Adding from local session
     // NOTE: By maintaining a separate array we keep from using the history in iCloud as part of our local session
@@ -527,6 +550,10 @@
 #pragma mark - Image Viewing
 
 - (void)downloadImageAndView:(id)object {
+    // if there is no internet don't allow us to view images
+    if (![reachability isReachable]) {
+        return;
+    }
     //[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSLog(@"ArticleViewController image attempted:%@", (NSString*)object);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -638,10 +665,10 @@
     }
     
     // allocate a reachability object
-    Reachability* reach = [Reachability reachabilityWithHostname:@"www.apple.com"];
+    reachability = [Reachability reachabilityWithHostname:@"www.apple.com"];
     
     // tell the reachability that we DO want to be reachable on 3G/EDGE/CDMA
-    reach.reachableOnWWAN = YES;
+    reachability.reachableOnWWAN = YES;
     
     // here we set up a NSNotification observer. The Reachability that caused the notification
     // is passed in the object parameter
@@ -650,7 +677,7 @@
                                                  name:kReachabilityChangedNotification 
                                                object:nil];
     
-    [reach startNotifier];
+    [reachability startNotifier];
     
     // setup core data for saving
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -691,6 +718,8 @@
                           name:@"gotoAnchor" object:nil];
     [defaultCenter addObserver:self selector:@selector(gotoArticle:)
                           name:@"gotoArticle" object:nil];
+    [defaultCenter addObserver:self selector:@selector(gotoArchivedArticle:)
+                          name:@"gotoArchivedArticle" object:nil];
     // notifications for the suggestion controller
     [defaultCenter addObserver:self selector:@selector(closeSearchField:)
                           name:@"closeSearchView" object:nil];
@@ -707,6 +736,7 @@
         self.historyViewControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyViewController];
         self.archivedViewController = [[ArchivedViewController alloc] init];
         self.archivedViewControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_archivedViewController];
+        self.archivedViewController.delegate = self;
     }
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
@@ -767,11 +797,15 @@
     Reachability * reach = [notification object];
     
     if([reach isReachable]) {
-        // all is good
+        // run the regular check to see if the buttons should be enabled
+        [self checkToEnableButtons];
     }
     else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Internet is not available." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
+        // disable history browsing because there is no internet
+        [forwardButton setEnabled:NO];
+        [backButton setEnabled:NO];
     }
 }
 
@@ -793,6 +827,13 @@
     if ([_historyViewControllerPopover isPopoverVisible]) {
         [_historyViewControllerPopover dismissPopoverAnimated:YES];
     }
+}
+
+- (void)gotoArchivedArticle:(NSNotification*)notification {
+    // pass the main parser the archived article
+    [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:(ArchivedArticle*)[notification object]];
+    // don't count as part of the history
+    // TODO: Figure something out. History is going to be borked once this is loaded.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -859,14 +900,12 @@
     //[self.navigationController.navigationBar removeDropShadow];
 }
 
-+ (id)sharedInstance
-{
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] init]; // or some other init method
-    });
-    return _sharedObject;
+#pragma mark - ArticleViewController Delegate -
+
+- (NSString*)didBeginArchivingArticle {
+    return self.title;
 }
+
+#pragma mark -
 
 @end
