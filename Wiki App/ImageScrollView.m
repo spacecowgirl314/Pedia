@@ -42,6 +42,7 @@
 }
 
 - (void)handleLongPress:(UIGestureRecognizer*)sender {
+    // check isDownloaded to make sure we don't copy a blank image
     if (sender.state == UIGestureRecognizerStateBegan) {
         CGPoint tapPoint = [sender locationInView:sender.view.superview];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Save Image", @"Save Image"), NSLocalizedString(@"Copy Image", @"Copy Image"), nil];

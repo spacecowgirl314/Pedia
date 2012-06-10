@@ -240,6 +240,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="toggleDebugging:" destination="21" eventType="touchUpOutside" id="oKF-X0-W5p"/>
                                             <segue destination="T3M-FA-E7I" kind="push" identifier="Archived" id="srl-MT-2o6"/>
                                         </connections>
                                     </button>

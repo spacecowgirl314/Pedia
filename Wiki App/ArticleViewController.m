@@ -155,10 +155,13 @@
                      }];
 }
 
-- (IBAction)selectArticleFromSaved:(id)sender {
+- (IBAction)toggleDebugging:(id)sender {
     // shortest way to toggle something!
-    //isDebugging = isDebugging ? NO : YES;
-    //NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
+    isDebugging = isDebugging ? NO : YES;
+    NSLog(@"ArticleViewController isDebugging: %i", isDebugging);
+}
+
+- (IBAction)selectArticleFromSaved:(id)sender {
     [_archivedViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
@@ -500,8 +503,8 @@
             // TODO: Make a instance variable of WikipediaHelper
             NSString *apiURLString = [wikipediaHelper apiUrl];
             NSURL *apiURL = [NSURL URLWithString:apiURLString];
-            // if we are local, that is we're on wikipedia, do our thing
-            if ([host isEqualToString:[apiURL host]]) {
+            // if we are local, that is we're on wikipedia, do our thing. allow archived articles to load if file url
+            if ([host isEqualToString:[apiURL host]] || [url isFileURL]) {
                 NSString *removeUnderscores = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
                 [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:removeUnderscores];
                 // also save history

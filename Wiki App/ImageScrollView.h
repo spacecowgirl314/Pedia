@@ -13,6 +13,7 @@
     CGPoint originalImagePos;
     BOOL touchesMoved;
     CGPoint currentPoint;
+    BOOL isDownloaded;
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer;

@@ -41,6 +41,18 @@
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(@"Archived", @"Archived");
     self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // change color of font to gray on the iPhone in the navigation bar
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.shadowColor = [UIColor clearColor];
+        titleLabel.textAlignment = UITextAlignmentCenter;
+        titleLabel.textColor = [UIColor grayColor]; // change this color
+        self.navigationItem.titleView = titleLabel;
+        titleLabel.text = self.title;
+        [titleLabel sizeToFit];
+    }
     // load data
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue,^{
@@ -55,18 +67,6 @@
             [self.archiveTableView reloadData];
         });
     });
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        // change color of font to gray on the iPhone in the navigation bar
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        titleLabel.shadowColor = [UIColor clearColor];
-        titleLabel.textAlignment = UITextAlignmentCenter;
-        titleLabel.textColor = [UIColor grayColor]; // change this color
-        self.navigationItem.titleView = titleLabel;
-        titleLabel.text = self.title;
-        [titleLabel sizeToFit];
-    }
 }
 
 - (void)viewDidUnload

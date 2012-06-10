@@ -119,6 +119,7 @@
                                         </state>
                                         <connections>
                                             <action selector="selectArticleFromSaved:" destination="4" eventType="touchUpInside" id="Qrc-Gc-enC"/>
+                                            <action selector="toggleDebugging:" destination="4" eventType="touchUpOutside" id="tAj-K7-cgd"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wMY-lh-nfV">
