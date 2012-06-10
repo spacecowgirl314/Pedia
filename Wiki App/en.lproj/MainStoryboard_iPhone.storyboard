@@ -63,6 +63,57 @@
             </objects>
             <point key="canvasLocation" x="1054" y="64"/>
         </scene>
+        <!--Archived View Controller - Archived-->
+        <scene sceneID="sNx-Es-it0">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dgn-5I-eJ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="T3M-FA-E7I" customClass="ArchivedViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TDy-MF-xwx">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lNk-Gq-z4u">
+                                <rect key="frame" x="20" y="358" width="280" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="archiveButton.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="archiveButton-pressed.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="archiveArticle:" destination="T3M-FA-E7I" eventType="touchUpInside" id="Xob-y0-foY"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="S4u-Ty-4c0">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="351"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="T3M-FA-E7I" id="bLK-TR-QUu"/>
+                                    <outlet property="delegate" destination="T3M-FA-E7I" id="Ef7-cM-R8X"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Archive Article" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" id="sFs-4h-jm2">
+                                <rect key="frame" x="66" y="371" width="217" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Archived" id="LDF-uk-9i3"/>
+                    <connections>
+                        <outlet property="archiveTableView" destination="S4u-Ty-4c0" id="94s-5d-1Wc"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="213" y="-517"/>
+        </scene>
         <!--History View Controller - History-->
         <scene sceneID="RuB-Ow-3My">
             <objects>
@@ -189,7 +240,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="selectArticleFromSaved:" destination="21" eventType="touchUpInside" id="Qmg-bn-RwU"/>
+                                            <segue destination="T3M-FA-E7I" kind="push" identifier="Archived" id="srl-MT-2o6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XYZ-hs-OjV">
@@ -329,6 +380,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="archiveButton-pressed.png" width="280" height="49"/>
+        <image name="archiveButton.png" width="280" height="49"/>
         <image name="back-dim.png" width="32" height="31"/>
         <image name="back-pressed.png" width="32" height="31"/>
         <image name="back.png" width="32" height="31"/>
@@ -346,6 +399,13 @@
         <image name="searchbar.png" width="264" height="40"/>
     </resources>
     <classes>
+        <class className="ArchivedViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ArchivedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="archiveArticle:"/>
+                <relationship kind="outlet" name="archiveTableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
         <class className="ArticleViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ArticleViewController.h"/>
             <relationships>

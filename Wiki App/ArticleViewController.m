@@ -347,8 +347,14 @@
     }
     // if we are on the iPhone then additonally set the custom title view
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        titleLabel.text = (NSString*)object;
-        [titleLabel sizeToFit];
+        if ([object isKindOfClass:[ArchivedArticle class]]) {
+            titleLabel.text = [(ArchivedArticle*)object title];
+            [titleLabel sizeToFit];
+        }
+        else {
+            titleLabel.text = (NSString*)object;
+            [titleLabel sizeToFit];
+        }
     }
     [self checkToEnableButtons];
     [TestFlight passCheckpoint:@"Loaded an article"];
@@ -879,6 +885,12 @@
         NSNotification *notification = [NSNotification notificationWithName:@"Contents" object:tableOfContents];
         [masterViewController populateTableOfContents:notification];
 	}
+    else if ([segue.identifier isEqualToString:@"Archived"])
+    {
+        // grabbing the view controller and setting it's delegate to self allows it to grab the article title
+        ArchivedViewController *archivedViewController = segue.destinationViewController;
+        archivedViewController.delegate = self;
+    }
     else if ([segue.identifier isEqualToString:@"Image"])
     {
         ImageViewController *imageViewController = segue.destinationViewController;

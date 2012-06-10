@@ -31,21 +31,6 @@
     self = [super initWithNibName:@"ArchivedViewController" bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
-        // load data
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
-        dispatch_async(queue,^{
-            NSError *error;
-            if (![[self fetchedResultsController] performFetch:&error]) {
-                // Update to handle the error appropriately.
-                NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
-                exit(-1);  // Fail
-            }
-            // reload on main thread. keeps ui glitches from happening
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.archiveTableView reloadData];
-            });
-        });
     }
     return self;
 }
@@ -54,6 +39,34 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.title = NSLocalizedString(@"Archived", @"Archived");
+    self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
+    // load data
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSError *error;
+        if (![[self fetchedResultsController] performFetch:&error]) {
+            // Update to handle the error appropriately.
+            NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
+            exit(-1);  // Fail
+        }
+        // reload on main thread. keeps ui glitches from happening
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.archiveTableView reloadData];
+        });
+    });
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // change color of font to gray on the iPhone in the navigation bar
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.shadowColor = [UIColor clearColor];
+        titleLabel.textAlignment = UITextAlignmentCenter;
+        titleLabel.textColor = [UIColor grayColor]; // change this color
+        self.navigationItem.titleView = titleLabel;
+        titleLabel.text = self.title;
+        [titleLabel sizeToFit];
+    }
 }
 
 - (void)viewDidUnload
@@ -80,6 +93,7 @@
     
     [self setArchiveRequest:[ASIWebPageRequest requestWithURL:url]];
     [[self archiveRequest] setDelegate:self];
+    [[self archiveRequest] setUserAgentString:@"Pedia"];
     [[self archiveRequest] setDidFailSelector:@selector(webPageFetchFailed:)];
     [[self archiveRequest] setDidFinishSelector:@selector(webPageFetchSucceeded:)];
     
