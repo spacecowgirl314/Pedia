@@ -19,7 +19,6 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
 
-- (void)populateHistory:(NSNotification*)notification;
 - (void)reloadFetchedResults:(NSNotification*)notification;
 - (void)reloadTableView:(NSNotification*)notification;
 + (id)sharedInstance;

@@ -17,7 +17,6 @@
 
 @interface ArticleViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-- (void)configureView;
 @end
 
 @implementation ArticleViewController

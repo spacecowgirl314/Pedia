@@ -55,7 +55,7 @@
     //NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSString *url = [[NSString alloc] initWithFormat:@"%@/wiki/%@", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-    NSLog(@"WikipediaHelper url:%@", url);
+    //NSLog(@"WikipediaHelper url:%@", url);
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
