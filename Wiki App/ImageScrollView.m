@@ -30,6 +30,10 @@
     
     [self addGestureRecognizer:doubleTap];
     
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    
+    [self addGestureRecognizer:longPress];
+    
     // add shadow to the image
     tileContainerView.layer.shadowColor = [UIColor blackColor].CGColor;
     tileContainerView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -37,8 +41,34 @@
     tileContainerView.layer.shadowRadius = 1.0;
 }
 
+- (void)handleLongPress:(UIGestureRecognizer*)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        CGPoint tapPoint = [sender locationInView:sender.view.superview];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Save Image", @"Save Image"), NSLocalizedString(@"Copy Image", @"Copy Image"), nil];
+        [actionSheet setActionSheetStyle:UIActionSheetStyleAutomatic];
+        [actionSheet showFromRect:CGRectMake(tapPoint.x, tapPoint.y, 1, 1) inView:sender.view.superview animated:YES];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        // save image
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+        dispatch_async(queue,^{
+            UIImageWriteToSavedPhotosAlbum(tileContainerView.image, nil, nil, nil);
+        });
+    }
+    else if (buttonIndex == 1) {
+        // copy image
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+        dispatch_async(queue,^{
+            [UIPasteboard generalPasteboard].image = tileContainerView.image;
+        });
+    }
+}
+
 // Double tap to Zoom!
-- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
+- (void)handleDoubleTap:(UIGestureRecognizer *)sender {
     if(self.zoomScale > self.minimumZoomScale)
         [self setZoomScale:self.minimumZoomScale animated:YES]; 
     else 

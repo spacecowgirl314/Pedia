@@ -817,8 +817,7 @@
     // jump straight to load a new article
     // likely to be used from the history
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:(NSString*)[notification object]];
-    // rewrite history
-    //[self processHistory:(NSString*)[notification object]];
+    // write history
     processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:(NSString*)[notification object]];
     [processHistoryThread start];
     // dismiss the popover for the history controller if it is visible
@@ -830,8 +829,13 @@
 - (void)gotoArchivedArticle:(NSNotification*)notification {
     // pass the main parser the archived article
     [NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:(ArchivedArticle*)[notification object]];
-    // don't count as part of the history
-    // TODO: Figure something out. History is going to be borked once this is loaded.
+    // write history
+    processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:[(ArchivedArticle*)[notification object] title]];
+    [processHistoryThread start];
+    // dismiss the popover for the history controller if it is visible
+    if ([_archivedViewControllerPopover isPopoverVisible]) {
+        [_archivedViewControllerPopover dismissPopoverAnimated:YES];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

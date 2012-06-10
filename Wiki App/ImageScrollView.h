@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageScrollView : UIScrollView {
+@interface ImageScrollView : UIScrollView <UIActionSheetDelegate> {
     IBOutlet UIImageView *tileContainerView;
     CGPoint originalImagePos;
     BOOL touchesMoved;
