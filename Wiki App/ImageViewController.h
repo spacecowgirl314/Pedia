@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "UIDownloadBar.h"
+#import "ImageScrollView.h"
 
-@interface ImageViewController : UIViewController <UIScrollViewDelegate, UIDownloadBarDelegate> {
-    IBOutlet UIScrollView *scrollView;
+@interface ImageViewController : UIViewController <UIScrollViewDelegate, UIDownloadBarDelegate, ImageScrollViewDelegate> {
+    IBOutlet ImageScrollView *scrollView;
     IBOutlet UIImageView *imageView;
     UIDownloadBar *imageBar;
     UILabel *titleLabel;
+    BOOL imageIsDownloaded;
 }
 
 - (void)imageLoadWithName:(NSString*)name;
+
+@property (nonatomic, retain) IBOutlet ImageScrollView *scrollView;
 
 @end

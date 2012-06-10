@@ -8,14 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ImageScrollViewDelegate <NSObject>
+@required
+- (BOOL)isFinishedDownloading;
+@end
+
 @interface ImageScrollView : UIScrollView <UIActionSheetDelegate> {
+    id <ImageScrollViewDelegate> imageScrollViewDelegate;
     IBOutlet UIImageView *tileContainerView;
     CGPoint originalImagePos;
     BOOL touchesMoved;
     CGPoint currentPoint;
-    BOOL isDownloaded;
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer;
+
+@property id imageScrollViewDelegate;
 
 @end

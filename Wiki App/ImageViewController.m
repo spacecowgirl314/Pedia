@@ -16,6 +16,7 @@
 @end
 
 @implementation ImageViewController
+@synthesize scrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,6 +47,7 @@
     self.navigationItem.titleView = titleLabel;
     // make the image viewer work
     [scrollView setDelegate:self];
+    [scrollView setImageScrollViewDelegate:self];
     [scrollView setClipsToBounds:YES];
     scrollView.minimumZoomScale = 1.0f;
     scrollView.maximumZoomScale = 2.0f;
@@ -57,7 +59,13 @@
     return imageView;
 }
 
+- (BOOL)isFinishedDownloading {
+    return imageIsDownloaded;
+}
+
 - (void)imageLoadWithName:(NSString*)name {
+    // make sure action sheet won't work yet
+    imageIsDownloaded = NO;
     // animate progess bar here
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
     //NSLog(@"Image url:%@", );
@@ -87,6 +95,8 @@
         [imageView setHidden:NO];
         [scrollView setHidden:NO];
         [self.view bringSubviewToFront:scrollView];
+        // enable the action sheet to work
+        imageIsDownloaded = YES;
     }
 }
 

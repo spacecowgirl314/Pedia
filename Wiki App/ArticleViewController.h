@@ -17,12 +17,13 @@
 #import "ArchivedViewController.h"
 #import "MasterViewController.h"
 #import "ImageViewController.h"
-#import "UIDownloadBar.h"
 #import "SuggestionController.h"
 #import "GettingStartedViewController.h"
+#import "UIDownloadBar.h"
 #import "Reachability.h"
+#import "ImageScrollView.h"
 
-@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchivedViewControllerDelegate> {
+@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchivedViewControllerDelegate, ImageScrollViewDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
@@ -31,7 +32,7 @@
     IBOutlet UIButton *backButton;
     IBOutlet UIButton *forwardButton;
     IBOutlet UINavigationItem *detailItem;
-    IBOutlet UIScrollView *scrollView;
+    IBOutlet ImageScrollView *scrollView;
     IBOutlet UIImageView *imageView;
     IBOutlet UITableView *suggestionTableView;
     NSMutableArray *tableOfContents;
@@ -56,6 +57,7 @@
     BOOL isDebugging;
     WikipediaHelper *wikipediaHelper;
     Reachability *reachability;
+    BOOL imageIsDownloaded;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;

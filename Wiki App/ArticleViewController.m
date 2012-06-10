@@ -561,7 +561,8 @@
     if (![reachability isReachable]) {
         return;
     }
-    //[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    // make sure action sheet won't work yet
+    imageIsDownloaded = NO;
     NSLog(@"ArticleViewController image attempted:%@", (NSString*)object);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         // darken background
@@ -581,7 +582,6 @@
                              //nil
                          }];
         // animate progess bar here
-        //NSLog(@"Image url:%@", );
         NSString *imageURL = [wikipediaHelper getUrlOfImageFile:(NSString*)object];
         NSURL *url = [NSURL URLWithString:imageURL];
         int width = 200;
@@ -591,7 +591,6 @@
                                               timeout:15
                                              delegate:self];
         imageBar.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
-        //[imageBar forceContinue];
         [self.view addSubview:imageBar];
     }
     else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -603,8 +602,9 @@
 
 - (void)downloadBar:(UIDownloadBar *)downloadBar didFinishWithData:(NSData *)fileData suggestedFilename:(NSString *)filename {
     if (downloadBar==imageBar) {
+        // enable the action sheet to work
+        imageIsDownloaded = YES;
         UIImage *image = [[UIImage alloc] initWithData:fileData];
-        //[[articleView scrollView] setHidden:YES];
         [downloadBar removeFromSuperview];
         [imageView setImage:image];
         [imageView setHidden:NO];
@@ -640,6 +640,10 @@
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return imageView;
+}
+
+- (BOOL)isFinishedDownloading {
+    return imageIsDownloaded;
 }
 
 #pragma mark - Setup the View
@@ -759,6 +763,7 @@
     //articleView.scrollView.delegate = self;
     // make the image viewer work
     [scrollView setDelegate:self];
+    [scrollView setImageScrollViewDelegate:self];
     [scrollView setClipsToBounds:YES];
     scrollView.minimumZoomScale = 1.0f;
     scrollView.maximumZoomScale = 2.0f;

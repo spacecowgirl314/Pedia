@@ -10,6 +10,7 @@
 #import <QuartzCore/CALayer.h>
 
 @implementation ImageScrollView
+@synthesize imageScrollViewDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -43,7 +44,7 @@
 
 - (void)handleLongPress:(UIGestureRecognizer*)sender {
     // check isDownloaded to make sure we don't copy a blank image
-    if (sender.state == UIGestureRecognizerStateBegan) {
+    if (sender.state == UIGestureRecognizerStateBegan && [[self imageScrollViewDelegate] isFinishedDownloading]) {
         CGPoint tapPoint = [sender locationInView:sender.view.superview];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Save Image", @"Save Image"), NSLocalizedString(@"Copy Image", @"Copy Image"), nil];
         [actionSheet setActionSheetStyle:UIActionSheetStyleAutomatic];
