@@ -146,8 +146,8 @@
                           delay:0
                         options:UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.navigationController.navigationBar.alpha = 0.5f;
-                         overlay.alpha = 0.5f;
+                         self.navigationController.navigationBar.alpha = 0.3f;
+                         overlay.alpha = 0.7f;
                          searchView.alpha = 1.0f;
                          [[[self navigationItem] leftBarButtonItem] setEnabled:NO];
                      }
@@ -565,8 +565,8 @@
                               delay:0
                             options:UIViewAnimationCurveEaseOut
                          animations:^{
-                             self.navigationController.navigationBar.alpha = 0.5f;
-                             overlay.alpha = 0.5f;
+                             self.navigationController.navigationBar.alpha = 0.3f;
+                             overlay.alpha = 0.7f;
                          }
                          completion:^(BOOL finished){
                              //nil
