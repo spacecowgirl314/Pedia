@@ -84,7 +84,7 @@
 - (IBAction)archiveArticle:(id)sender {
     // Acquire the article name from ArticleViewController
     articleTitle = [[self delegate] didBeginArchivingArticle];
-    NSLog(@"ArticleViewController archiving: %@", articleTitle);
+    //NSLog(@"ArticleViewController archiving: %@", articleTitle);
     WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
     NSURL *url = [NSURL URLWithString:[wikipediaHelper getURLForArticle:articleTitle]];
     
