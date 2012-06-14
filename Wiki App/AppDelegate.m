@@ -279,8 +279,13 @@
 	
     if (![__archivePersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
     {
-        NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        // Error, erase data
+        [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+        NSLog(@"store cleaned");
+        __archivePersistentStoreCoordinator = nil;
+        return [self archivePersistentStoreCoordinator];
+        //NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
+        //abort();
     }    
     
     return __archivePersistentStoreCoordinator;

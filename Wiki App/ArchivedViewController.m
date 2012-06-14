@@ -81,6 +81,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - Archiving -
+
 - (IBAction)archiveArticle:(id)sender {
     // Acquire the article name from ArticleViewController
     articleTitle = [[self delegate] didBeginArchivingArticle];
