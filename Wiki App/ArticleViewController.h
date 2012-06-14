@@ -11,6 +11,7 @@
 #import <Twitter/Twitter.h>
 #import <MessageUI/MessageUI.h>
 #import <CoreData/CoreData.h>
+#import <Social/Social.h>
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"

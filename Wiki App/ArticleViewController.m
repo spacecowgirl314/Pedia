@@ -189,7 +189,13 @@
 }
 
 - (IBAction)shareArticle:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), nil];
+    UIActionSheet *actionSheet;
+    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), NSLocalizedString(@"Facebook", @"Facebook"), nil];
+    }
+    else if (IOS_VERSION_GREATER_THAN(@"5.0")) {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), nil];
+    }
     [actionSheet setActionSheetStyle:UIActionSheetStyleAutomatic];
     [actionSheet showFromRect:[(UIButton*)sender frame] inView:bottomBar animated:YES];
 }
@@ -236,9 +242,16 @@
         [tweetController addURL:articleURL];
         [self presentViewController:tweetController animated:YES completion:NULL];
         tweetController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
-            
             [self dismissViewControllerAnimated:YES completion:NULL]; // recommended on iOS 5
-            
+        };
+    }
+    else if (buttonIndex == 3) {
+        // share via facebook
+        SLComposeViewController *socialController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        [socialController addURL:articleURL];
+        [self presentViewController:socialController animated:YES completion:NULL];
+        socialController.completionHandler = ^(SLComposeViewControllerResult result) {
+            [self dismissViewControllerAnimated:YES completion:NULL];
         };
     }
 }
