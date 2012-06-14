@@ -24,6 +24,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set up managed object context for the archive
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Archive.sqlite"];
+    NSError *error = nil;
+    __archivePersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self archiveManagedObjectModel]];
+	
+    if (![__archivePersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    {
+        NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     // set version number for settings everytime
     [[NSUserDefaults standardUserDefaults] setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"kVersion"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -268,7 +278,7 @@
 
 - (NSPersistentStoreCoordinator *)archivePersistentStoreCoordinator
 {
-    if (__archivePersistentStoreCoordinator != nil)
+    /*if (__archivePersistentStoreCoordinator != nil)
     {
         return __archivePersistentStoreCoordinator;
     }
@@ -286,7 +296,7 @@
         return [self archivePersistentStoreCoordinator];
         //NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
         //abort();
-    }    
+    }*/    
     
     return __archivePersistentStoreCoordinator;
 }
