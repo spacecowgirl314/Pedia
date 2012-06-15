@@ -246,13 +246,16 @@
         };
     }
     else if (buttonIndex == 3) {
-        // share via facebook
-        SLComposeViewController *socialController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        [socialController addURL:articleURL];
-        [self presentViewController:socialController animated:YES completion:NULL];
-        socialController.completionHandler = ^(SLComposeViewControllerResult result) {
-            [self dismissViewControllerAnimated:YES completion:NULL];
-        };
+        // button index 3 is cancel when on iOS 5
+        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+            // share via facebook
+            SLComposeViewController *socialController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            [socialController addURL:articleURL];
+            [self presentViewController:socialController animated:YES completion:NULL];
+            socialController.completionHandler = ^(SLComposeViewControllerResult result) {
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            };
+        }
     }
 }
 

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "ArchivedArticle.h"
 #import "WikipediaHelper.h"
 #import "ASIHTTPRequest.h"
@@ -26,6 +27,7 @@
     NSManagedObjectContext *managedObjectContext__;
     NSFetchedResultsController *fetchedResultsController_;
     NSString *articleTitle;
+    SystemSoundID audioEffect;
 }
 
 - (IBAction)archiveArticle:(id)sender;

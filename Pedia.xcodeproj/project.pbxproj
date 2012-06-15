@@ -104,6 +104,8 @@
 		3787D0C01541E9E60057446A /* TableOfContentsAnchor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */; };
 		3787D0C11541F2620057446A /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E01541442F00BE1E4E /* HTMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3787D0C21541F2650057446A /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E21541442F00BE1E4E /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3788B0EA158ADF61006CFCBF /* xylophone_affirm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3788B0E9158ADF61006CFCBF /* xylophone_affirm.wav */; };
+		3788B0ED158AE07D006CFCBF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */; };
 		378D68DD1564958500336BD0 /* SuggestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D68DC1564958500336BD0 /* SuggestionController.m */; };
 		379DE82315564B6D00688A78 /* progress-bar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE81F15564B6D00688A78 /* progress-bar-background.png */; };
 		379DE82415564B6D00688A78 /* progress-bar-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82015564B6D00688A78 /* progress-bar-background@2x.png */; };
@@ -284,6 +286,8 @@
 		3787A66B1575F50700E2F796 /* jquery-1.7.2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.7.2.min.js"; sourceTree = "<group>"; };
 		3787D0BE1541E9E60057446A /* TableOfContentsAnchor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableOfContentsAnchor.h; sourceTree = "<group>"; };
 		3787D0BF1541E9E60057446A /* TableOfContentsAnchor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableOfContentsAnchor.m; sourceTree = "<group>"; };
+		3788B0E9158ADF61006CFCBF /* xylophone_affirm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = xylophone_affirm.wav; sourceTree = "<group>"; };
+		3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		378D68DB1564958500336BD0 /* SuggestionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionController.h; sourceTree = "<group>"; };
 		378D68DC1564958500336BD0 /* SuggestionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionController.m; sourceTree = "<group>"; };
 		379DE81F15564B6D00688A78 /* progress-bar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-background.png"; sourceTree = "<group>"; };
@@ -338,6 +342,7 @@
 			files = (
 				37A782471544D1DE00390CEF /* libz.dylib in Frameworks */,
 				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
+				3788B0ED158AE07D006CFCBF /* AudioToolbox.framework in Frameworks */,
 				37CFA0B0158988D700C7B338 /* Social.framework in Frameworks */,
 				37206D8A157B579A00860192 /* CFNetwork.framework in Frameworks */,
 				37206D8C157B57C600860192 /* MobileCoreServices.framework in Frameworks */,
@@ -537,6 +542,7 @@
 				37A782461544D1DD00390CEF /* libz.dylib */,
 				37A782441544D1A600390CEF /* libTestFlight.a */,
 				371488E41541445E00BE1E4E /* libxml2.dylib */,
+				3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */,
 				37CFA0AF158988D700C7B338 /* Social.framework */,
 				37206D89157B579A00860192 /* CFNetwork.framework */,
 				37206D8B157B57C600860192 /* MobileCoreServices.framework */,
@@ -584,6 +590,7 @@
 				372501491578603A001C57CF /* GettingStartedViewController.xib */,
 				3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */,
 				3728DDBD15807B0900A8392A /* ArchivedViewController.xib */,
+				3788B0E9158ADF61006CFCBF /* xylophone_affirm.wav */,
 				375141981576087C00AFB1B9 /* Web */,
 				375141951576083200AFB1B9 /* Images */,
 				3763C73915313DFE00814E54 /* main.m */,
@@ -834,6 +841,7 @@
 				37C2D0631584434F0091D4A5 /* archiveButton-pressed@2x.png in Resources */,
 				37C2D0641584434F0091D4A5 /* archiveButton.png in Resources */,
 				37C2D0651584434F0091D4A5 /* archiveButton@2x.png in Resources */,
+				3788B0EA158ADF61006CFCBF /* xylophone_affirm.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

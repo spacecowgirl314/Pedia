@@ -41,6 +41,13 @@
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(@"Archived", @"Archived");
     self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
+    // set up archive finished sound
+    NSString *path  = [[NSBundle mainBundle] pathForResource:@"xylophone_affirm" ofType:@"wav"];
+    NSURL *pathURL = [NSURL fileURLWithPath : path];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSLog(@"exists");
+    }
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) pathURL, &audioEffect);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         // change color of font to gray on the iPhone in the navigation bar
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -84,6 +91,8 @@
 #pragma mark - Archiving -
 
 - (IBAction)archiveArticle:(id)sender {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
     // Acquire the article name from ArticleViewController
     articleTitle = [[self delegate] didBeginArchivingArticle];
     //NSLog(@"ArticleViewController archiving: %@", articleTitle);
@@ -113,6 +122,7 @@
      [[ASIDownloadCache sharedCache] pathToStoreCachedResponseDataForRequest:[self archiveRequest]]];
     
     [[self archiveRequest] startAsynchronous];
+    });
 }
 
 - (void)webPageFetchFailed:(ASIHTTPRequest *)theRequest
@@ -143,6 +153,7 @@
         NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    AudioServicesPlaySystemSound(audioEffect);
 }
 
 #pragma mark - UITableViewDataSource -
