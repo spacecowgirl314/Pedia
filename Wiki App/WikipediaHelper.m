@@ -44,6 +44,9 @@
     return self;
 }
 
+/** Returns HTML for the given article name.
+ @param name The name of the article.
+ */
 - (NSString *) getWikipediaArticle:(NSString *)name {
     // Create new SBJSON parser object
     //SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -81,6 +84,9 @@
 }
 
 // used for sharing
+/** Returns a properly valid URL contiainging a link to the given article name.
+ @param name The name of the article.
+ */
 - (NSString *) getURLForArticle:(NSString *)name {
     // remove spaces from name and replace with underscore for the url
     NSString *articleName = [name stringByReplacingOccurrencesOfString:@" " withString:@"_"];
@@ -105,6 +111,9 @@
     // Broadcast a notification with the progress change, or call a delegate
 }
 
+/** Returns a processed form of the HTML returned by [WikipediaHelper getWikipediaArticle:].
+ @param name The name of the article.
+ */
 - (NSString *) getWikipediaHTMLPage:(NSString *)name {
     // Fetch wikipedia article
     NSString *htmlSrc = [self getWikipediaArticle:name];
@@ -131,6 +140,9 @@
     return formatedHtmlSrc;
 }
 
+/** Returns a string containing the URL to the given image filename.
+ @param filename The filename of the image.
+ */
 - (NSString*) getUrlOfImageFile:(NSString*)filename {
     //http://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&titles=File:Cameras.jpg&iiprop=url&format=json
     SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -195,6 +207,9 @@
     return imageURL;
 }
 
+/** Returns an array containing the suggestions for the given string.
+ @param string The string to get suggestions for.
+ */
 - (NSArray*)getSuggestionsFor:(NSString*)string {
     // parse
     SBJsonParser *parser = [[SBJsonParser alloc] init];

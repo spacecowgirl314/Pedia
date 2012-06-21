@@ -6,6 +6,19 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		3740785115931F7900B0EFA7 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3740785215931F7900B0EFA7 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		370AEACB1579D3AB0095F510 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 370AEACA1579D3AB0095F510 /* CoreData.framework */; };
 		370AEAD41579D8EA0095F510 /* History.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 370AEAD21579D8EA0095F510 /* History.xcdatamodeld */; };
@@ -230,6 +243,7 @@
 		372C818F1543BF9500991587 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		372C81901543BF9500991587 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		372C81951543CA0300991587 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		374078551593213300B0EFA7 /* AppledocSettings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
 		3763C72915313DFE00814E54 /* Pedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763C72D15313DFE00814E54 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3763C72F15313DFE00814E54 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -548,7 +562,7 @@
 		3763C71E15313DFD00814E54 = {
 			isa = PBXGroup;
 			children = (
-				3763C73315313DFE00814E54 /* Wiki App */,
+				3763C73315313DFE00814E54 /* Pedia */,
 				3763C72C15313DFE00814E54 /* Frameworks */,
 				3763C72A15313DFE00814E54 /* Products */,
 			);
@@ -584,7 +598,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3763C73315313DFE00814E54 /* Wiki App */ = {
+		3763C73315313DFE00814E54 /* Pedia */ = {
 			isa = PBXGroup;
 			children = (
 				3763C73C15313DFE00814E54 /* AppDelegate.h */,
@@ -601,12 +615,14 @@
 				37206D67157B55D300860192 /* ASIHTTPRequest */,
 				3763C73415313DFE00814E54 /* Supporting Files */,
 			);
+			name = Pedia;
 			path = "Wiki App";
 			sourceTree = "<group>";
 		};
 		3763C73415313DFE00814E54 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				374078551593213300B0EFA7 /* AppledocSettings.plist */,
 				3763C73515313DFE00814E54 /* Pedia-Info.plist */,
 				3763C73615313DFE00814E54 /* InfoPlist.strings */,
 				37206D92157B5D9500860192 /* Settings.bundle */,
@@ -781,6 +797,7 @@
 			projectRoot = "";
 			targets = (
 				3763C72815313DFE00814E54 /* Pedia */,
+				3740785115931F7900B0EFA7 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -969,6 +986,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3740785315931F7900B0EFA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3740785415931F7900B0EFA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		3763C74B15313DFE00814E54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1065,6 +1096,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3740785215931F7900B0EFA7 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3740785315931F7900B0EFA7 /* Debug */,
+				3740785415931F7900B0EFA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		3763C72315313DFD00814E54 /* Build configuration list for PBXProject "Pedia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
