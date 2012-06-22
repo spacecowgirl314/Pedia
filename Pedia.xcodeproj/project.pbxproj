@@ -1064,7 +1064,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "01080D5D-8B55-4BB5-A0BC-EB4D66665CE7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DDA02C2C-15BF-4485-989D-B5703E76F1AE";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -1086,7 +1086,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "01080D5D-8B55-4BB5-A0BC-EB4D66665CE7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DDA02C2C-15BF-4485-989D-B5703E76F1AE";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -1103,6 +1103,7 @@
 				3740785415931F7900B0EFA7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3763C72315313DFD00814E54 /* Build configuration list for PBXProject "Pedia" */ = {
 			isa = XCConfigurationList;
