@@ -733,6 +733,8 @@
     UIImage *image = [UIImage imageNamed:@"topbar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        // needs to be changed to smaller version of the top bar
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsLandscapePhone];
     }
     // listen for these notifications
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
