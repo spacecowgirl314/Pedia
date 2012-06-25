@@ -273,7 +273,7 @@
 
 // main parsing method
 - (void)downloadHTMLandParse:(id)object {
-    NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
+    //NSLog(@"ArticleViewController loaded article %@", (NSString*)object);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSString *article;
     // if the object type is ArchivedArticle then we are loading from an archive
@@ -495,10 +495,6 @@
     NSURL *url = request.URL;
     // NOTE: this currently doesn't work for images. What this does is redirects requests to Wikipedia back to the API.
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        // completely ignore loading a new link if a thread is already executing
-        if ([loadingThread isExecuting]) {
-            return NO;
-        }
         // we went back in our history and picked another article instead
         // do we chop off the rest of the forward history?
         [self futureHistoryChopping];
@@ -519,15 +515,16 @@
             NSString *host = [url host];
             NSLog(@"ArticleViewController host:%@", host);
             // work some magic here to ensure that we also have the proper apiURL regardless of locale
-            // TODO: Make a instance variable of WikipediaHelper
             NSString *apiURLString = [wikipediaHelper apiUrl];
             NSURL *apiURL = [NSURL URLWithString:apiURLString];
             // if we are local, that is we're on wikipedia, do our thing. allow archived articles to load if file url
             if ([host isEqualToString:[apiURL host]] || [url isFileURL]) {
                 NSString *removeUnderscores = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
                 //[NSThread detachNewThreadSelector:@selector(downloadHTMLandParse:) toTarget:self withObject:removeUnderscores];
-                loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:removeUnderscores];
-                [loadingThread start];
+                if (![loadingThread isExecuting]) {
+                    loadingThread = [[NSThread alloc] initWithTarget:self selector:@selector(downloadHTMLandParse:) object:removeUnderscores];
+                    [loadingThread start];
+                }
                 // also save history
                 //[self processHistory:removeUnderscores];
                 processHistoryThread = [[NSThread alloc] initWithTarget:self selector:@selector(processHistory:) object:removeUnderscores];
