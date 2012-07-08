@@ -733,11 +733,10 @@
         titleLabel.text = NSLocalizedString(@"Article", @"");
         [titleLabel sizeToFit];
     }
-    UIImage *image = [UIImage imageNamed:@"topbar.png"];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
-        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"topbar.png"] forBarMetrics:UIBarMetricsDefault];
         // needs to be changed to smaller version of the top bar
-        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsLandscapePhone];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"topbar-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
     }
     // listen for these notifications
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -845,6 +844,7 @@
     // for jumping to an anchor
     TableOfContentsAnchor *anchor = [notification object];
     [articleView stringByEvaluatingJavaScriptFromString:[[NSString alloc] initWithFormat:@"window.location.hash = '%@'",[anchor href]]];
+    NSLog(@"anchor:%@", [anchor href]);
 }
 
 - (void)gotoArticle:(NSNotification*)notification {

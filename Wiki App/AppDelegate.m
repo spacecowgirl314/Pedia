@@ -24,8 +24,81 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set up managed object context for the history
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"History.sqlite"];
+    
+    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    
+    
+    NSPersistentStoreCoordinator* psc = __persistentStoreCoordinator;
+    
+    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            
+            // Migrate datamodel
+            NSDictionary *options = nil;
+            
+            // this needs to match the entitlements and provisioning profile
+            NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
+            NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
+            if ([coreDataCloudContent length] != 0) {
+                // iCloud is available
+                cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
+                
+                options = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                           @"Pedia.store", NSPersistentStoreUbiquitousContentNameKey,
+                           cloudURL, NSPersistentStoreUbiquitousContentURLKey,
+                           nil];
+            } else {
+                // iCloud is not available
+                options = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                           nil];
+            }
+            
+            NSError *error = nil;
+            [psc lock];
+            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+            {
+                NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+            [psc unlock];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"AppDelegate asynchronously added persistent store!");
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+                
+                // because notification can't be sent to segues? this works. use a singleton of the view controller
+                // i don't like it very much feels hacky and likely to break in a future iOS version
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+                    NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+                    [historyViewController reloadFetchedResults:notification];
+                }
+            });
+            
+        });
+        
+    } else {
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                                 nil];
+        
+        NSError *error = nil;
+        if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+        {
+            NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
     // set up managed object context for the archive
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Archive.sqlite"];
+    storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Archive.sqlite"];
     NSError *error = nil;
     __archivePersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self archiveManagedObjectModel]];
 	
@@ -164,7 +237,7 @@
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
-    if (__persistentStoreCoordinator != nil)
+    /*if (__persistentStoreCoordinator != nil)
     {
         return __persistentStoreCoordinator;
     }
@@ -240,7 +313,7 @@
             NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-    }
+    }*/
     return __persistentStoreCoordinator;
 }
 
