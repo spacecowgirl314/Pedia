@@ -141,6 +141,27 @@
     [searchView setHidden:NO];
     [self.view bringSubviewToFront:searchView];
     [articleSearchBox becomeFirstResponder];
+    __block CFAbsoluteTime time;
+    __block CFAbsoluteTime startTime;
+    __block double scale;
+    
+    startTime = CFAbsoluteTimeGetCurrent();
+    time = CFAbsoluteTimeGetCurrent();
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        while (time < (startTime + 2.5) && (time >= startTime)) {
+            if (time - startTime < 1.5) {
+                scale = 1.0 - exp(-2.4 * (time - startTime)) * sin(40.0/M_PI * (time - startTime)) * 0.15;
+                //[button scaleX:scale Y:scale];
+                NSLog(@"scale:%f", scale);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [searchView setTransform:CGAffineTransformMakeScale(scale, scale)];
+                });
+            }
+            time = CFAbsoluteTimeGetCurrent();
+        }
+    });
     [UIView animateWithDuration:0.50
                           delay:0
                         options:UIViewAnimationCurveEaseOut
@@ -492,6 +513,7 @@
 #pragma mark - UIWebView Management
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSLog(@"type:%i", navigationType);
     NSURL *url = request.URL;
     // NOTE: this currently doesn't work for images. What this does is redirects requests to Wikipedia back to the API.
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
