@@ -15,27 +15,16 @@
 #import "ASIWebPageRequest.h"
 #import "ASIDownloadCache.h"
 
-@protocol ArchivedViewControllerDelegate <NSObject>
-@required
-- (NSString*)didBeginArchivingArticle;
-@end
-
-@interface ArchivedViewController : UIViewController <ASIHTTPRequestDelegate, NSFetchedResultsControllerDelegate> {
-    id <ArchivedViewControllerDelegate> delegate;
+@interface ArchivedViewController : UIViewController <NSFetchedResultsControllerDelegate> {
     IBOutlet UITableView *archiveTableView;
-    ASIWebPageRequest *archiveRequest;
     NSManagedObjectContext *managedObjectContext__;
     NSFetchedResultsController *fetchedResultsController_;
     NSString *articleTitle;
-    SystemSoundID audioEffect;
 }
 
 - (IBAction)archiveArticle:(id)sender;
 
-@property (retain) id delegate;
 @property (strong) IBOutlet UITableView *archiveTableView;
-@property (nonatomic) NSString *articleTitle;
-@property (nonatomic) ASIWebPageRequest *archiveRequest;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
 

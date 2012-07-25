@@ -9,6 +9,7 @@
 #import "ArchivedViewController.h"
 #import "AppDelegate.h"
 #import "ArticleViewController.h"
+#import "ArchiveDownloader.h"
 
 #define NSLog TFLog
 
@@ -19,10 +20,7 @@
 @end
 
 @implementation ArchivedViewController
-@synthesize delegate;
 @synthesize archiveTableView;
-@synthesize articleTitle;
-@synthesize archiveRequest;
 @synthesize managedObjectContext=managedObjectContext__;
 @synthesize fetchedResultsController=fetchedResultsController_;
 
@@ -41,13 +39,6 @@
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(@"Archived", @"Archived");
     self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
-    // set up archive finished sound
-    NSString *path  = [[NSBundle mainBundle] pathForResource:@"xylophone_affirm" ofType:@"wav"];
-    NSURL *pathURL = [NSURL fileURLWithPath : path];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSLog(@"exists");
-    }
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) pathURL, &audioEffect);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         // change color of font to gray on the iPhone in the navigation bar
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -91,69 +82,7 @@
 #pragma mark - Archiving -
 
 - (IBAction)archiveArticle:(id)sender {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
-    dispatch_async(queue,^{
-    // Acquire the article name from ArticleViewController
-    articleTitle = [[self delegate] didBeginArchivingArticle];
-    //NSLog(@"ArticleViewController archiving: %@", articleTitle);
-    WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
-    NSURL *url = [NSURL URLWithString:[wikipediaHelper getURLForArticle:articleTitle]];
-    
-    [[self archiveRequest] setDelegate:nil];
-    [[self archiveRequest] cancel];
-    
-    [self setArchiveRequest:[ASIWebPageRequest requestWithURL:url]];
-    [[self archiveRequest] setDelegate:self];
-    [[self archiveRequest] setUserAgentString:@"Pedia"];
-    [[self archiveRequest] setDidFailSelector:@selector(webPageFetchFailed:)];
-    [[self archiveRequest] setDidFinishSelector:@selector(webPageFetchSucceeded:)];
-    
-    // Tell the request to embed external resources directly in the page
-    [[self archiveRequest] setUrlReplacementMode:ASIReplaceExternalResourcesWithData];
-    
-    // It is strongly recommended you use a download cache with ASIWebPageRequest
-    // When using a cache, external resources are automatically stored in the cache
-    // and can be pulled from the cache on subsequent page loads
-    [[self archiveRequest] setDownloadCache:[ASIDownloadCache sharedCache]];
-    
-    // Ask the download cache for a place to store the cached data
-    // This is the most efficient way for an ASIWebPageRequest to store a web page
-    [[self archiveRequest] setDownloadDestinationPath:
-     [[ASIDownloadCache sharedCache] pathToStoreCachedResponseDataForRequest:[self archiveRequest]]];
-    
-    [[self archiveRequest] startAsynchronous];
-    });
-}
-
-- (void)webPageFetchFailed:(ASIHTTPRequest *)theRequest
-{
-    // Obviously you should handle the error properly...
-    NSLog(@"ArchivedViewController error: %@",[theRequest error]);
-}
-
-- (void)webPageFetchSucceeded:(ASIHTTPRequest *)theRequest
-{
-    NSLog(@"ArticleViewController downloadDestinationPath:%@", [theRequest downloadDestinationPath]);
-    NSString *response = [NSString stringWithContentsOfFile:
-                          [theRequest downloadDestinationPath] encoding:[theRequest responseEncoding] error:nil];
-    // Note we're setting the baseURL to the url of the page we downloaded. This is important!
-    // TODO: Clean the Cached files left behind by ASIWebRequest.
-    //NSLog(@"ArchivedViewController response: %@", response);
-    
-    ArchivedArticle *archiveEntry = [NSEntityDescription insertNewObjectForEntityForName:@"ArchivedArticle" inManagedObjectContext:[self managedObjectContext]];
-    
-    [archiveEntry setTitle:articleTitle];
-    [archiveEntry setData:response];
-    [archiveEntry setDate:[NSDate date]];
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error])
-    {
-        // TODO: Do something better than just aborting.
-        NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    AudioServicesPlaySystemSound(audioEffect);
+    [[ArchiveDownloader sharedDownloader] downloadArticle];
 }
 
 #pragma mark - UITableViewDataSource -
@@ -217,6 +146,12 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
 	{
 		NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+        // remove associated archive file
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *fileURL = [[self applicationDocumentsDirectory]
+                          URLByAppendingPathComponent:[(ArchivedArticle*)[self.fetchedResultsController objectAtIndexPath:indexPath] file]];
+        [fileManager removeItemAtURL:fileURL error:nil];
+        // then delete the object from CoreData
 		[context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
 		
 		NSError *error;
@@ -353,6 +288,13 @@
 {
 	UITableView *tableView = self.archiveTableView;
 	[tableView endUpdates];
+}
+
+#pragma mark - Documents Directory -
+
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 @end

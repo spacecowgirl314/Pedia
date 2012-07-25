@@ -141,6 +141,7 @@
     [searchView setHidden:NO];
     [self.view bringSubviewToFront:searchView];
     [articleSearchBox becomeFirstResponder];
+    // bounce animation for the search view
     __block CFAbsoluteTime time;
     __block CFAbsoluteTime startTime;
     __block double scale;
@@ -153,8 +154,6 @@
         while (time < (startTime + 2.5) && (time >= startTime)) {
             if (time - startTime < 1.5) {
                 scale = 1.0 - exp(-2.4 * (time - startTime)) * sin(40.0/M_PI * (time - startTime)) * 0.15;
-                //[button scaleX:scale Y:scale];
-                NSLog(@"scale:%f", scale);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [searchView setTransform:CGAffineTransformMakeScale(scale, scale)];
                 });
@@ -299,7 +298,16 @@
     NSString *article;
     // if the object type is ArchivedArticle then we are loading from an archive
     if ([object isKindOfClass:[ArchivedArticle class]]) {
-        article = (NSString*)[(ArchivedArticle*)object data];
+        NSString *fileName = (NSString *)[(ArchivedArticle*)object file];
+        NSURL *fileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:fileName];
+        NSLog(@"fileName:%@", fileName);
+        NSError *error;
+        article = [NSString stringWithContentsOfURL:
+                   fileURL encoding:NSUTF8StringEncoding error:&error];
+        if (error) {
+            NSLog(@"ArticleViewController error:%@", [error description]);
+        }
+        //NSLog(@"article:%@", article);
     }
     else {
         // if there is no internet don't do jack ignore the request and politely tell the user it's not possible
@@ -788,7 +796,8 @@
         self.historyViewControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_historyViewController];
         self.archivedViewController = [[ArchivedViewController alloc] init];
         self.archivedViewControllerPopover = [[UIPopoverController alloc] initWithContentViewController:_archivedViewController];
-        self.archivedViewController.delegate = self;
+        // setup downloader
+        [[ArchiveDownloader sharedDownloader] setDelegate:self];
     }
     // transparent bottom bar image
     bottomBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombar.png"]];
@@ -937,9 +946,8 @@
 	}
     else if ([segue.identifier isEqualToString:@"Archived"])
     {
-        // grabbing the view controller and setting it's delegate to self allows it to grab the article title
-        ArchivedViewController *archivedViewController = segue.destinationViewController;
-        archivedViewController.delegate = self;
+        // set the delegate of the ArchiveDownloader so that it can grab the title
+        [[ArchiveDownloader sharedDownloader] setDelegate:self];
     }
     else if ([segue.identifier isEqualToString:@"Image"])
     {
@@ -956,6 +964,11 @@
     return self.title;
 }
 
-#pragma mark -
+#pragma mark - Documents Directory -
+
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
 
 @end

@@ -11,7 +11,7 @@
 @interface ArchivedArticle : NSManagedObject
 
 @property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *data;
+@property (nonatomic, retain) NSString *file;
 @property (nonatomic, retain) NSDate *date;
 
 @end

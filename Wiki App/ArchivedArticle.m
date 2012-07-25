@@ -10,7 +10,7 @@
 
 @implementation ArchivedArticle
 @dynamic title;
-@dynamic data;
+@dynamic file;
 @dynamic date;
 
 - (id)copyWithZone: (NSZone *)zone
