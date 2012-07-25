@@ -69,8 +69,11 @@ static ArchiveDownloader *sharedMyDownloader = nil;
     }
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     [notification setAlertBody:[[NSString alloc] initWithFormat:@"Article %@ has finished downloading.", articleTitle]];
+    [notification setAlertAction:@"Show"];
     [notification setFireDate:[NSDate date]];
+    [notification setTimeZone:[NSTimeZone defaultTimeZone]];
     [notification setSoundName:soundPath];
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
     AudioServicesPlaySystemSound(audioEffect);
 }
 
