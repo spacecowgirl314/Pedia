@@ -78,58 +78,39 @@ static ArchiveDownloader *sharedMyDownloader = nil;
 }
 
 - (void)downloadArticle {
-    UIApplication *application = [UIApplication sharedApplication]; //Get the shared application instance
+    //Perform your tasks that your application requires
     
-    __block UIBackgroundTaskIdentifier background_task; //Create a task object
+    // Acquire the article name from ArticleViewController
+    articleTitle = [[self delegate] didBeginArchivingArticle];
+    //NSLog(@"ArticleViewController archiving: %@", articleTitle);
+    WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
+    NSURL *url = [NSURL URLWithString:[wikipediaHelper getURLForArticle:articleTitle]];
     
-    background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
-        [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
-        background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
-        
-        //System will be shutting down the app at any point in time now
-    }];
+    [[self archiveRequest] setDelegate:nil];
+    [[self archiveRequest] cancel];
     
-    //Background tasks require you to use asyncrous tasks
+    [self setArchiveRequest:[ASIWebPageRequest requestWithURL:url]];
+    [[self archiveRequest] setDelegate:self];
+    [[self archiveRequest] setUserAgentString:@"Pedia"];
+    [[self archiveRequest] setDidFailSelector:@selector(webPageFetchFailed:)];
+    [[self archiveRequest] setDidFinishSelector:@selector(webPageFetchSucceeded:)];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //Perform your tasks that your application requires
-        
-        // Acquire the article name from ArticleViewController
-        articleTitle = [[self delegate] didBeginArchivingArticle];
-        //NSLog(@"ArticleViewController archiving: %@", articleTitle);
-        WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
-        NSURL *url = [NSURL URLWithString:[wikipediaHelper getURLForArticle:articleTitle]];
-        
-        [[self archiveRequest] setDelegate:nil];
-        [[self archiveRequest] cancel];
-        
-        [self setArchiveRequest:[ASIWebPageRequest requestWithURL:url]];
-        [[self archiveRequest] setDelegate:self];
-        [[self archiveRequest] setUserAgentString:@"Pedia"];
-        [[self archiveRequest] setDidFailSelector:@selector(webPageFetchFailed:)];
-        [[self archiveRequest] setDidFinishSelector:@selector(webPageFetchSucceeded:)];
-        
-        // Tell the request to embed external resources directly in the page
-        [[self archiveRequest] setUrlReplacementMode:ASIReplaceExternalResourcesWithData];
-        
-        // It is strongly recommended you use a download cache with ASIWebPageRequest
-        // When using a cache, external resources are automatically stored in the cache
-        // and can be pulled from the cache on subsequent page loads
-        [[self archiveRequest] setDownloadCache:[ASIDownloadCache sharedCache]];
-        
-        // Ask the download cache for a place to store the cached data
-        // This is the most efficient way for an ASIWebPageRequest to store a web page
-        CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-        uniqueID = (__bridge NSString*)CFUUIDCreateString(kCFAllocatorDefault, uuid);
-        NSURL *saveURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:uniqueID];
-        [[self archiveRequest] setDownloadDestinationPath:[saveURL relativePath]];
-        
-        //[[self archiveRequest] startAsynchronous];
-        [[self archiveRequest] startSynchronous];
-        
-        [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
-        background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
-    });
+    // Tell the request to embed external resources directly in the page
+    [[self archiveRequest] setUrlReplacementMode:ASIReplaceExternalResourcesWithData];
+    
+    // It is strongly recommended you use a download cache with ASIWebPageRequest
+    // When using a cache, external resources are automatically stored in the cache
+    // and can be pulled from the cache on subsequent page loads
+    [[self archiveRequest] setDownloadCache:[ASIDownloadCache sharedCache]];
+    
+    // Ask the download cache for a place to store the cached data
+    // This is the most efficient way for an ASIWebPageRequest to store a web page
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    uniqueID = (__bridge NSString*)CFUUIDCreateString(kCFAllocatorDefault, uuid);
+    NSURL *saveURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:uniqueID];
+    [[self archiveRequest] setDownloadDestinationPath:[saveURL relativePath]];
+    
+    [[self archiveRequest] startAsynchronous];
 }
 
 #pragma mark - Documents Directory -

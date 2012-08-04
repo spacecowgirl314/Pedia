@@ -316,7 +316,7 @@
             [alertView show];
             return;
         }
-        article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object];
+        article = [wikipediaHelper getWikipediaHTMLPage:(NSString*)object]; // suggestions seem to crash here randomly
     }
     NSError *error = [[NSError alloc] init];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:article error:&error];
