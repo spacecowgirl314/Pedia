@@ -630,8 +630,15 @@
                              //nil
                          }];
         // animate progess bar here
-        NSString *imageURL = [wikipediaHelper getUrlOfImageFile:(NSString*)object];
+        NSString *imageURL = [wikipediaHelper getUrlOfImageFile:(NSString*)object];        
         NSURL *url = [NSURL URLWithString:imageURL];
+        
+        // make sure we aren't loading an vector image
+        NSLog(@"extension:%@", [url pathExtension]);
+        if ([[url pathExtension] isEqualToString:@"svg"]) {
+            NSLog(@"Abandon ship we've got a vector image!");
+        }
+        
         int width = 200;
         int height = 20;
         imageBar = [[UIDownloadBar alloc] initWithURL:url
@@ -642,6 +649,16 @@
         [self.view addSubview:imageBar];
     }
     else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // animate progess bar here
+        NSString *imageURL = [wikipediaHelper getUrlOfImageFile:(NSString*)object];
+        NSURL *url = [NSURL URLWithString:imageURL];
+        
+        // make sure we aren't loading an vector image
+        NSLog(@"extension:%@", [url pathExtension]);
+        if ([[url pathExtension] isEqualToString:@"svg"]) {
+            NSLog(@"Abandon ship we've got a vector image!");
+        }
+        
         // additionally pass the image string object to the prepare segue
         [self performSegueWithIdentifier: @"Image" 
                                   sender: object];
