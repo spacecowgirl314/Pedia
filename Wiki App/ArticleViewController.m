@@ -636,6 +636,7 @@
         // make sure we aren't loading an vector image
         NSLog(@"extension:%@", [url pathExtension]);
         if ([[url pathExtension] isEqualToString:@"svg"]) {
+            imageIsVector = YES;
             NSLog(@"Abandon ship we've got a vector image!");
         }
         
@@ -656,6 +657,7 @@
         // make sure we aren't loading an vector image
         NSLog(@"extension:%@", [url pathExtension]);
         if ([[url pathExtension] isEqualToString:@"svg"]) {
+            imageIsVector = YES;
             NSLog(@"Abandon ship we've got a vector image!");
         }
         
@@ -671,8 +673,18 @@
         imageIsDownloaded = YES;
         UIImage *image = [[UIImage alloc] initWithData:fileData];
         [downloadBar removeFromSuperview];
-        [imageView setImage:image];
-        [imageView setHidden:NO];
+        if (imageIsVector) {
+            vectorView = [[UIWebView alloc] init];
+            [vectorView setScalesPageToFit:YES];
+            [vectorView loadData:fileData MIMEType:@"image/svg+xml" textEncodingName:@"utf-8" baseURL:nil];
+            [vectorView setUserInteractionEnabled:NO];
+            
+            [scrollView setVectorView:vectorView];
+        }
+        else {
+            [imageView setImage:image];
+            [imageView setHidden:NO];
+        }
         [scrollView setHidden:NO];
         [self.view bringSubviewToFront:scrollView];
     }
@@ -698,13 +710,20 @@
                      completion:^(BOOL finished){
                          // after being undimmed we no longer need this
                          [overlay removeFromSuperview];
+                         // remove the vector view otherwise it will keep adding more
+                         [vectorView removeFromSuperview];
                      }];
 }
 
 #pragma mark - Important for image viewing
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return imageView;
+    if (imageIsVector) {
+        return vectorView;
+    }
+    else {
+        return imageView;
+    }
 }
 
 - (BOOL)isFinishedDownloading {

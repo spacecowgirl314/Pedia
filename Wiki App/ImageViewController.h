@@ -16,6 +16,7 @@
     UIDownloadBar *imageBar;
     UILabel *titleLabel;
     BOOL imageIsDownloaded;
+    BOOL imageIsVector;
 }
 
 - (void)imageLoadWithName:(NSString*)name;

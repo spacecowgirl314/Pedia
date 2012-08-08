@@ -71,6 +71,14 @@
     //NSLog(@"Image url:%@", );
     NSString *imageURL = [wikiHelper getUrlOfImageFile:name];
     NSURL *url = [NSURL URLWithString:imageURL];
+    
+    // make sure we aren't loading an vector image
+    NSLog(@"extension:%@", [url pathExtension]);
+    if ([[url pathExtension] isEqualToString:@"svg"]) {
+        imageIsVector = YES;
+        NSLog(@"Abandon ship we've got a vector image!");
+    }
+    
     int width = 200;
     int height = 20;
     imageBar = [[UIDownloadBar alloc] initWithURL:url
@@ -91,8 +99,19 @@
         NSString *resolutionString = [[NSString alloc] initWithFormat:@"%ix%i", (int)image.size.width, (int)image.size.height];
         titleLabel.text = resolutionString;
         [titleLabel sizeToFit];
-        [imageView setImage:image];
-        [imageView setHidden:NO];
+        
+        if (imageIsVector) {
+            UIWebView *vectorView = [[UIWebView alloc] init];
+            [vectorView setScalesPageToFit:YES];
+            [vectorView loadData:fileData MIMEType:@"image/svg+xml" textEncodingName:@"utf-8" baseURL:nil];
+            [vectorView setUserInteractionEnabled:NO];
+            
+            [scrollView setVectorView:vectorView];
+        }
+        else {
+            [imageView setImage:image];
+            [imageView setHidden:NO];
+        }
         [scrollView setHidden:NO];
         [self.view bringSubviewToFront:scrollView];
         // enable the action sheet to work

@@ -35,11 +35,29 @@
     
     [self addGestureRecognizer:longPress];
     
-    // add shadow to the image
-    tileContainerView.layer.shadowColor = [UIColor blackColor].CGColor;
-    tileContainerView.layer.shadowOffset = CGSizeMake(0, 0);
-    tileContainerView.layer.shadowOpacity = 1;
-    tileContainerView.layer.shadowRadius = 1.0;
+    // use vector or don't
+    if (vectorView == nil) {
+        // add shadow to the image
+        tileContainerView.layer.shadowColor = [UIColor blackColor].CGColor;
+        tileContainerView.layer.shadowOffset = CGSizeMake(0, 0);
+        tileContainerView.layer.shadowOpacity = 1;
+        tileContainerView.layer.shadowRadius = 1.0;
+    }
+    else {
+        // add shadow to the image
+        vectorView.layer.shadowColor = [UIColor blackColor].CGColor;
+        vectorView.layer.shadowOffset = CGSizeMake(0, 0);
+        vectorView.layer.shadowOpacity = 1;
+        vectorView.layer.shadowRadius = 1.0;
+    }
+}
+
+- (void)setVectorView:(UIWebView*)_vectorView {
+    // swap out UIImageView for UIWebView
+    vectorView = _vectorView;
+    vectorView.frame = tileContainerView.frame;
+    [tileContainerView removeFromSuperview];
+    [self addSubview:vectorView];
 }
 
 - (void)handleLongPress:(UIGestureRecognizer*)sender {
@@ -99,7 +117,13 @@
         self.hidden=YES;
         // reset zoom
         CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
-        tileContainerView.transform = transform;
+        // use vector or don't
+        if (vectorView == nil) {
+            tileContainerView.transform = transform;
+        }
+        else {
+            vectorView.transform = transform;
+        }
         [self setContentSize:CGSizeZero];
         // post notifcation to remove dimming
         [[NSNotificationCenter defaultCenter] 
@@ -114,7 +138,14 @@
     
     // center the image as it becomes smaller than the size of the screen
     CGSize boundsSize = self.bounds.size;
-    CGRect frameToCenter = tileContainerView.frame;
+    CGRect frameToCenter;
+    // use vector or don't
+    if (vectorView == nil) {
+        frameToCenter = tileContainerView.frame;
+    }
+    else {
+        frameToCenter = vectorView.frame;
+    }
     
     // center horizontally
     if (frameToCenter.size.width < boundsSize.width)
@@ -128,7 +159,13 @@
     else
         frameToCenter.origin.y = 0;
     
-    tileContainerView.frame = frameToCenter;
+    // use vector or don't
+    if (vectorView == nil) {
+        tileContainerView.frame = frameToCenter;
+    }
+    else {
+        vectorView.frame = frameToCenter;
+    }
 }
 
 /*

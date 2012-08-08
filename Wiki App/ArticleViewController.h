@@ -60,6 +60,8 @@
     WikipediaHelper *wikipediaHelper;
     Reachability *reachability;
     BOOL imageIsDownloaded;
+    BOOL imageIsVector;
+    UIWebView *vectorView;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;

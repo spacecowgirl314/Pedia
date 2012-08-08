@@ -16,12 +16,14 @@
 @interface ImageScrollView : UIScrollView <UIActionSheetDelegate> {
     id <ImageScrollViewDelegate> imageScrollViewDelegate;
     IBOutlet UIImageView *tileContainerView;
+    UIWebView *vectorView;
     CGPoint originalImagePos;
     BOOL touchesMoved;
     CGPoint currentPoint;
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer;
+- (void)setVectorView:(UIWebView*)_vectorView;
 
 @property id imageScrollViewDelegate;
 
