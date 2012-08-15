@@ -11,7 +11,7 @@
 #import <Twitter/Twitter.h>
 #import <MessageUI/MessageUI.h>
 #import <CoreData/CoreData.h>
-#import <Social/Social.h>
+//#import <Social/Social.h>
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
@@ -24,6 +24,7 @@
 #import "Reachability.h"
 #import "ImageScrollView.h"
 #import "ArchiveDownloader.h"
+#import "WikisViewController.h"
 
 @interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchiveDownloaderDelegate, ImageScrollViewDelegate> {
     IBOutlet UITextField *articleSearchBox;

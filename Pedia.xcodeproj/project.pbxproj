@@ -108,6 +108,7 @@
 		3782072B157C6FAD00943CD8 /* welcome.html in Resources */ = {isa = PBXBuildFile; fileRef = 37820728157C6FAD00943CD8 /* welcome.html */; };
 		37820731157CA18500943CD8 /* Amplitude-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37820730157CA18500943CD8 /* Amplitude-Medium.ttf */; };
 		37820732157CA49900943CD8 /* wizardry.js in Resources */ = {isa = PBXBuildFile; fileRef = 3782072C157C89DA00943CD8 /* wizardry.js */; };
+		3787122D15D9D2D400E67D3B /* Wiki.m in Sources */ = {isa = PBXBuildFile; fileRef = 3787122C15D9D2D400E67D3B /* Wiki.m */; };
 		3787A6541575D4D400E2F796 /* back-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6521575D4D400E2F796 /* back-pressed.png */; };
 		3787A6551575D4D400E2F796 /* back-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6531575D4D400E2F796 /* back-pressed@2x.png */; };
 		3787A6591575D4E400E2F796 /* export-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6571575D4E400E2F796 /* export-pressed.png */; };
@@ -162,7 +163,9 @@
 		37C8FE18159D58CA0072B677 /* topbar-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C8FE16159D58CA0072B677 /* topbar-landscape.png */; };
 		37C8FE19159D58CA0072B677 /* topbar-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C8FE17159D58CA0072B677 /* topbar-landscape@2x.png */; };
 		37CD25C315BF65A80094B2E6 /* ArchiveDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CD25C215BF65A80094B2E6 /* ArchiveDownloader.m */; };
-		37CFA0B0158988D700C7B338 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CFA0AF158988D700C7B338 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		37D6999715DB04600076F3AD /* WikisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6999615DB04600076F3AD /* WikisViewController.m */; };
+		37D6999915DB10580076F3AD /* WikisViewController~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D6999815DB10580076F3AD /* WikisViewController~iPad.xib */; };
+		37D6999F15DB25D00076F3AD /* WikisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D6999E15DB25D00076F3AD /* WikisViewController.xib */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
 		37F09947154D2F8F008D778F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37F09945154D2F8F008D778F /* Localizable.strings */; };
 		37F09949154D2FB4008D778F /* Amplitude-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821A154490E800390CEF /* Amplitude-Book.ttf */; };
@@ -302,6 +305,8 @@
 		37820728157C6FAD00943CD8 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = welcome.html; sourceTree = "<group>"; };
 		3782072C157C89DA00943CD8 /* wizardry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = wizardry.js; sourceTree = "<group>"; };
 		37820730157CA18500943CD8 /* Amplitude-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Medium.ttf"; sourceTree = "<group>"; };
+		3787122B15D9D2D400E67D3B /* Wiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiki.h; sourceTree = "<group>"; };
+		3787122C15D9D2D400E67D3B /* Wiki.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiki.m; sourceTree = "<group>"; };
 		3787A6521575D4D400E2F796 /* back-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed.png"; sourceTree = "<group>"; };
 		3787A6531575D4D400E2F796 /* back-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed@2x.png"; sourceTree = "<group>"; };
 		3787A6571575D4E400E2F796 /* export-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "export-pressed.png"; sourceTree = "<group>"; };
@@ -365,6 +370,10 @@
 		37CD25C115BF65A80094B2E6 /* ArchiveDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveDownloader.h; sourceTree = "<group>"; };
 		37CD25C215BF65A80094B2E6 /* ArchiveDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveDownloader.m; sourceTree = "<group>"; };
 		37CFA0AF158988D700C7B338 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		37D6999515DB04600076F3AD /* WikisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikisViewController.h; sourceTree = "<group>"; };
+		37D6999615DB04600076F3AD /* WikisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikisViewController.m; sourceTree = "<group>"; };
+		37D6999815DB10580076F3AD /* WikisViewController~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WikisViewController~iPad.xib"; sourceTree = "<group>"; };
+		37D6999E15DB25D00076F3AD /* WikisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WikisViewController.xib; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		37F09946154D2F8F008D778F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		37F09948154D2FB4008D778F /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -378,7 +387,6 @@
 				37A782471544D1DE00390CEF /* libz.dylib in Frameworks */,
 				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
 				3788B0ED158AE07D006CFCBF /* AudioToolbox.framework in Frameworks */,
-				37CFA0B0158988D700C7B338 /* Social.framework in Frameworks */,
 				37206D8A157B579A00860192 /* CFNetwork.framework in Frameworks */,
 				37206D8C157B57C600860192 /* MobileCoreServices.framework in Frameworks */,
 				370AEACB1579D3AB0095F510 /* CoreData.framework in Frameworks */,
@@ -466,6 +474,8 @@
 				37CD25C215BF65A80094B2E6 /* ArchiveDownloader.m */,
 				3728DDC51580837400A8392A /* ArchivedArticle.h */,
 				3728DDC61580837400A8392A /* ArchivedArticle.m */,
+				3787122B15D9D2D400E67D3B /* Wiki.h */,
+				3787122C15D9D2D400E67D3B /* Wiki.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -646,6 +656,8 @@
 				372501491578603A001C57CF /* GettingStartedViewController.xib */,
 				3725014D157860AD001C57CF /* GettingStartedViewController~iPad.xib */,
 				3728DDBD15807B0900A8392A /* ArchivedViewController.xib */,
+				37D6999E15DB25D00076F3AD /* WikisViewController.xib */,
+				37D6999815DB10580076F3AD /* WikisViewController~iPad.xib */,
 				3788B0E9158ADF61006CFCBF /* xylophone_affirm.wav */,
 				375141981576087C00AFB1B9 /* Web */,
 				375141951576083200AFB1B9 /* Images */,
@@ -744,6 +756,8 @@
 				37ACB5D6155DFE3000C98092 /* ImageViewController.m */,
 				378D68DB1564958500336BD0 /* SuggestionController.h */,
 				378D68DC1564958500336BD0 /* SuggestionController.m */,
+				37D6999515DB04600076F3AD /* WikisViewController.h */,
+				37D6999615DB04600076F3AD /* WikisViewController.m */,
 				3787A670157606D000E2F796 /* iPad */,
 			);
 			name = Controllers;
@@ -907,6 +921,8 @@
 				37195769158D1B5B007DD0A9 /* Default-Landscape~ipad.png in Resources */,
 				37C8FE18159D58CA0072B677 /* topbar-landscape.png in Resources */,
 				37C8FE19159D58CA0072B677 /* topbar-landscape@2x.png in Resources */,
+				37D6999915DB10580076F3AD /* WikisViewController~iPad.xib in Resources */,
+				37D6999F15DB25D00076F3AD /* WikisViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +978,8 @@
 				3728DDCA1580863400A8392A /* Archive.xcdatamodeld in Sources */,
 				37CD25C315BF65A80094B2E6 /* ArchiveDownloader.m in Sources */,
 				3766F75115D2142E004C1B33 /* Wikis.xcdatamodeld in Sources */,
+				3787122D15D9D2D400E67D3B /* Wiki.m in Sources */,
+				37D6999715DB04600076F3AD /* WikisViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,7 +1100,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DDA02C2C-15BF-4485-989D-B5703E76F1AE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "19D89849-C186-41D2-AFEF-BC3756F80D49";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -1104,7 +1122,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DDA02C2C-15BF-4485-989D-B5703E76F1AE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "19D89849-C186-41D2-AFEF-BC3756F80D49";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;

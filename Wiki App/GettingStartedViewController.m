@@ -58,7 +58,10 @@
         frame.origin.y = 0;
         frame.size = self.scrollView.frame.size;
         
+        // real views from nib should be inserted here
         UIView *subview = [[UIView alloc] initWithFrame:frame];
+        //subview.autoresizingMask = UIViewAutoresizingFlexibleHeight + UIViewAutoresizingFlexibleWidth;
+        //subview.autoresizesSubviews = YES;
         subview.backgroundColor = [colors objectAtIndex:i];
         [self.scrollView addSubview:subview];
     }

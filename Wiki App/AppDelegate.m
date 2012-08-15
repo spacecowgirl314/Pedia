@@ -16,11 +16,14 @@
 
 @synthesize window = _window;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize archiveManagedObjectContext = __archiveManagedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
-@synthesize archiveManagedObjectModel = __archiveManagedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize archiveManagedObjectContext = __archiveManagedObjectContext;
+@synthesize archiveManagedObjectModel = __archiveManagedObjectModel;
 @synthesize archivePersistentStoreCoordinator = __archivePersistentStoreCoordinator;
+@synthesize wikiManagedObjectContext = __wikiManagedObjectContext;
+@synthesize wikiManagedObjectModel = __wikiManagedObjectModel;
+@synthesize wikiPersistentStoreCoordinator = __wikiPersistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -32,7 +35,7 @@
     if (![__archivePersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
     {
         NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        //abort();
     }
     // set version number for settings everytime
     [[NSUserDefaults standardUserDefaults] setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"kVersion"];
@@ -113,7 +116,7 @@
              abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
              */
             NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
-            abort();
+            //abort();
         } 
     }
 }
@@ -238,7 +241,7 @@
         if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
         {
             NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
-            abort();
+            //abort();
         }
     }
     return __persistentStoreCoordinator;
@@ -299,6 +302,132 @@
     }*/    
     
     return __archivePersistentStoreCoordinator;
+}
+
+#pragma mark - Core Data Stack Wikis -
+
+- (NSManagedObjectContext *)wikiManagedObjectContext
+{
+    if (__wikiManagedObjectContext != nil)
+    {
+        return __wikiManagedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self wikiPersistentStoreCoordinator];
+    
+    if (coordinator != nil)
+    {
+        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
+            NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            
+            [moc performBlockAndWait:^{
+                [moc setPersistentStoreCoordinator: coordinator];
+                
+                [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mergeChangesFrom_iCloud:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:coordinator];
+            }];
+            __wikiManagedObjectContext = moc;
+        } else {
+            __wikiManagedObjectContext = [[NSManagedObjectContext alloc] init];
+            [__wikiManagedObjectContext setPersistentStoreCoordinator:coordinator];
+        }
+        
+    }
+    return __wikiManagedObjectContext;
+}
+
+- (NSManagedObjectModel *)wikiManagedObjectModel
+{
+    if (__managedObjectModel != nil)
+    {
+        return __managedObjectModel;
+    }
+	
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Wikis" withExtension:@"momd"];
+    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+	
+    return __managedObjectModel;
+}
+
+- (NSPersistentStoreCoordinator *)wikiPersistentStoreCoordinator
+{
+    if (__wikiPersistentStoreCoordinator != nil)
+    {
+        return __wikiPersistentStoreCoordinator;
+    }
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Wikis.sqlite"];
+    
+    __wikiPersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self wikiManagedObjectModel]];
+    
+    
+    NSPersistentStoreCoordinator* psc = __wikiPersistentStoreCoordinator;
+    
+    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            
+            // Migrate datamodel
+            NSDictionary *options = nil;
+            
+            // this needs to match the entitlements and provisioning profile
+            NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
+            NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
+            if ([coreDataCloudContent length] != 0) {
+                // iCloud is available
+                cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
+                
+                options = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                           @"Pedia.store", NSPersistentStoreUbiquitousContentNameKey,
+                           cloudURL, NSPersistentStoreUbiquitousContentURLKey,
+                           nil];
+            } else {
+                // iCloud is not available
+                options = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                           nil];
+            }
+            
+            NSError *error = nil;
+            [psc lock];
+            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+            {
+                NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+            [psc unlock];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"AppDelegate asynchronously added persistent store!");
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+                
+                // because notification can't be sent to segues? this works. use a singleton of the view controller
+                // i don't like it very much feels hacky and likely to break in a future iOS version
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                    HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+                    NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+                    [historyViewController reloadFetchedResults:notification];
+                }
+            });
+            
+        });
+        
+    } else {
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                                 nil];
+        
+        NSError *error = nil;
+        if (![__wikiPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+        {
+            NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
+            //abort();
+        }
+    }
+    return __wikiPersistentStoreCoordinator;
 }
 
 #pragma mark - Documents Directory -

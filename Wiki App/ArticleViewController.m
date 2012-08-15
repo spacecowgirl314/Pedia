@@ -142,7 +142,7 @@
     [self.view bringSubviewToFront:searchView];
     [articleSearchBox becomeFirstResponder];
     // bounce animation for the search view
-    __block CFAbsoluteTime time;
+    /*__block CFAbsoluteTime time;
     __block CFAbsoluteTime startTime;
     __block double scale;
     
@@ -160,7 +160,7 @@
             }
             time = CFAbsoluteTimeGetCurrent();
         }
-    });
+    });*/
     [UIView animateWithDuration:0.50
                           delay:0
                         options:UIViewAnimationCurveEaseOut
@@ -235,6 +235,22 @@
     //[NSThread detachNewThreadSelector:@selector(loadHistory) toTarget:self withObject:nil];
 }
 
+- (IBAction)showWikiManager:(id)sender {
+    WikisViewController *wikisViewController = [[WikisViewController alloc] init];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
+        [self presentModalViewController:navigationController animated:YES];
+    }
+    else
+    {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
+        [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+        [[self splitViewController] presentModalViewController:navigationController animated:YES];
+    }
+}
+
 #pragma mark - Sharing
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -267,7 +283,7 @@
     }
     else if (buttonIndex == 3) {
         // button index 3 is cancel when on iOS 5
-        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+        /*if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
             // share via facebook
             SLComposeViewController *socialController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
             [socialController addURL:articleURL];
@@ -275,7 +291,7 @@
             socialController.completionHandler = ^(SLComposeViewControllerResult result) {
                 [self dismissViewControllerAnimated:YES completion:NULL];
             };
-        }
+        }*/
     }
 }
 
