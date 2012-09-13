@@ -20,6 +20,7 @@
         NSString *languageCode = [[NSLocale preferredLanguages] objectAtIndex:0];
         if([languageCode isEqualToString:@"en"]) {
             apiUrl = @"http://en.wikipedia.org";
+            //apiUrl = @"http://www.minecraftwiki.net";
         }
         else if([languageCode isEqualToString:@"ja"]) {
             apiUrl = @"http://ja.wikipedia.org";

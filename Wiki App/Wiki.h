@@ -2,7 +2,7 @@
 //  Wiki.h
 //  Pedia
 //
-//  Created by Chloe Stars on 8/13/12.
+//  Created by Chloe Stars on 8/14/12.
 //
 //
 
@@ -14,5 +14,6 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSNumber * enabled;
 
 @end

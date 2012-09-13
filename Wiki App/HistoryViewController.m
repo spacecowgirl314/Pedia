@@ -163,7 +163,7 @@
         if (![context save:&error])
 		{
 			NSLog(@"HistoryViewController unresolved error %@, %@", error, [error userInfo]);
-			abort();
+			//abort();
 		}
     } 
 }

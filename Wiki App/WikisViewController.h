@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WikisViewController : UIViewController {
-    
+@interface WikisViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+    IBOutlet UITableView *wikiTableView;
+    UITextField *URLTextField;
+    UITextField *nameTextField;
 }
+
+@property IBOutlet UITableView *wikiTableView;
 
 @end

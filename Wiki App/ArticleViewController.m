@@ -497,6 +497,7 @@
         [historyEntry setDate:[NSDate date]];
     }
     
+	dispatch_async(dispatch_get_main_queue(), ^{
     NSError *error = nil;
     if (![self.managedObjectContext save:&error])
     {
@@ -504,6 +505,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+	});
     
     // add the previous history to be populated also
     [temporaryArray addObjectsFromArray:[(NSArray*)previousHistoryArray copy]];

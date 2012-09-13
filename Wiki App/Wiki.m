@@ -2,7 +2,7 @@
 //  Wiki.m
 //  Pedia
 //
-//  Created by Chloe Stars on 8/13/12.
+//  Created by Chloe Stars on 8/14/12.
 //
 //
 
@@ -13,5 +13,6 @@
 
 @dynamic name;
 @dynamic url;
+@dynamic enabled;
 
 @end

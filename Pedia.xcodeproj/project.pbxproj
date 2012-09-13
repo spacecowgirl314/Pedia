@@ -22,6 +22,7 @@
 /* Begin PBXBuildFile section */
 		370AEACB1579D3AB0095F510 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 370AEACA1579D3AB0095F510 /* CoreData.framework */; };
 		370AEAD41579D8EA0095F510 /* History.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 370AEAD21579D8EA0095F510 /* History.xcdatamodeld */; };
+		370B1A9015DB38ED00A7A777 /* Wiki.m in Sources */ = {isa = PBXBuildFile; fileRef = 370B1A8F15DB38ED00A7A777 /* Wiki.m */; };
 		371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 371488E41541445E00BE1E4E /* libxml2.dylib */; };
 		3719575E158D1B21007DD0A9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3719575D158D1B21007DD0A9 /* Default.png */; };
 		37195761158D1B33007DD0A9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37195760158D1B33007DD0A9 /* Default@2x.png */; };
@@ -108,7 +109,6 @@
 		3782072B157C6FAD00943CD8 /* welcome.html in Resources */ = {isa = PBXBuildFile; fileRef = 37820728157C6FAD00943CD8 /* welcome.html */; };
 		37820731157CA18500943CD8 /* Amplitude-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37820730157CA18500943CD8 /* Amplitude-Medium.ttf */; };
 		37820732157CA49900943CD8 /* wizardry.js in Resources */ = {isa = PBXBuildFile; fileRef = 3782072C157C89DA00943CD8 /* wizardry.js */; };
-		3787122D15D9D2D400E67D3B /* Wiki.m in Sources */ = {isa = PBXBuildFile; fileRef = 3787122C15D9D2D400E67D3B /* Wiki.m */; };
 		3787A6541575D4D400E2F796 /* back-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6521575D4D400E2F796 /* back-pressed.png */; };
 		3787A6551575D4D400E2F796 /* back-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6531575D4D400E2F796 /* back-pressed@2x.png */; };
 		3787A6591575D4E400E2F796 /* export-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3787A6571575D4E400E2F796 /* export-pressed.png */; };
@@ -167,6 +167,7 @@
 		37D6999915DB10580076F3AD /* WikisViewController~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D6999815DB10580076F3AD /* WikisViewController~iPad.xib */; };
 		37D6999F15DB25D00076F3AD /* WikisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D6999E15DB25D00076F3AD /* WikisViewController.xib */; };
 		37DB3FED153D06B500C3C243 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 37DB3FEC153D06B500C3C243 /* style.css */; };
+		37E6245316017057003FADC9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E6245216017057003FADC9 /* Default-568h@2x.png */; };
 		37F09947154D2F8F008D778F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37F09945154D2F8F008D778F /* Localizable.strings */; };
 		37F09949154D2FB4008D778F /* Amplitude-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37A7821A154490E800390CEF /* Amplitude-Book.ttf */; };
 /* End PBXBuildFile section */
@@ -174,6 +175,8 @@
 /* Begin PBXFileReference section */
 		370AEACA1579D3AB0095F510 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		370AEAD31579D8EA0095F510 /* History.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = History.xcdatamodel; sourceTree = "<group>"; };
+		370B1A8E15DB38ED00A7A777 /* Wiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiki.h; sourceTree = "<group>"; };
+		370B1A8F15DB38ED00A7A777 /* Wiki.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiki.m; sourceTree = "<group>"; };
 		371488DF1541442F00BE1E4E /* HTMLNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
 		371488E01541442F00BE1E4E /* HTMLNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
 		371488E11541442F00BE1E4E /* HTMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
@@ -305,8 +308,6 @@
 		37820728157C6FAD00943CD8 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = welcome.html; sourceTree = "<group>"; };
 		3782072C157C89DA00943CD8 /* wizardry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = wizardry.js; sourceTree = "<group>"; };
 		37820730157CA18500943CD8 /* Amplitude-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Medium.ttf"; sourceTree = "<group>"; };
-		3787122B15D9D2D400E67D3B /* Wiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiki.h; sourceTree = "<group>"; };
-		3787122C15D9D2D400E67D3B /* Wiki.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiki.m; sourceTree = "<group>"; };
 		3787A6521575D4D400E2F796 /* back-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed.png"; sourceTree = "<group>"; };
 		3787A6531575D4D400E2F796 /* back-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-pressed@2x.png"; sourceTree = "<group>"; };
 		3787A6571575D4E400E2F796 /* export-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "export-pressed.png"; sourceTree = "<group>"; };
@@ -375,6 +376,7 @@
 		37D6999815DB10580076F3AD /* WikisViewController~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WikisViewController~iPad.xib"; sourceTree = "<group>"; };
 		37D6999E15DB25D00076F3AD /* WikisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WikisViewController.xib; sourceTree = "<group>"; };
 		37DB3FEC153D06B500C3C243 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+		37E6245216017057003FADC9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		37F09946154D2F8F008D778F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		37F09948154D2FB4008D778F /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -418,6 +420,7 @@
 		3719576A158D3376007DD0A9 /* Default */ = {
 			isa = PBXGroup;
 			children = (
+				37E6245216017057003FADC9 /* Default-568h@2x.png */,
 				37195768158D1B5B007DD0A9 /* Default-Landscape~ipad.png */,
 				37195766158D1B57007DD0A9 /* Default-Landscape@2x~ipad.png */,
 				37195764158D1B4F007DD0A9 /* Default-Portrait~ipad.png */,
@@ -474,8 +477,8 @@
 				37CD25C215BF65A80094B2E6 /* ArchiveDownloader.m */,
 				3728DDC51580837400A8392A /* ArchivedArticle.h */,
 				3728DDC61580837400A8392A /* ArchivedArticle.m */,
-				3787122B15D9D2D400E67D3B /* Wiki.h */,
-				3787122C15D9D2D400E67D3B /* Wiki.m */,
+				370B1A8E15DB38ED00A7A777 /* Wiki.h */,
+				370B1A8F15DB38ED00A7A777 /* Wiki.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 				37C8FE19159D58CA0072B677 /* topbar-landscape@2x.png in Resources */,
 				37D6999915DB10580076F3AD /* WikisViewController~iPad.xib in Resources */,
 				37D6999F15DB25D00076F3AD /* WikisViewController.xib in Resources */,
+				37E6245316017057003FADC9 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -978,8 +982,8 @@
 				3728DDCA1580863400A8392A /* Archive.xcdatamodeld in Sources */,
 				37CD25C315BF65A80094B2E6 /* ArchiveDownloader.m in Sources */,
 				3766F75115D2142E004C1B33 /* Wikis.xcdatamodeld in Sources */,
-				3787122D15D9D2D400E67D3B /* Wiki.m in Sources */,
 				37D6999715DB04600076F3AD /* WikisViewController.m in Sources */,
+				370B1A9015DB38ED00A7A777 /* Wiki.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
