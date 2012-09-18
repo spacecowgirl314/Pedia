@@ -10,7 +10,7 @@
 #import "ContentsController.h"
 #import "TableOfContentsAnchor.h"
 
-#define NSLog TFLog
+//#define NSLog TFLog
 
 @implementation ContentsController
 
@@ -142,7 +142,7 @@
      object:[tableOfContents objectAtIndex:indexPath.row]];
     // return from the segue that pushed this view
     //[self.navigationController popViewControllerAnimated:YES];
-    [TestFlight passCheckpoint:@"Opened an Anchor"];
+    //[TestFlight passCheckpoint:@"Opened an Anchor"];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

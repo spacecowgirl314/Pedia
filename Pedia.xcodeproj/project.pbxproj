@@ -127,6 +127,7 @@
 		3787D0C21541F2650057446A /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 371488E21541442F00BE1E4E /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3788B0EA158ADF61006CFCBF /* xylophone_affirm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3788B0E9158ADF61006CFCBF /* xylophone_affirm.wav */; };
 		3788B0ED158AE07D006CFCBF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */; };
+		3789AE221608357D00278A8D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CFA0AF158988D700C7B338 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		378D68DD1564958500336BD0 /* SuggestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D68DC1564958500336BD0 /* SuggestionController.m */; };
 		379DE82315564B6D00688A78 /* progress-bar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE81F15564B6D00688A78 /* progress-bar-background.png */; };
 		379DE82415564B6D00688A78 /* progress-bar-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82015564B6D00688A78 /* progress-bar-background@2x.png */; };
@@ -143,7 +144,6 @@
 		37A782411544C81D00390CEF /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A782391544C81C00390CEF /* Icon-Small@2x.png */; };
 		37A782421544C81D00390CEF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7823A1544C81C00390CEF /* Icon.png */; };
 		37A782431544C81D00390CEF /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A7823B1544C81D00390CEF /* Icon@2x.png */; };
-		37A782451544D1A600390CEF /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782441544D1A600390CEF /* libTestFlight.a */; };
 		37A782471544D1DE00390CEF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782461544D1DD00390CEF /* libz.dylib */; };
 		37A782531544E98C00390CEF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A782521544E98C00390CEF /* QuartzCore.framework */; };
 		37A7826F15454FC700390CEF /* HistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7826E15454FC700390CEF /* HistoryItem.m */; };
@@ -388,6 +388,7 @@
 			files = (
 				37A782471544D1DE00390CEF /* libz.dylib in Frameworks */,
 				371488E51541445E00BE1E4E /* libxml2.dylib in Frameworks */,
+				3789AE221608357D00278A8D /* Social.framework in Frameworks */,
 				3788B0ED158AE07D006CFCBF /* AudioToolbox.framework in Frameworks */,
 				37206D8A157B579A00860192 /* CFNetwork.framework in Frameworks */,
 				37206D8C157B57C600860192 /* MobileCoreServices.framework in Frameworks */,
@@ -399,7 +400,6 @@
 				3763C72E15313DFE00814E54 /* UIKit.framework in Frameworks */,
 				3763C73015313DFE00814E54 /* Foundation.framework in Frameworks */,
 				3763C73215313DFE00814E54 /* CoreGraphics.framework in Frameworks */,
-				37A782451544D1A600390CEF /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

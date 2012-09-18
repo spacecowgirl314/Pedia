@@ -9,7 +9,7 @@
 #import "ImageViewController.h"
 #import "WikipediaHelper.h"
 
-#define NSLog TFLog
+//#define NSLog TFLog
 
 @interface ImageViewController ()
 

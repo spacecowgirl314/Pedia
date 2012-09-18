@@ -11,7 +11,7 @@
 #import "ArticleViewController.h"
 #import "ArchiveDownloader.h"
 
-#define NSLog TFLog
+//#define NSLog TFLog
 
 @interface ArchivedViewController ()
 
@@ -154,12 +154,14 @@
         // then delete the object from CoreData
 		[context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
 		
+		dispatch_async(dispatch_get_main_queue(), ^{
 		NSError *error;
         if (![context save:&error])
 		{
 			NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
 			abort();
 		}
+		});
     } 
 }
 

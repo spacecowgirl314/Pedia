@@ -13,7 +13,7 @@
 #import "UINavigationBar+DropShadow.h"
 
 
-#define NSLog TFLog
+//#define NSLog TFLog
 
 @interface ArticleViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -229,7 +229,7 @@
      }*/
     //[_historyControllerPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [_historyViewControllerPopover presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [TestFlight passCheckpoint:@"Viewed history"];
+    //[TestFlight passCheckpoint:@"Viewed history"];
     // reload the history each time if iCloud is enabled
     // note that since it's already loaded the user won't notice anything except perhaps the table being reloaded with new history
     //[NSThread detachNewThreadSelector:@selector(loadHistory) toTarget:self withObject:nil];
@@ -276,6 +276,7 @@
         // share via twitter
         TWTweetComposeViewController *tweetController = [[TWTweetComposeViewController alloc] init];
         [tweetController addURL:articleURL];
+		[tweetController setInitialText:[self title]];
         [self presentViewController:tweetController animated:YES completion:NULL];
         tweetController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
             [self dismissViewControllerAnimated:YES completion:NULL]; // recommended on iOS 5
@@ -283,15 +284,16 @@
     }
     else if (buttonIndex == 3) {
         // button index 3 is cancel when on iOS 5
-        /*if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
             // share via facebook
             SLComposeViewController *socialController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
             [socialController addURL:articleURL];
+			[socialController setInitialText:[self title]];
             [self presentViewController:socialController animated:YES completion:NULL];
             socialController.completionHandler = ^(SLComposeViewControllerResult result) {
                 [self dismissViewControllerAnimated:YES completion:NULL];
             };
-        }*/
+        }
     }
 }
 
@@ -420,7 +422,7 @@
         }
     }
     [self checkToEnableButtons];
-    [TestFlight passCheckpoint:@"Loaded an article"];
+    //[TestFlight passCheckpoint:@"Loaded an article"];
 }
 
 #pragma mark - History Loading and Saving

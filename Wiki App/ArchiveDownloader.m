@@ -60,6 +60,7 @@ static ArchiveDownloader *sharedMyDownloader = nil;
     [archiveEntry setFile:uniqueID];
     [archiveEntry setDate:[NSDate date]];
     
+	dispatch_async(dispatch_get_main_queue(), ^{
     NSError *error = nil;
     if (![self.managedObjectContext save:&error])
     {
@@ -67,6 +68,7 @@ static ArchiveDownloader *sharedMyDownloader = nil;
         NSLog(@"ArchiveDownloader unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+	});
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     [notification setAlertBody:[[NSString alloc] initWithFormat:@"Article %@ has finished downloading.", articleTitle]];
     [notification setAlertAction:@"Show"];

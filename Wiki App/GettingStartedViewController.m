@@ -8,7 +8,7 @@
 
 #import "GettingStartedViewController.h"
 
-#define NSLog TFLog
+//#define NSLog TFLog
 
 @interface GettingStartedViewController ()
 
