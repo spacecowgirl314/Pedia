@@ -38,5 +38,6 @@
 @property (nonatomic) NSString *articleTitle;
 @property (nonatomic) ASIWebPageRequest *archiveRequest;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property UIProgressView *progressIndicator;
 
 @end

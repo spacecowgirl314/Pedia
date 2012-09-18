@@ -606,8 +606,8 @@
 		3763C72C15313DFE00814E54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				37A782461544D1DD00390CEF /* libz.dylib */,
 				37A782441544D1A600390CEF /* libTestFlight.a */,
+				37A782461544D1DD00390CEF /* libz.dylib */,
 				371488E41541445E00BE1E4E /* libxml2.dylib */,
 				3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */,
 				37CFA0AF158988D700C7B338 /* Social.framework */,

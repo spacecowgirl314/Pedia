@@ -17,6 +17,7 @@
 
 @interface ArchivedViewController : UIViewController <NSFetchedResultsControllerDelegate> {
     IBOutlet UITableView *archiveTableView;
+	IBOutlet UIProgressView *progressIndicator;
     NSManagedObjectContext *managedObjectContext__;
     NSFetchedResultsController *fetchedResultsController_;
     NSString *articleTitle;

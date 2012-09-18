@@ -96,6 +96,7 @@ static ArchiveDownloader *sharedMyDownloader = nil;
     [[self archiveRequest] setUserAgentString:@"Pedia"];
     [[self archiveRequest] setDidFailSelector:@selector(webPageFetchFailed:)];
     [[self archiveRequest] setDidFinishSelector:@selector(webPageFetchSucceeded:)];
+	[[self archiveRequest] setDownloadProgressDelegate:_progressIndicator];
     
     // Tell the request to embed external resources directly in the page
     [[self archiveRequest] setUrlReplacementMode:ASIReplaceExternalResourcesWithData];
