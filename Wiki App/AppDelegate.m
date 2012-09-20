@@ -52,6 +52,12 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
     }
+	
+	// Toggle testing for iPad mini.
+	if (NO) {
+		[self.window makeKeyAndVisible];
+		[self simulateSevenInchIpad];
+	}
 
     return YES;
 }
@@ -466,6 +472,46 @@
     [moc performBlock:^{
         [self mergeiCloudChanges:notification forContext:moc];
     }];
+}
+
+//Put this into your AppDelegate.m
+
+- (void)simulateSevenInchIpad
+{
+    //simulate 7.85 inch iPad
+    //scale window
+    CGFloat scaleFactor = 7.85/9.7; //try 768.0/1024.0 for the size of two apps on a 10" iPad side by side!;
+    self.window.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
+    //we also want to scale the keyboard
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(transformKeyboardForSevenInchIpadSimulation)
+                                                 name:UIKeyboardWillChangeFrameNotification
+											   object:nil];
+}
+
+- (void)transformKeyboardForSevenInchIpadSimulation
+{
+    //finding the window that hosts the keyboard - from http://stackoverflow.com/a/6457567/534888
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        if (![window.class isEqual:UIWindow.class]) {
+            //keyboard window found... probably
+			
+            CGAffineTransform identityTransformUpsideDown = CGAffineTransformMakeRotation(M_PI);
+            CGAffineTransform identityTransformRotatedLeft = CGAffineTransformMake(0, 1, -1, 0, -128, 128);
+            CGAffineTransform identityTransformRotatedRight = CGAffineTransformMake(0, -1, 1, 0, -128, 128);
+            
+            //if the window is unscaled, scale it
+            if (CGAffineTransformIsIdentity(window.transform)
+                || CGAffineTransformEqualToTransform(identityTransformUpsideDown, window.transform)
+                || CGAffineTransformEqualToTransform(identityTransformRotatedLeft, window.transform)
+                || CGAffineTransformEqualToTransform(identityTransformRotatedRight, window.transform))
+            {
+                CGFloat scaleFactor = 7.85/9.7; //768.0/1024.0;
+                window.transform = CGAffineTransformScale(window.transform, scaleFactor, scaleFactor);
+            }
+            return;
+        }
+    }
 }
 
 @end
