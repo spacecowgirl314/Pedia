@@ -756,6 +756,48 @@
 - (void)awakeFromNib {
     // set tint color of all UIBarButtons to gray
     [[UIBarButtonItem appearance] setTintColor:[UIColor grayColor]];
+	
+	// Initialize the UIButton
+	UIImage *backButtonImage = [UIImage imageNamed:@"back.png"];
+	UIImage *backButtonPressedImage = [UIImage imageNamed:@"back-pressed.png"];
+	UIImage *backButtonDisabledImage = [UIImage imageNamed:@"back-dim.png"];
+	backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	[backButton setImage:backButtonImage forState:UIControlStateNormal];
+	[backButton setImage:backButtonPressedImage forState:UIControlStateHighlighted];
+	[backButton setImage:backButtonDisabledImage forState:UIControlStateDisabled];
+	backButton.frame = CGRectMake(0.0, 0.0, backButtonImage.size.width, backButtonImage.size.height);
+	
+	// Initialize the UIBarButtonItem
+	UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+	
+	// Set the Target and Action for aButton
+	[backButton addTarget:self action:@selector(pressBack:) forControlEvents:UIControlEventTouchUpInside];
+	
+	// Disable button by default on start
+	[backButton setEnabled:NO];
+	
+	self.navigationItem.leftBarButtonItem = backButtonItem;
+	
+	// Initialize the UIButton
+	UIImage *forwardButtonImage = [UIImage imageNamed:@"forward.png"];
+	UIImage *forwardButtonPressedImage = [UIImage imageNamed:@"forward-pressed.png"];
+	UIImage *forwardButtonDisabledImage = [UIImage imageNamed:@"forward-dim.png"];
+	forwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	[forwardButton setImage:forwardButtonImage forState:UIControlStateNormal];
+	[forwardButton setImage:forwardButtonPressedImage forState:UIControlStateHighlighted];
+	[forwardButton setImage:forwardButtonDisabledImage forState:UIControlStateDisabled];
+	forwardButton.frame = CGRectMake(0.0, 0.0, forwardButtonImage.size.width, forwardButtonImage.size.height);
+	
+	// Initialize the UIBarButtonItem
+	UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithCustomView:forwardButton];
+	
+	// Set the Target and Action for aButton
+	[forwardButton addTarget:self action:@selector(pressForward:) forControlEvents:UIControlEventTouchUpInside];
+	
+	// Disable button by default on start
+	[forwardButton setEnabled:NO];
+	
+	self.navigationItem.rightBarButtonItem = forwardButtonItem;
 }
 
 - (void)viewDidLoad
@@ -801,7 +843,7 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         //articleSearchBox.inputAccessoryView = bottomBar;
         //self.navigationItem.leftBarButtonItem.tintColor = [UIColor grayColor];
-        self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
+        //self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
         // this will appear as the title in the navigation bar
         titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.backgroundColor = [UIColor clearColor];

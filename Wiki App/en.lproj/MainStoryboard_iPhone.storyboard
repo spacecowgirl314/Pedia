@@ -212,7 +212,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bZO-QK-F1A">
-                                        <rect key="frame" x="245" y="8" width="32" height="31"/>
+                                        <rect key="frame" x="213" y="7" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="history.png">
@@ -227,7 +227,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pNc-vK-UKB">
-                                        <rect key="frame" x="213" y="8" width="32" height="31"/>
+                                        <rect key="frame" x="87" y="7" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="saved.png">
@@ -243,7 +243,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XYZ-hs-OjV">
-                                        <rect key="frame" x="39" y="8" width="32" height="31"/>
+                                        <rect key="frame" x="144" y="7" width="32" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="search.png">
@@ -257,8 +257,23 @@
                                             <action selector="showSearchField:" destination="21" eventType="touchUpInside" id="gl1-j0-HI4"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7tZ-NR-lzB">
+                                        <rect key="frame" x="18" y="7" width="32" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="contents.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="search-pressed.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="12" kind="push" id="c8N-W4-LTG"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VgU-E7-wCE">
-                                        <rect key="frame" x="277" y="8" width="36" height="31"/>
+                                        <rect key="frame" x="266" y="7" width="36" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="export.png">
@@ -270,38 +285,6 @@
                                         </state>
                                         <connections>
                                             <action selector="shareArticle:" destination="21" eventType="touchUpInside" id="tYh-JF-85C"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2At-Dd-WIR">
-                                        <rect key="frame" x="7" y="8" width="32" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="back.png">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled" image="back-dim.png"/>
-                                        <state key="highlighted" image="back-pressed.png">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="pressBack:" destination="21" eventType="touchUpInside" id="SR8-QG-dEX"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zDy-l1-2lD">
-                                        <rect key="frame" x="71" y="8" width="32" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" image="forward.png">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled" image="forward-dim.png"/>
-                                        <state key="highlighted" image="forward-pressed.png">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="pressForward:" destination="21" eventType="touchUpInside" id="hUy-GK-eh4"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -376,20 +359,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Article" id="26">
-                        <barButtonItem key="leftBarButtonItem" title="Contents" id="fRB-kk-xGv">
-                            <connections>
-                                <segue destination="12" kind="push" identifier="Contents" id="cIE-th-sav"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Article" id="26"/>
                     <connections>
                         <outlet property="articleSearchBox" destination="VoZ-dG-3la" id="QLL-GZ-AbC"/>
                         <outlet property="articleView" destination="wHG-EZ-yDt" id="yUL-06-oVt"/>
-                        <outlet property="backButton" destination="2At-Dd-WIR" id="Rk0-CF-U1p"/>
                         <outlet property="backgroundView" destination="zrc-uF-BRk" id="3Aa-jm-bQo"/>
                         <outlet property="bottomBar" destination="TAO-EW-qdv" id="HVT-nv-KGn"/>
-                        <outlet property="forwardButton" destination="zDy-l1-2lD" id="715-nx-CF6"/>
                         <outlet property="searchView" destination="rxg-At-U08" id="ySb-Du-X1r"/>
                         <outlet property="suggestionTableView" destination="nYD-hy-q6g" id="2Mz-iW-9Q8"/>
                         <segue destination="gw4-Q4-4Zq" kind="push" identifier="Image" id="JgE-fc-nIN"/>
@@ -403,20 +378,15 @@
     <resources>
         <image name="archiveButton-pressed.png" width="280" height="49"/>
         <image name="archiveButton.png" width="280" height="49"/>
-        <image name="back-dim.png" width="32" height="31"/>
-        <image name="back-pressed.png" width="32" height="31"/>
-        <image name="back.png" width="32" height="31"/>
+        <image name="contents.png" width="25" height="21"/>
         <image name="export-pressed.png" width="36" height="31"/>
         <image name="export.png" width="36" height="31"/>
-        <image name="forward-dim.png" width="32" height="31"/>
-        <image name="forward-pressed.png" width="32" height="31"/>
-        <image name="forward.png" width="32" height="31"/>
         <image name="history-pressed.png" width="32" height="31"/>
-        <image name="history.png" width="32" height="31"/>
-        <image name="saved-pressed.png" width="32" height="31"/>
-        <image name="saved.png" width="32" height="31"/>
+        <image name="history.png" width="29" height="21"/>
+        <image name="saved-pressed.png" width="16" height="16"/>
+        <image name="saved.png" width="26" height="21"/>
         <image name="search-pressed.png" width="32" height="31"/>
-        <image name="search.png" width="32" height="31"/>
+        <image name="search.png" width="21" height="22"/>
         <image name="searchbar.png" width="264" height="40"/>
     </resources>
     <classes>
@@ -425,19 +395,25 @@
             <relationships>
                 <relationship kind="action" name="archiveArticle:"/>
                 <relationship kind="outlet" name="archiveTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="progressIndicator" candidateClass="UIProgressView"/>
             </relationships>
         </class>
         <class className="ArticleViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ArticleViewController.h"/>
             <relationships>
+                <relationship kind="action" name="pressBack:"/>
+                <relationship kind="action" name="pressForward:"/>
                 <relationship kind="action" name="selectArticleFromHistory:"/>
+                <relationship kind="action" name="selectArticleFromSaved:"/>
+                <relationship kind="action" name="shareArticle:"/>
+                <relationship kind="action" name="showSearchField:"/>
+                <relationship kind="action" name="showWikiManager:"/>
+                <relationship kind="action" name="toggleDebugging:"/>
                 <relationship kind="outlet" name="articleSearchBox" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="articleView" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="backButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="backgroundView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="bottomBar" candidateClass="UIView"/>
                 <relationship kind="outlet" name="detailItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="forwardButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="ImageScrollView"/>
                 <relationship kind="outlet" name="searchView" candidateClass="UIView"/>
