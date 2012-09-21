@@ -160,7 +160,7 @@
         if (![context save:&error])
 		{
 			NSLog(@"ArchivedViewController unresolved error %@, %@", error, [error userInfo]);
-			abort();
+			//abort();
 		}
 		});
     } 

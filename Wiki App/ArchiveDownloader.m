@@ -66,7 +66,7 @@ static ArchiveDownloader *sharedMyDownloader = nil;
     {
         // TODO: Do something better than just aborting.
         NSLog(@"ArchiveDownloader unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        //abort();
     }
 	});
     UILocalNotification *notification = [[UILocalNotification alloc] init];

@@ -99,7 +99,14 @@
                          self.navigationController.navigationBar.alpha = 1.0f;
                          overlay.alpha = 0.0f;
                          searchView.alpha = 0.0f;
-                         [[[self navigationItem] leftBarButtonItem] setEnabled:YES];
+						 
+						 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+							 [[[self navigationItem] leftBarButtonItem] setEnabled:YES];
+						 }
+						 else {
+							 // check and re-enable buttons that were disabled if necessary
+							 [self checkToEnableButtons];
+						 }
                      }
                      completion:^(BOOL finished){
                          [searchView setHidden:YES];
@@ -168,7 +175,13 @@
                          self.navigationController.navigationBar.alpha = 0.3f;
                          overlay.alpha = 0.7f;
                          searchView.alpha = 1.0f;
-                         [[[self navigationItem] leftBarButtonItem] setEnabled:NO];
+						 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+							 [[[self navigationItem] leftBarButtonItem] setEnabled:NO];
+						 }
+						 else {
+							 [backButton setEnabled:NO];
+							 [forwardButton setEnabled:NO];
+						 }
                      }
                      completion:^(BOOL finished){
                      }];
@@ -505,7 +518,7 @@
     {
         // TODO: Do something better than just aborting.
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        //abort();
     }
 	});
     
@@ -595,6 +608,7 @@
     else {
         return YES;
     }
+	return YES;
 }
 
 /*
@@ -757,47 +771,49 @@
     // set tint color of all UIBarButtons to gray
     [[UIBarButtonItem appearance] setTintColor:[UIColor grayColor]];
 	
-	// Initialize the UIButton
-	UIImage *backButtonImage = [UIImage imageNamed:@"back.png"];
-	UIImage *backButtonPressedImage = [UIImage imageNamed:@"back-pressed.png"];
-	UIImage *backButtonDisabledImage = [UIImage imageNamed:@"back-dim.png"];
-	backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	[backButton setImage:backButtonImage forState:UIControlStateNormal];
-	[backButton setImage:backButtonPressedImage forState:UIControlStateHighlighted];
-	[backButton setImage:backButtonDisabledImage forState:UIControlStateDisabled];
-	backButton.frame = CGRectMake(0.0, 0.0, backButtonImage.size.width, backButtonImage.size.height);
-	
-	// Initialize the UIBarButtonItem
-	UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-	
-	// Set the Target and Action for aButton
-	[backButton addTarget:self action:@selector(pressBack:) forControlEvents:UIControlEventTouchUpInside];
-	
-	// Disable button by default on start
-	[backButton setEnabled:NO];
-	
-	self.navigationItem.leftBarButtonItem = backButtonItem;
-	
-	// Initialize the UIButton
-	UIImage *forwardButtonImage = [UIImage imageNamed:@"forward.png"];
-	UIImage *forwardButtonPressedImage = [UIImage imageNamed:@"forward-pressed.png"];
-	UIImage *forwardButtonDisabledImage = [UIImage imageNamed:@"forward-dim.png"];
-	forwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	[forwardButton setImage:forwardButtonImage forState:UIControlStateNormal];
-	[forwardButton setImage:forwardButtonPressedImage forState:UIControlStateHighlighted];
-	[forwardButton setImage:forwardButtonDisabledImage forState:UIControlStateDisabled];
-	forwardButton.frame = CGRectMake(0.0, 0.0, forwardButtonImage.size.width, forwardButtonImage.size.height);
-	
-	// Initialize the UIBarButtonItem
-	UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithCustomView:forwardButton];
-	
-	// Set the Target and Action for aButton
-	[forwardButton addTarget:self action:@selector(pressForward:) forControlEvents:UIControlEventTouchUpInside];
-	
-	// Disable button by default on start
-	[forwardButton setEnabled:NO];
-	
-	self.navigationItem.rightBarButtonItem = forwardButtonItem;
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+		// Initialize the UIButton
+		UIImage *backButtonImage = [UIImage imageNamed:@"back.png"];
+		UIImage *backButtonPressedImage = [UIImage imageNamed:@"back-pressed.png"];
+		UIImage *backButtonDisabledImage = [UIImage imageNamed:@"back-dim.png"];
+		backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[backButton setImage:backButtonImage forState:UIControlStateNormal];
+		[backButton setImage:backButtonPressedImage forState:UIControlStateHighlighted];
+		[backButton setImage:backButtonDisabledImage forState:UIControlStateDisabled];
+		backButton.frame = CGRectMake(0.0, 0.0, backButtonImage.size.width, backButtonImage.size.height);
+		
+		// Initialize the UIBarButtonItem
+		UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+		
+		// Set the Target and Action for aButton
+		[backButton addTarget:self action:@selector(pressBack:) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Disable button by default on start
+		[backButton setEnabled:NO];
+		
+		self.navigationItem.leftBarButtonItem = backButtonItem;
+		
+		// Initialize the UIButton
+		UIImage *forwardButtonImage = [UIImage imageNamed:@"forward.png"];
+		UIImage *forwardButtonPressedImage = [UIImage imageNamed:@"forward-pressed.png"];
+		UIImage *forwardButtonDisabledImage = [UIImage imageNamed:@"forward-dim.png"];
+		forwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[forwardButton setImage:forwardButtonImage forState:UIControlStateNormal];
+		[forwardButton setImage:forwardButtonPressedImage forState:UIControlStateHighlighted];
+		[forwardButton setImage:forwardButtonDisabledImage forState:UIControlStateDisabled];
+		forwardButton.frame = CGRectMake(0.0, 0.0, forwardButtonImage.size.width, forwardButtonImage.size.height);
+		
+		// Initialize the UIBarButtonItem
+		UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithCustomView:forwardButton];
+		
+		// Set the Target and Action for aButton
+		[forwardButton addTarget:self action:@selector(pressForward:) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Disable button by default on start
+		[forwardButton setEnabled:NO];
+		
+		self.navigationItem.rightBarButtonItem = forwardButtonItem;
+	}
 }
 
 - (void)viewDidLoad

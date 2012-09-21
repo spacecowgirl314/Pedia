@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wiki App/ArticleViewController.m"
-         timestampString = "369636933.450437"
+         timestampString = "369905190.400197"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "314"
-         endingLineNumber = "314"
+         startingLineNumber = "327"
+         endingLineNumber = "327"
          landmarkName = "-downloadHTMLandParse:"
          landmarkType = "5">
       </FileBreakpoint>
