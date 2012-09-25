@@ -127,6 +127,7 @@
 		3788B0ED158AE07D006CFCBF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */; };
 		3789AE221608357D00278A8D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CFA0AF158988D700C7B338 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		378D68DD1564958500336BD0 /* SuggestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D68DC1564958500336BD0 /* SuggestionController.m */; };
+		3795BC1F161264D30043453D /* Amplitude-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3795BC1E161264D30043453D /* Amplitude-Bold.ttf */; };
 		379DE82315564B6D00688A78 /* progress-bar-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE81F15564B6D00688A78 /* progress-bar-background.png */; };
 		379DE82415564B6D00688A78 /* progress-bar-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82015564B6D00688A78 /* progress-bar-background@2x.png */; };
 		379DE82515564B6D00688A78 /* progress-bar-fill.png in Resources */ = {isa = PBXBuildFile; fileRef = 379DE82115564B6D00688A78 /* progress-bar-fill.png */; };
@@ -323,6 +324,7 @@
 		3788B0EC158AE07D006CFCBF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		378D68DB1564958500336BD0 /* SuggestionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionController.h; sourceTree = "<group>"; };
 		378D68DC1564958500336BD0 /* SuggestionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionController.m; sourceTree = "<group>"; };
+		3795BC1E161264D30043453D /* Amplitude-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amplitude-Bold.ttf"; sourceTree = "<group>"; };
 		379DE81F15564B6D00688A78 /* progress-bar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-background.png"; sourceTree = "<group>"; };
 		379DE82015564B6D00688A78 /* progress-bar-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-background@2x.png"; sourceTree = "<group>"; };
 		379DE82115564B6D00688A78 /* progress-bar-fill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-bar-fill.png"; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 				3787A66B1575F50700E2F796 /* jquery-1.7.2.min.js */,
 				3782072C157C89DA00943CD8 /* wizardry.js */,
 				37A7821A154490E800390CEF /* Amplitude-Book.ttf */,
+				3795BC1E161264D30043453D /* Amplitude-Bold.ttf */,
 				37820730157CA18500943CD8 /* Amplitude-Medium.ttf */,
 				372C81951543CA0300991587 /* bg.png */,
 				37A53F8415815C2B00A6D881 /* bg@2x.png */,
@@ -919,6 +922,7 @@
 				37D6999915DB10580076F3AD /* WikisViewController~iPad.xib in Resources */,
 				37D6999F15DB25D00076F3AD /* WikisViewController.xib in Resources */,
 				37E6245316017057003FADC9 /* Default-568h@2x.png in Resources */,
+				3795BC1F161264D30043453D /* Amplitude-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1096,7 +1100,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "19D89849-C186-41D2-AFEF-BC3756F80D49";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F3DD8272-D25E-4D8F-9A01-CF0147EA3E3B";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -1118,7 +1122,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "19D89849-C186-41D2-AFEF-BC3756F80D49";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F3DD8272-D25E-4D8F-9A01-CF0147EA3E3B";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;

@@ -76,13 +76,14 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>151</string>
+	<string>153</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Amplitude-Book.ttf</string>
 		<string>Amplitude-Medium.ttf</string>
+		<string>Amplitude-Bold.ttf</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>

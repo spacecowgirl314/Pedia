@@ -222,6 +222,18 @@
 }
 
 - (IBAction)shareArticle:(id)sender {
+	NSString *articleURLString = [wikipediaHelper getURLForArticle:self.title];
+    NSURL *articleURL = [NSURL URLWithString:articleURLString];
+	UIActivityViewController *avc = [[UIActivityViewController alloc]
+                                     initWithActivityItems:@[articleURL] applicationActivities:nil];
+    avc.completionHandler = ^(NSString *activityType, BOOL completed) {
+        if (completed)
+            [self dismissViewControllerAnimated:YES completion:nil];
+    };
+	
+    if (avc)
+        [self presentViewController:avc animated:YES completion:nil];
+	return;
     UIActionSheet *actionSheet;
     if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
         actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), NSLocalizedString(@"Facebook", @"Facebook"), nil];
@@ -827,6 +839,9 @@
 
     // remove shadows in UIWebView
     for(UIScrollView* webScrollView in [self.articleView subviews]) {
+		// set content insets adjust for the bottom bar
+		UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
+		webScrollView.contentInset = contentInsets;
         if ([webScrollView isKindOfClass:[UIScrollView class]]) {
             for(UIView* subview in [webScrollView subviews]) {
                 if ([subview isKindOfClass:[UIImageView class]]) {
@@ -836,7 +851,7 @@
             }
         }
     }
-    
+	
     // allocate a reachability object
     reachability = [Reachability reachabilityWithHostname:@"www.apple.com"];
     

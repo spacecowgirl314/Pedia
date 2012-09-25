@@ -38,6 +38,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(@"Archived", @"Archived");
+	archiveText.text = NSLocalizedString(@"Archive Article", @"Archive Article");
     self.contentSizeForViewInPopover = CGSizeMake(290.0, 435.0);
 	[[ArchiveDownloader sharedDownloader] setProgressIndicator:progressIndicator];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
