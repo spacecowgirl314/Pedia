@@ -828,6 +828,10 @@
 	}
 }
 
+- (void)disableScrollToTopOnEverythingExcept:(UIScrollView*)scrollView {
+	
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -836,12 +840,16 @@
     
     // load welcome page
     [articleView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"html"]isDirectory:NO]]];
+	
+	// allows web view to scroll to the top
+	suggestionTableView.scrollsToTop = NO;
 
     // remove shadows in UIWebView
     for(UIScrollView* webScrollView in [self.articleView subviews]) {
 		// set content insets adjust for the bottom bar
 		UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
 		webScrollView.contentInset = contentInsets;
+		webScrollView.scrollsToTop = YES;
         if ([webScrollView isKindOfClass:[UIScrollView class]]) {
             for(UIView* subview in [webScrollView subviews]) {
                 if ([subview isKindOfClass:[UIImageView class]]) {
