@@ -948,7 +948,7 @@
     // for jumping to an anchor
     TableOfContentsAnchor *anchor = [notification object];
 	NSString *anchorSansOctothorp = [[anchor href] stringByReplacingOccurrencesOfString:@"#" withString:@""];
-	NSString *anchorJump = [[NSString alloc] initWithFormat:@"javascript:document.getElementById('%@').scrollIntoView(true);",anchorSansOctothorp];
+	NSString *anchorJump = [[NSString alloc] initWithFormat:@"document.getElementById('%@').scrollIntoView(true);",anchorSansOctothorp];
 	[articleView stringByEvaluatingJavaScriptFromString:anchorJump];
     NSLog(@"anchor:%@", [anchor href]);
 }
