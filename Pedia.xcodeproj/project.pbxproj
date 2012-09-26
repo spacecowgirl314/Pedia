@@ -30,8 +30,6 @@
 		37195765158D1B4F007DD0A9 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37195764158D1B4F007DD0A9 /* Default-Portrait~ipad.png */; };
 		37195767158D1B57007DD0A9 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37195766158D1B57007DD0A9 /* Default-Landscape@2x~ipad.png */; };
 		37195769158D1B5B007DD0A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37195768158D1B5B007DD0A9 /* Default-Landscape~ipad.png */; };
-		37197FA2155CCDBE00BCCA06 /* bottombar@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37197FA0155CCDBE00BCCA06 /* bottombar@2x~ipad.png */; };
-		37197FA3155CCDBE00BCCA06 /* bottombar~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 37197FA1155CCDBE00BCCA06 /* bottombar~ipad.png */; };
 		37206D7F157B55EA00860192 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 37206D6E157B55EA00860192 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		37206D80157B55EA00860192 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 37206D70157B55EA00860192 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		37206D81157B55EA00860192 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 37206D72157B55EA00860192 /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -101,7 +99,7 @@
 		3763C77A15314EBF00814E54 /* WikipediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3763C75515314B3800814E54 /* WikipediaHelper.m */; };
 		3766F75115D2142E004C1B33 /* Wikis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3766F74F15D2142E004C1B33 /* Wikis.xcdatamodeld */; };
 		377F07501547B9FE008E8187 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 377F074F1547B9FE008E8187 /* ImageScrollView.m */; };
-		377FBA75155E47530052C8E1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 377FBA74155E47530052C8E1 /* Reachability.m */; };
+		377FBA75155E47530052C8E1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 377FBA74155E47530052C8E1 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		377FBA7B155E49170052C8E1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377FBA7A155E49170052C8E1 /* SystemConfiguration.framework */; };
 		3782071E157C47D100943CD8 /* UINavigationBar+DropShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3782071D157C47D100943CD8 /* UINavigationBar+DropShadow.m */; };
 		37820729157C6FAD00943CD8 /* landing-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 37820726157C6FAD00943CD8 /* landing-image.png */; };
@@ -177,8 +175,6 @@
 		37195764158D1B4F007DD0A9 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		37195766158D1B57007DD0A9 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		37195768158D1B5B007DD0A9 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		37197FA0155CCDBE00BCCA06 /* bottombar@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar@2x~ipad.png"; sourceTree = "<group>"; };
-		37197FA1155CCDBE00BCCA06 /* bottombar~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottombar~ipad.png"; sourceTree = "<group>"; };
 		37206D69157B55EA00860192 /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
 		37206D6A157B55EA00860192 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
 		37206D6B157B55EA00860192 /* ASIHTTPRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestDelegate.h; sourceTree = "<group>"; };
@@ -485,8 +481,6 @@
 				372116471558F28200BB587A /* forward-dim@2x.png */,
 				372116401558F28200BB587A /* bottombar.png */,
 				372116411558F28200BB587A /* bottombar@2x.png */,
-				37197FA0155CCDBE00BCCA06 /* bottombar@2x~ipad.png */,
-				37197FA1155CCDBE00BCCA06 /* bottombar~ipad.png */,
 				372116421558F28200BB587A /* contents.png */,
 				372116431558F28200BB587A /* contents@2x.png */,
 				372116441558F28200BB587A /* export.png */,
@@ -852,8 +846,6 @@
 				3721166B1558F2B000BB587A /* back@2x.png in Resources */,
 				3721166C1558F2B000BB587A /* forward.png in Resources */,
 				3721166D1558F2B000BB587A /* forward@2x.png in Resources */,
-				37197FA2155CCDBE00BCCA06 /* bottombar@2x~ipad.png in Resources */,
-				37197FA3155CCDBE00BCCA06 /* bottombar~ipad.png in Resources */,
 				37B166D0156827FB009DE159 /* sidebar-linen.png in Resources */,
 				37B166D1156827FB009DE159 /* sidebar-linen@2x.png in Resources */,
 				37B166D415682936009DE159 /* contents-title.png in Resources */,
@@ -1055,6 +1047,7 @@
 				GCC_PREFIX_HEADER = "Wiki App/Pedia-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Wiki App/Pedia-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1077,6 +1070,7 @@
 				GCC_PREFIX_HEADER = "Wiki App/Pedia-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Wiki App/Pedia-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
