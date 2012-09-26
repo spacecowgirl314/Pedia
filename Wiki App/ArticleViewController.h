@@ -63,6 +63,7 @@
     BOOL imageIsDownloaded;
     BOOL imageIsVector;
     UIWebView *vectorView;
+	UIPopoverController *sharingPopoverController;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField *articleSearchBox;
@@ -71,6 +72,7 @@
 @property (strong, nonatomic) IBOutlet UIView *bottomBar;
 @property (nonatomic, retain) HistoryViewController *historyViewController;
 @property (nonatomic, retain) UIPopoverController *historyViewControllerPopover;
+@property (nonatomic, retain) UIPopoverController *sharingPopoverController;
 @property (nonatomic, retain) ArchivedViewController *archivedViewController;
 @property (nonatomic, retain) UIPopoverController *archivedViewControllerPopover;
 @property (retain) NSMutableArray *historyArray;

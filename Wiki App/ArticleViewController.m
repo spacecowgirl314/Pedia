@@ -224,17 +224,23 @@
 - (IBAction)shareArticle:(id)sender {
 	NSString *articleURLString = [wikipediaHelper getURLForArticle:self.title];
     NSURL *articleURL = [NSURL URLWithString:articleURLString];
-	UIActivityViewController *avc = [[UIActivityViewController alloc]
+	UIActivityViewController *activityViewController = [[UIActivityViewController alloc]
                                      initWithActivityItems:@[articleURL] applicationActivities:nil];
-    avc.completionHandler = ^(NSString *activityType, BOOL completed) {
-        if (completed)
-            [self dismissViewControllerAnimated:YES completion:nil];
+    activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
+		if (completed) {
+			[self dismissViewControllerAnimated:YES completion:nil];
+		}
     };
 	
-    if (avc)
-        [self presentViewController:avc animated:YES completion:nil];
-	
-	//[(UIButton*)sender frame] showFromRect
+    if (activityViewController) {
+		if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+			sharingPopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+			[sharingPopoverController presentPopoverFromRect:[(UIButton*)sender frame] inView:bottomBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		}
+		else {
+			[self presentViewController:activityViewController animated:YES completion:nil];
+		}
+	}
 }
 
 - (IBAction)selectArticleFromHistory:(id)sender {
