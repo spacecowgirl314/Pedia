@@ -233,16 +233,8 @@
 	
     if (avc)
         [self presentViewController:avc animated:YES completion:nil];
-	return;
-    UIActionSheet *actionSheet;
-    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
-        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), NSLocalizedString(@"Facebook", @"Facebook"), nil];
-    }
-    else if (IOS_VERSION_GREATER_THAN(@"5.0")) {
-        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Mail Link to this Page", @"Mail Link to this Page"), NSLocalizedString(@"Message", @"Message"), NSLocalizedString(@"Tweet", @"Tweet"), nil];
-    }
-    [actionSheet setActionSheetStyle:UIActionSheetStyleAutomatic];
-    [actionSheet showFromRect:[(UIButton*)sender frame] inView:bottomBar animated:YES];
+	
+	//[(UIButton*)sender frame] showFromRect
 }
 
 - (IBAction)selectArticleFromHistory:(id)sender {
@@ -274,62 +266,6 @@
         [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
         [[self splitViewController] presentModalViewController:navigationController animated:YES];
     }
-}
-
-#pragma mark - Sharing
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    // get url
-    NSString *articleURLString = [wikipediaHelper getURLForArticle:self.title];
-    NSURL *articleURL = [NSURL URLWithString:articleURLString];
-    if (buttonIndex == 0) {
-        // share via email
-        MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-        [mailController setMailComposeDelegate:self];
-        [mailController setSubject:[self title]];
-        [mailController setMessageBody:articleURLString isHTML:NO];
-        [self presentViewController:mailController animated:YES completion:NULL];
-    }
-    else if (buttonIndex == 1) {
-        // share via messages
-        MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-        [messageController setMessageComposeDelegate:self];
-        [messageController setBody:articleURLString];
-        [self presentViewController:messageController animated:YES completion:NULL];
-    }
-    else if (buttonIndex == 2) {
-        // share via twitter
-        TWTweetComposeViewController *tweetController = [[TWTweetComposeViewController alloc] init];
-        [tweetController addURL:articleURL];
-		[tweetController setInitialText:[self title]];
-        [self presentViewController:tweetController animated:YES completion:NULL];
-        tweetController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
-            [self dismissViewControllerAnimated:YES completion:NULL]; // recommended on iOS 5
-        };
-    }
-    else if (buttonIndex == 3) {
-        // button index 3 is cancel when on iOS 5
-        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
-            // share via facebook
-            SLComposeViewController *socialController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-            [socialController addURL:articleURL];
-			[socialController setInitialText:[self title]];
-            [self presentViewController:socialController animated:YES completion:NULL];
-            socialController.completionHandler = ^(SLComposeViewControllerResult result) {
-                [self dismissViewControllerAnimated:YES completion:NULL];
-            };
-        }
-    }
-}
-
-// close the mail controller
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-// close the message controller
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
-    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Main Parsing Method
@@ -370,10 +306,10 @@
     NSString *appendHead;
     //isDebugging = YES;
     if (!isDebugging) {
-        appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
+        appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"jquery.anchor.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
     }
     else {
-        appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
+        appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"jquery.anchor.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
     }
     NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body style=\"background-color: transparent !important;\">", appendHead];
     // only retreive what's in the body
@@ -1011,7 +947,9 @@
 - (void)gotoAnchor:(NSNotification*)notification {
     // for jumping to an anchor
     TableOfContentsAnchor *anchor = [notification object];
-    [articleView stringByEvaluatingJavaScriptFromString:[[NSString alloc] initWithFormat:@"window.location.hash = '%@'",[anchor href]]];
+	NSString *anchorSansOctothorp = [[anchor href] stringByReplacingOccurrencesOfString:@"#" withString:@""];
+	NSString *anchorJump = [[NSString alloc] initWithFormat:@"javascript:document.getElementById('%@').scrollIntoView(true);",anchorSansOctothorp];
+	[articleView stringByEvaluatingJavaScriptFromString:anchorJump];
     NSLog(@"anchor:%@", [anchor href]);
 }
 
