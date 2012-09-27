@@ -36,7 +36,7 @@
     [self addGestureRecognizer:longPress];
     
     // use vector or don't
-    if (vectorView == nil) {
+    /*if (vectorView == nil) {
         // add shadow to the image
         tileContainerView.layer.shadowColor = [UIColor blackColor].CGColor;
         tileContainerView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -49,7 +49,7 @@
         vectorView.layer.shadowOffset = CGSizeMake(0, 0);
         vectorView.layer.shadowOpacity = 1;
         vectorView.layer.shadowRadius = 1.0;
-    }
+    }*/
 }
 
 - (void)setVectorView:(UIWebView*)_vectorView {

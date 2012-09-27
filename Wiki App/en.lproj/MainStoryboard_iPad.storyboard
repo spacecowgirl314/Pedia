@@ -337,14 +337,7 @@
         <class className="ArticleViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ArticleViewController.h"/>
             <relationships>
-                <relationship kind="action" name="pressBack:"/>
-                <relationship kind="action" name="pressForward:"/>
                 <relationship kind="action" name="selectArticleFromHistory:"/>
-                <relationship kind="action" name="selectArticleFromSaved:"/>
-                <relationship kind="action" name="shareArticle:"/>
-                <relationship kind="action" name="showSearchField:"/>
-                <relationship kind="action" name="showWikiManager:"/>
-                <relationship kind="action" name="toggleDebugging:"/>
                 <relationship kind="outlet" name="articleSearchBox" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="articleView" candidateClass="UIWebView"/>
                 <relationship kind="outlet" name="backgroundView" candidateClass="UIView"/>
