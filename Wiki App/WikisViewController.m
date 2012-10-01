@@ -7,12 +7,17 @@
 //
 
 #import "WikisViewController.h"
+#import "AppDelegate.h"
 
 @interface WikisViewController ()
+
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
 @implementation WikisViewController
+@synthesize managedObjectContext=managedObjectContext_;
+@synthesize fetchedResultsController=fetchedResultsController_;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,7 +70,7 @@
 }
 
 - (void)done {
-    [self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Data Source Delegate
@@ -78,7 +83,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 2;
+        return 3;
     }
     else {
         return 3;
@@ -102,7 +107,7 @@
             [URLTextField setKeyboardType:UIKeyboardTypeURL];
             [URLTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
             [URLTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-            [URLTextField setPlaceholder:@"Enter URL"];
+            [URLTextField setPlaceholder:@"Enter the API URL eg. http://site.com/something/api.php"];
             [cell addSubview:URLTextField];
             return cell;
         }
@@ -124,6 +129,11 @@
             [cell addSubview:nameTextField];
             return cell;
         }
+		if (indexPath.row==2) {
+			UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+            cell.textLabel.text = @"Add Wiki";
+            return cell;
+		}
     }
     else {
         // for object array enumerator should go here
@@ -181,6 +191,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if (indexPath.section==0) {
+		if (indexPath.row==2) {
+			// save to CoreData
+			if ([[URLTextField text] length]==0 || [[nameTextField text] length]==0) {
+				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Either field can not be left blank." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+				[alertView show];
+				return;
+			}
+			// reload
+			// clear text fields
+			[URLTextField setText:@""];
+			[nameTextField setText:@""];
+		}
+	}
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -206,6 +230,44 @@
     else {
         return UITableViewCellEditingStyleNone;
     }
+}
+
+#pragma mark - NSFetchedResultsController -
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    
+    // if we already fetched then just return what we have
+    if (fetchedResultsController_ != nil) {
+        return fetchedResultsController_;
+    }
+    // otherwise begin setting up from the managed object context from the app delegate
+    else {
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [self setManagedObjectContext:[app wikiManagedObjectContext]];
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Wiki" inManagedObjectContext:managedObjectContext_];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc]
+                              initWithKey:@"date" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    
+    //[fetchRequest setFetchBatchSize:20];
+    
+    NSFetchedResultsController *theFetchedResultsController =
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                        managedObjectContext:managedObjectContext_ sectionNameKeyPath:nil
+                                                   cacheName:nil];
+    
+    self.fetchedResultsController = theFetchedResultsController;
+    NSLog(@"HistoryViewController fetched objects:%@", [fetchedResultsController_ fetchedObjects]);
+    fetchedResultsController_.delegate = self;
+    
+    return fetchedResultsController_;
+    
 }
 
 @end

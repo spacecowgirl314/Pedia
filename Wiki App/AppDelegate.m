@@ -407,7 +407,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"AppDelegate asynchronously added persistent store!");
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchWikiData" object:self userInfo:nil];
                 
                 // because notification can't be sent to segues? this works. use a singleton of the view controller
                 // i don't like it very much feels hacky and likely to break in a future iOS version
