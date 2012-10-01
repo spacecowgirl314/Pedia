@@ -8,10 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import <Twitter/Twitter.h>
-#import <MessageUI/MessageUI.h>
 #import <CoreData/CoreData.h>
-//#import <Social/Social.h>
 #import "WikipediaHelper.h"
 #import "TableOfContentsAnchor.h"
 #import "HistoryViewController.h"
@@ -26,7 +23,7 @@
 #import "ArchiveDownloader.h"
 #import "WikisViewController.h"
 
-@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchiveDownloaderDelegate, ImageScrollViewDelegate> {
+@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchiveDownloaderDelegate, ImageScrollViewDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;
@@ -52,9 +49,6 @@
     int historyIndex;
     UIDownloadBar *imageBar;
     UILabel *titleLabel;
-    NSMetadataQuery *metadataQuery;
-    int iCloudIndex;
-    int iCloudCount;
     SuggestionController *suggestionController;
     NSManagedObjectContext *managedObjectContext__;
     BOOL isDebugging;

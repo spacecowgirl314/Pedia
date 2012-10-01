@@ -312,10 +312,10 @@
     NSString *appendHead;
     //isDebugging = YES;
     if (!isDebugging) {
-        appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
+        appendHead = @"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\" /><meta charset=\"UTF-8\" /><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"wizardry.js\"></script>";
     }
     else {
-        appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\"><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
+        appendHead = @"<link href=\"http://vlntno.me/_projects/wiki/style.css\" rel=\"stylesheet\" type=\"text/css\" /><meta name=\"viewport\" content=\"user-scalable=no\" /><meta charset=\"UTF-8\" /><script type=\"text/javascript\" src=\"jquery-1.7.2.min.js\"></script><script type=\"text/javascript\" src=\"http://vlntno.me/_projects/wiki/wizardry.js\"></script>";
     }
     NSString *newHTML = [NSString stringWithFormat: @"<html><head>%@</head><body style=\"background-color: transparent !important;\">", appendHead];
     // only retreive what's in the body
@@ -337,6 +337,9 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     //HTMLNode *bodyNode = [parser body];
     NSArray *tableOfContentsNode = [bodyNode findChildrenOfClass:@"toc"];
+	// acquire title and relabel
+	HTMLNode *firstHeading = [bodyNode findChildOfClass:@"firstHeading"];
+	HTMLNode *titleNode = [firstHeading findChildTag:@"span"];
     // reset the tableOfContents before loading a new one
     [tableOfContents removeAllObjects];
     for (HTMLNode *tableOfContent in tableOfContentsNode) {
@@ -375,7 +378,8 @@
     }
     // set title of the nav bar to the article name
     else {
-        [self setTitle:(NSString*)object];
+		[self setTitle:[titleNode contents]];
+        //[self setTitle:(NSString*)object];
     }
     // if we are on the iPhone then additonally set the custom title view
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -384,7 +388,8 @@
             [titleLabel sizeToFit];
         }
         else {
-            titleLabel.text = (NSString*)object;
+            //titleLabel.text = (NSString*)object;
+			titleLabel.text = [titleNode contents];
             [titleLabel sizeToFit];
         }
     }
@@ -402,10 +407,12 @@
         // if we have gone too far back in history don't let us go out of the array
         if (historyIndex==[historyArray count]-1) {
             [backButton setEnabled:NO];
+			// disable contents and share button
         }
         // default to it being enabled. most of the time it will be
         else {
             [backButton setEnabled:YES];
+			// enable contents and share button
         }
     }
     // if we are on the current page there should be no forward button
