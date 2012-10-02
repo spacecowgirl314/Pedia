@@ -400,13 +400,26 @@
         // if we have gone too far back in history don't let us go out of the array
         if (historyIndex==[historyArray count]-1) {
             [backButton setEnabled:NO];
-			// disable contents and share button
         }
         // default to it being enabled. most of the time it will be
         else {
             [backButton setEnabled:YES];
-			// enable contents and share button
         }
+		
+		if ([historyArray count]>=1) {
+			[shareButton setEnabled:YES];
+			[contentsButton setEnabled:YES];
+			if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+				[self.navigationItem.leftBarButtonItem setEnabled:YES];
+			}
+		}
+		else {
+			[shareButton setEnabled:NO];
+			[contentsButton setEnabled:NO];
+			if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+				[self.navigationItem.leftBarButtonItem setEnabled:NO];
+			}
+		}
     }
     // if we are on the current page there should be no forward button
     if (historyIndex!=0) {
@@ -1001,6 +1014,8 @@
     barButtonItem.title = NSLocalizedString(@"Contents", @"Contents");
     barButtonItem.tintColor = [UIColor grayColor];
     [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+	// disable by default because there is no need to use the contents button when no page is displayed
+	[self.navigationItem.leftBarButtonItem setEnabled:NO];
     self.masterPopoverController = popoverController;
 }
 

@@ -29,8 +29,10 @@
     IBOutlet UIView *bottomBar;
     IBOutlet UIView *searchView;
     IBOutlet UIView *backgroundView;
-    UIButton *backButton;
-    UIButton *forwardButton;
+    IBOutlet UIButton *backButton;
+    IBOutlet UIButton *forwardButton;
+	IBOutlet UIButton *shareButton;
+	IBOutlet UIButton *contentsButton;
     IBOutlet UINavigationItem *detailItem;
     IBOutlet ImageScrollView *scrollView;
     IBOutlet UIImageView *imageView;
