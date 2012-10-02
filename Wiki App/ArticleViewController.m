@@ -372,15 +372,8 @@
     [[NSNotificationCenter defaultCenter] 
      postNotificationName:@"populateTableOfContents" 
      object:[(NSArray*)tableOfContents copy]];
-    // pull the article name out of the archived article
-    if ([object isKindOfClass:[ArchivedArticle class]]) {
-        [self setTitle:[(ArchivedArticle*)object title]];
-    }
-    // set title of the nav bar to the article name
-    else {
-		[self setTitle:[titleNode contents]];
-        //[self setTitle:(NSString*)object];
-    }
+	// set the article title
+	[self setTitle:[titleNode contents]];
     // if we are on the iPhone then additonally set the custom title view
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if ([object isKindOfClass:[ArchivedArticle class]]) {
