@@ -8,6 +8,7 @@
 
 #import "WikisViewController.h"
 #import "AppDelegate.h"
+#import "Wiki.h"
 
 @interface WikisViewController ()
 
@@ -31,6 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	// set background image pattern to be the same as the web view background image
+	[self.wikiTableView setBackgroundView:nil];
+	[self.wikiTableView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.png"]]];
+	
 	// Do any additional setup after loading the view.
     self.title = NSLocalizedString(@"Manage Wikis", @"Manage Wikis");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -108,6 +114,8 @@
             [URLTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
             [URLTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
             [URLTextField setPlaceholder:@"Enter the API URL eg. http://site.com/something/api.php"];
+			[URLTextField setBackgroundColor:[UIColor clearColor]];
+			[cell setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:URLTextField];
             return cell;
         }
@@ -126,12 +134,15 @@
             [nameTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
             [nameTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
             [nameTextField setPlaceholder:@"Enter Name"];
+			[nameTextField setBackgroundColor:[UIColor clearColor]];
+			[cell setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:nameTextField];
             return cell;
         }
 		if (indexPath.row==2) {
 			UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
             cell.textLabel.text = @"Add Wiki";
+			cell.backgroundColor = [UIColor clearColor];
             return cell;
 		}
     }
@@ -142,18 +153,21 @@
             
             cell.textLabel.text = @"Wikipedia"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			cell.backgroundColor = [UIColor clearColor];
             return cell;
         }
         if (indexPath.row==1) {
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
             
             cell.textLabel.text = @"Batman (Wikia)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
+			cell.backgroundColor = [UIColor clearColor];
             return cell;
         }
         if (indexPath.row==2) {
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
             
             cell.textLabel.text = @"Call of Duty (Wikia)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
+			cell.backgroundColor = [UIColor clearColor];
             return cell;
         }
     }
@@ -193,12 +207,28 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	if (indexPath.section==0) {
 		if (indexPath.row==2) {
-			// save to CoreData
+			// check to see that both fields have something in them
+			// TODO: Analyze URL to make sure it's a valid url
 			if ([[URLTextField text] length]==0 || [[nameTextField text] length]==0) {
 				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Either field can not be left blank." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 				[alertView show];
 				return;
 			}
+			// save to Core Data
+			Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:[self managedObjectContext]];
+			
+			[historyEntry setName:[nameTextField text]];
+			[historyEntry setUrl:[URLTextField text]];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = nil;
+				if (![self.managedObjectContext save:&error])
+				{
+					// TODO: Do something better than just aborting.
+					NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+					//abort();
+				}
+			});
 			// reload
 			// clear text fields
 			[URLTextField setText:@""];
@@ -268,6 +298,69 @@
     
     return fetchedResultsController_;
     
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate -
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+	UITableView *tableView = self.wikiTableView;
+    [tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+	UITableView *tableView = self.wikiTableView;
+	
+	switch(type)
+	{
+		case NSFetchedResultsChangeInsert:
+			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		case NSFetchedResultsChangeUpdate:
+			[self fetchedResultsController:controller configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			break;
+		case NSFetchedResultsChangeMove:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+		default:
+			break;
+	}
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+	UITableView *tableView = self.wikiTableView;
+	
+	switch(type)
+	{
+		case NSFetchedResultsChangeInsert:
+			[tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+		default:
+			break;
+	}
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+	UITableView *tableView = self.wikiTableView;
+	[tableView endUpdates];
+}
+
+- (void)fetchedResultsController:(NSFetchedResultsController *)_fetchedResultsController configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    Wiki *wiki = [_fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = wiki.name;
+	
+	//[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 }
 
 @end

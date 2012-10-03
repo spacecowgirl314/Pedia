@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wiki App/WikisViewController.m"
-         timestampString = "370566772.475675"
+         timestampString = "370994345.914107"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "198"
-         endingLineNumber = "198"
+         startingLineNumber = "213"
+         endingLineNumber = "213"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
