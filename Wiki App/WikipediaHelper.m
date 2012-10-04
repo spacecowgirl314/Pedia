@@ -17,14 +17,14 @@
     if (self) {
         // Standard values for the api URL
         // EN
-        NSString *languageCode = [[NSLocale preferredLanguages] objectAtIndex:0];
-        if([languageCode isEqualToString:@"en"]) {
+        //NSString *languageCode = [[NSLocale preferredLanguages] objectAtIndex:0];
+        /*if([languageCode isEqualToString:@"en"]) {
             apiUrl = @"http://en.wikipedia.org";
             //apiUrl = @"http://www.minecraftwiki.net";
         }
         else if([languageCode isEqualToString:@"ja"]) {
             apiUrl = @"http://ja.wikipedia.org";
-        }
+        }*/
         // below doesn't work out of the box
         //apiUrl = [[NSString alloc] initWithFormat:@"http://%@.wikipedia.org",NSLocaleLanguageCode];
         
@@ -49,6 +49,10 @@
  @param name The name of the article.
  */
 - (NSString *) getWikipediaArticle:(NSString *)name {
+	// manufacture host URL
+	NSURL *siteURL = [NSURL URLWithString:apiUrl];
+	NSString *hostURL = [[NSString alloc] initWithFormat:@"http://%@", [siteURL host]];
+	
     // Create new SBJSON parser object
     //SBJsonParser *parser = [[SBJsonParser alloc] init];
     
@@ -57,8 +61,7 @@
     
     // escape the string with UTF8 so that multilanguages work
     //NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSString *url = [[NSString alloc] initWithFormat:@"%@/wiki/%@", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
+    NSString *url = [[NSString alloc] initWithFormat:@"%@/wiki/%@", hostURL, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     //NSLog(@"WikipediaHelper url:%@", url);
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -89,9 +92,13 @@
  @param name The name of the article.
  */
 - (NSString *) getURLForArticle:(NSString *)name {
+	// manufacture host URL
+	NSURL *siteURL = [NSURL URLWithString:apiUrl];
+	NSString *hostURL = [[NSString alloc] initWithFormat:@"http://%@", [siteURL host]];
+	
     // remove spaces from name and replace with underscore for the url
     NSString *articleName = [name stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    NSString *wikiUrl = [apiUrl stringByAppendingString:@"/wiki/"];
+    NSString *wikiUrl = [hostURL stringByAppendingString:@"/wiki/"];
     NSString *urlString = [wikiUrl stringByAppendingString:[articleName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     return urlString;
 }
@@ -116,6 +123,10 @@
  @param name The name of the article.
  */
 - (NSString *) getWikipediaHTMLPage:(NSString *)name {
+	// manufacture host URL
+	NSURL *siteURL = [NSURL URLWithString:apiUrl];
+	NSString *hostURL = [[NSString alloc] initWithFormat:@"http://%@", [siteURL host]];
+	
     // Fetch wikipedia article
     NSString *htmlSrc = [self getWikipediaArticle:name];
     
@@ -124,9 +135,9 @@
     
     // NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"h3" withString:@"h2"];
     
-    NSString *wikiString = [NSString stringWithFormat:@"%@/wiki/", apiUrl];
-    NSString *ahrefWikiString = [NSString stringWithFormat:@"<a href=\"%@/wiki\"", apiUrl];
-    NSString *ahrefWikiStringReplacement = [NSString stringWithFormat:@"<a target=\"blank\" href=\"%@/wiki\"", apiUrl];
+    NSString *wikiString = [NSString stringWithFormat:@"%@/wiki/", hostURL];
+    NSString *ahrefWikiString = [NSString stringWithFormat:@"<a href=\"%@/wiki\"", hostURL];
+    NSString *ahrefWikiStringReplacement = [NSString stringWithFormat:@"<a target=\"blank\" href=\"%@/wiki\"", hostURL];
     
     NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"/wiki/" withString:wikiString];
     formatedHtmlSrc = [formatedHtmlSrc stringByReplacingOccurrencesOfString:ahrefWikiString withString:ahrefWikiStringReplacement];
@@ -150,7 +161,7 @@
     
     NSURLRequest *request;
     
-    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=imageinfo&titles=%@&iiprop=url&format=json", apiUrl, [filename stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *url = [[NSString alloc] initWithFormat:@"%@?action=query&prop=imageinfo&titles=%@&iiprop=url&format=json", apiUrl, [filename stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
@@ -218,7 +229,7 @@
     NSURLRequest *request;
     
     //http://en.wikipedia.org/w/api.php?action=opensearch&search=gr&limit=100&namespace=0&format=json
-    NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=opensearch&search=%@&limit=100&namespace=0&format=json", apiUrl, [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *url = [[NSString alloc] initWithFormat:@"%@?action=opensearch&search=%@&limit=100&namespace=0&format=json", apiUrl, [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     

@@ -264,13 +264,13 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
-        [self presentModalViewController:navigationController animated:YES];
+		[self presentViewController:navigationController animated:YES completion:nil];
     }
     else
     {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
         [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-        [[self splitViewController] presentModalViewController:navigationController animated:YES];
+		[self presentViewController:navigationController animated:YES completion:nil];
     }
 }
 
@@ -792,6 +792,7 @@
     [super viewDidLoad];
     // initialize the wikipedia helper
     wikipediaHelper = [[WikipediaHelper alloc] init];
+	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
     
     // load welcome page
     [articleView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"html"]isDirectory:NO]]];
@@ -926,13 +927,13 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-            [self presentModalViewController:navigationController animated:YES];
+			[self presentViewController:navigationController animated:YES completion:nil];
         }
         else
         {
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
             [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-            [[self splitViewController] presentModalViewController:navigationController animated:YES];
+			[self presentViewController:navigationController animated:YES completion:nil];
         }
     }
 }

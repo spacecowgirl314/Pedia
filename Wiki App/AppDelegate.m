@@ -223,7 +223,7 @@
             [psc unlock];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"AppDelegate asynchronously added persistent store!");
+                NSLog(@"AppDelegate asynchronously added persistent history store!");
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
                 
                 // because notification can't be sent to segues? this works. use a singleton of the view controller
@@ -406,7 +406,7 @@
             [psc unlock];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"AppDelegate asynchronously added persistent store!");
+                NSLog(@"AppDelegate asynchronously added persistent wiki store!");
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchWikiData" object:self userInfo:nil];
                 
                 // because notification can't be sent to segues? this works. use a singleton of the view controller

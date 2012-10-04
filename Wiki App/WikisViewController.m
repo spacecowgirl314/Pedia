@@ -58,6 +58,21 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"Done") style:UIBarButtonItemStyleDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = doneButton;
     doneButton.enabled = YES;
+	
+	// load data
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSError *error;
+        if (![[self fetchedResultsController] performFetch:&error]) {
+            // Update to handle the error appropriately.
+            NSLog(@"WikisViewController unresolved error %@, %@", error, [error userInfo]);
+            exit(-1);  // Fail
+        }
+        // reload on main thread. keeps ui glitches from happening
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.wikiTableView reloadData];
+        });
+    });
 }
 
 - (void)viewDidUnload
@@ -94,16 +109,23 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-		//NSInteger numberOfRows = 0;
+		NSInteger numberOfRows = 0;
 		NSFetchedResultsController *fetchController = [self fetchedResultsControllerForTableView:wikiTableView];
 		NSArray *sections = fetchController.sections;
+		NSLog(@"wiki sections: %@", [sections description]);
 		
 		id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
-		return [sectionInfo numberOfObjects];
+		numberOfRows = [sectionInfo numberOfObjects];
+		NSLog(@"Number of managed wikis:%d", numberOfRows);
+		
+		return numberOfRows;
     }
-    else {
+    if (section==1) {
         return 3;
     }
+	
+	// Shut up, compiler!
+	return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -159,8 +181,8 @@
     else {
 		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         // for object array enumerator should go here
-		NSLog(@"rows %d", [self tableView:(UITableView *)tableView numberOfRowsInSection:1]);
-        /*if (indexPath.row==[self tableView:(UITableView *)tableView numberOfRowsInSection:1]) {
+		NSLog(@"rows %d", [self tableView:(UITableView *)tableView numberOfRowsInSection:0]);
+        /*if (indexPath.row==[self tableView:(UITableView *)tableView numberOfRowsInSection:1]+1) {
             cell.textLabel.text = @"Wikipedia (default)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
 			cell.backgroundColor = [UIColor clearColor];
@@ -169,16 +191,7 @@
 		//else {
 		[self fetchedResultsController:[self fetchedResultsControllerForTableView:tableView] configureCell:cell atIndexPath:indexPath];
 		//}
-        /*if (indexPath.row==1) {
-            cell.textLabel.text = @"Batman (Wikia)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
-			cell.backgroundColor = [UIColor clearColor];
-            return cell;
-        }
-        if (indexPath.row==2) {
-            cell.textLabel.text = @"Call of Duty (Wikia)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
-			cell.backgroundColor = [UIColor clearColor];
-            return cell;
-        }*/
+		return cell;
     }
     // shuts up the warning about reaching end of void function
     return nil;
@@ -238,6 +251,8 @@
 					//abort();
 				}
 			});
+			
+			NSLog(@"Saved wiki: %@ at url: %@", [nameTextField text], [URLTextField text]);
 			// reload
 			// clear text fields
 			[URLTextField setText:@""];
@@ -249,11 +264,11 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	switch (section) {
+		case 0:
+            return @"MANAGE";
+            break;
         case 1:
             return @"ADD NEW";
-            break;
-        case 0:
-            return @"MANAGE";
             break;
         default:
             return @"";
@@ -263,11 +278,11 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     // disable editing of the cells. can no longer swipe to delete
-    if (indexPath.section==0) {
-        return UITableViewCellEditingStyleDelete;
+    if (indexPath.section==1) {
+        return UITableViewCellEditingStyleNone;
     }
     else {
-        return UITableViewCellEditingStyleNone;
+        return UITableViewCellEditingStyleDelete;
     }
 }
 
@@ -291,7 +306,7 @@
     [fetchRequest setEntity:entity];
     
     NSSortDescriptor *sort = [[NSSortDescriptor alloc]
-                              initWithKey:@"date" ascending:NO];
+                              initWithKey:@"name" ascending:NO];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
     
     //[fetchRequest setFetchBatchSize:20];
@@ -302,7 +317,7 @@
                                                    cacheName:nil];
     
     self.fetchedResultsController = theFetchedResultsController;
-    NSLog(@"HistoryViewController fetched objects:%@", [fetchedResultsController_ fetchedObjects]);
+    NSLog(@"WikisViewController fetched objects:%@", [fetchedResultsController_ fetchedObjects]);
     fetchedResultsController_.delegate = self;
     
     return fetchedResultsController_;
