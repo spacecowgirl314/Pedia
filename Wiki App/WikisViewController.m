@@ -79,6 +79,11 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
+{
+	return self.fetchedResultsController;
+}
+
 #pragma mark - Data Source Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -89,7 +94,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-        return 3;
+		//NSInteger numberOfRows = 0;
+		NSFetchedResultsController *fetchController = [self fetchedResultsControllerForTableView:wikiTableView];
+		NSArray *sections = fetchController.sections;
+		
+		id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+		return [sectionInfo numberOfObjects];
     }
     else {
         return 3;
@@ -98,7 +108,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section==1) {
         if (indexPath.row==0) {
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
             
@@ -147,29 +157,28 @@
 		}
     }
     else {
+		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         // for object array enumerator should go here
-        if (indexPath.row==0) {
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-            
-            cell.textLabel.text = @"Wikipedia"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
+		NSLog(@"rows %d", [self tableView:(UITableView *)tableView numberOfRowsInSection:1]);
+        /*if (indexPath.row==[self tableView:(UITableView *)tableView numberOfRowsInSection:1]) {
+            cell.textLabel.text = @"Wikipedia (default)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
 			cell.backgroundColor = [UIColor clearColor];
             return cell;
-        }
-        if (indexPath.row==1) {
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-            
+        }*/
+		//else {
+		[self fetchedResultsController:[self fetchedResultsControllerForTableView:tableView] configureCell:cell atIndexPath:indexPath];
+		//}
+        /*if (indexPath.row==1) {
             cell.textLabel.text = @"Batman (Wikia)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
 			cell.backgroundColor = [UIColor clearColor];
             return cell;
         }
         if (indexPath.row==2) {
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-            
             cell.textLabel.text = @"Call of Duty (Wikia)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
 			cell.backgroundColor = [UIColor clearColor];
             return cell;
-        }
+        }*/
     }
     // shuts up the warning about reaching end of void function
     return nil;
@@ -178,7 +187,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    if (indexPath.section==1) {
+    if (indexPath.section==0) {
         return YES;
     }
     else {
@@ -205,7 +214,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-	if (indexPath.section==0) {
+	if (indexPath.section==1) {
 		if (indexPath.row==2) {
 			// check to see that both fields have something in them
 			// TODO: Analyze URL to make sure it's a valid url
@@ -240,10 +249,10 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	switch (section) {
-        case 0:
+        case 1:
             return @"ADD NEW";
             break;
-        case 1:
+        case 0:
             return @"MANAGE";
             break;
         default:
@@ -254,7 +263,7 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     // disable editing of the cells. can no longer swipe to delete
-    if (indexPath.section==1) {
+    if (indexPath.section==0) {
         return UITableViewCellEditingStyleDelete;
     }
     else {
@@ -358,6 +367,7 @@
 - (void)fetchedResultsController:(NSFetchedResultsController *)_fetchedResultsController configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Wiki *wiki = [_fetchedResultsController objectAtIndexPath:indexPath];
+	cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = wiki.name;
 	
 	//[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];

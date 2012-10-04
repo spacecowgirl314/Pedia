@@ -343,15 +343,15 @@
 
 - (NSManagedObjectModel *)wikiManagedObjectModel
 {
-    if (__managedObjectModel != nil)
+    if (__wikiManagedObjectModel != nil)
     {
-        return __managedObjectModel;
+        return __wikiManagedObjectModel;
     }
 	
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Wikis" withExtension:@"momd"];
-    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    __wikiManagedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 	
-    return __managedObjectModel;
+    return __wikiManagedObjectModel;
 }
 
 - (NSPersistentStoreCoordinator *)wikiPersistentStoreCoordinator
@@ -411,11 +411,11 @@
                 
                 // because notification can't be sent to segues? this works. use a singleton of the view controller
                 // i don't like it very much feels hacky and likely to break in a future iOS version
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
                     HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
                     NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
                     [historyViewController reloadFetchedResults:notification];
-                }
+                }*/
             });
             
         });
