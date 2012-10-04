@@ -36,6 +36,7 @@
 @synthesize titleLabel;
 @synthesize tableOfContents;
 @synthesize managedObjectContext=managedObjectContext__;
+@synthesize wikiManagedObjectContext=wikiManagedObjectContext__;
 
 #pragma mark - Search Field
 
@@ -262,17 +263,11 @@
 - (IBAction)showWikiManager:(id)sender {
     WikisViewController *wikisViewController = [[WikisViewController alloc] init];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
-		[self presentViewController:navigationController animated:YES completion:nil];
-    }
-    else
-    {
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
-        [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-		[self presentViewController:navigationController animated:YES completion:nil];
-    }
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
+	[navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+	[self presentViewController:navigationController animated:YES completion:^{
+		[self reloadSelectedWiki];
+	}];
 }
 
 #pragma mark - Main Parsing Method
@@ -389,6 +384,21 @@
     }
     [self checkToEnableButtons];
     //[TestFlight passCheckpoint:@"Loaded an article"];
+}
+
+#pragma mark - Reloading Selected Wiki
+
+- (void)reloadSelectedWiki {
+	// technically this should load before everything gets we start searching
+	/*
+	 switch wikis
+	 find for the key [[NSStandardDefaults standardDefaults] objectForKey:@"selectedWiki"];
+	 search for matching wiki in database
+	 Wiki *wiki = [Wiki new];
+	 [wiki setUrl:@"http://en.wikipedia.org/w/api.php"];
+	 [wikipediaHelper setApiUrl:[wiki url]];
+	 */
+	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
 }
 
 #pragma mark - History Loading and Saving
@@ -795,29 +805,31 @@
 	// setup core data for saving
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self setManagedObjectContext:[app managedObjectContext]];
-	NSManagedObjectContext *wikiManagedObjectContext = [app wikiManagedObjectContext];
+	[self setWikiManagedObjectContext:[app wikiManagedObjectContext]];
 	
 	// Only run the Getting Started Once
     // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
 		// Setup default wikipedia
-		Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext];
+		Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
 		
 		[historyEntry setName:@"Wikipedia (default)"];
 		[historyEntry setUrl:@"http://en.wikipedia.org/w/api.php"];
 		[historyEntry setUuid:[[NSUUID UUID] UUIDString]];
 		
-		[wikiManagedObjectContext lock];
+		[[NSUserDefaults standardUserDefaults] setObject:[historyEntry uuid] forKey:@"selectedWiki"];
+		
+		//[wikiManagedObjectContext__ lock];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSError *error = nil;
-			if (![wikiManagedObjectContext save:&error])
+			if (![wikiManagedObjectContext__ save:&error])
 			{
 				// TODO: Do something better than just aborting.
 				NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 				//abort();
 			}
 		});
-		[wikiManagedObjectContext unlock];
+		//[wikiManagedObjectContext__ unlock];
 		
 		// turn off first run
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
@@ -825,22 +837,15 @@
 		// Not sure if we're going to use the getting started stuff
         /*GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
 		 
-		 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-		 {
-		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-		 [self presentViewController:navigationController animated:YES completion:nil];
-		 }
-		 else
-		 {
 		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
 		 [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
 		 [self presentViewController:navigationController animated:YES completion:nil];
-		 }*/
+		 */
     }
 	
-    // initialize the wikipedia helper
+    // initialize the wikipedia helper and load the selected wiki
     wikipediaHelper = [[WikipediaHelper alloc] init];
-	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
+	[self reloadSelectedWiki];
 	//[wikipediaHelper setApiUrl:@"http://www.minecraftwiki.net/api.php"];
     
     // load welcome page

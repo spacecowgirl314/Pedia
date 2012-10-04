@@ -53,6 +53,7 @@
     UILabel *titleLabel;
     SuggestionController *suggestionController;
     NSManagedObjectContext *managedObjectContext__;
+	NSManagedObjectContext *wikiManagedObjectContext__;
     BOOL isDebugging;
     WikipediaHelper *wikipediaHelper;
     Reachability *reachability;
@@ -76,6 +77,7 @@
 @property (retain) UILabel *titleLabel;
 @property (retain) NSMutableArray *tableOfContents;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext *wikiManagedObjectContext;
 
 - (IBAction)selectArticleFromHistory:(id)sender;
  
