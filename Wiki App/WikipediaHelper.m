@@ -61,8 +61,11 @@
     
     // escape the string with UTF8 so that multilanguages work
     //NSString *url = [[NSString alloc] initWithFormat:@"%@/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", apiUrl, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	
+	
     NSString *url = [[NSString alloc] initWithFormat:@"%@/wiki/%@", hostURL, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    //NSLog(@"WikipediaHelper url:%@", url);
+	//NSString *url = [[NSString alloc] initWithFormat:@"%@/%@", hostURL, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSLog(@"WikipediaHelper url:%@", url);
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
@@ -180,6 +183,7 @@
     NSDictionary *page = [pages objectAtIndex:0];
     NSDictionary *imageinfo = [[page objectForKey:@"imageinfo"] objectAtIndex:0];
     NSString *imageUrl = [imageinfo objectForKey:@"url"];
+	NSLog(@"Received image URL:%@", imageUrl);
     return imageUrl;
 }
 

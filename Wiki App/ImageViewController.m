@@ -68,8 +68,8 @@
     imageIsDownloaded = NO;
     // animate progess bar here
     WikipediaHelper *wikiHelper = [[WikipediaHelper alloc] init];
-    //NSLog(@"Image url:%@", );
     NSString *imageURL = [wikiHelper getUrlOfImageFile:name];
+	NSLog(@"Image loaded url:%@", imageURL);
     NSURL *url = [NSURL URLWithString:imageURL];
     
     // make sure we aren't loading an vector image

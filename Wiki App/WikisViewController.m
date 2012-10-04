@@ -241,6 +241,7 @@
 			
 			[historyEntry setName:[nameTextField text]];
 			[historyEntry setUrl:[URLTextField text]];
+			[historyEntry setUuid:[[NSUUID UUID] UUIDString]];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = nil;

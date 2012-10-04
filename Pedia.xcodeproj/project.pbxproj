@@ -1069,7 +1069,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F3DD8272-D25E-4D8F-9A01-CF0147EA3E3B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A9B975D7-517B-4F8A-B3E6-BFE6740E9D08";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;
@@ -1092,7 +1092,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = Pedia;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F3DD8272-D25E-4D8F-9A01-CF0147EA3E3B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A9B975D7-517B-4F8A-B3E6-BFE6740E9D08";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2/**";
 				WRAPPER_EXTENSION = app;

@@ -14,6 +14,6 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSNumber * enabled;
+@property (nonatomic, retain) NSString * uuid;
 
 @end

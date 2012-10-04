@@ -11,6 +11,7 @@
 #import "HistoryItem.h"
 #import "AppDelegate.h"
 #import "UINavigationBar+DropShadow.h"
+#import "Wiki.h"
 
 
 //#define NSLog TFLog
@@ -654,6 +655,7 @@
         // animate progess bar here
         NSString *imageURL = [wikipediaHelper getUrlOfImageFile:(NSString*)object];
         NSURL *url = [NSURL URLWithString:imageURL];
+		NSLog(@"Image URL for iPhone: %@", imageURL);
         
         // make sure we aren't loading an vector image
         NSLog(@"extension:%@", [url pathExtension]);
@@ -790,9 +792,56 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	// setup core data for saving
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [self setManagedObjectContext:[app managedObjectContext]];
+	NSManagedObjectContext *wikiManagedObjectContext = [app wikiManagedObjectContext];
+	
+	// Only run the Getting Started Once
+    // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
+		// Setup default wikipedia
+		Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext];
+		
+		[historyEntry setName:@"Wikipedia (default)"];
+		[historyEntry setUrl:@"http://en.wikipedia.org/w/api.php"];
+		[historyEntry setUuid:[[NSUUID UUID] UUIDString]];
+		
+		[wikiManagedObjectContext lock];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSError *error = nil;
+			if (![wikiManagedObjectContext save:&error])
+			{
+				// TODO: Do something better than just aborting.
+				NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+				//abort();
+			}
+		});
+		[wikiManagedObjectContext unlock];
+		
+		// turn off first run
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
+		
+		// Not sure if we're going to use the getting started stuff
+        /*GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
+		 
+		 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+		 {
+		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+		 [self presentViewController:navigationController animated:YES completion:nil];
+		 }
+		 else
+		 {
+		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+		 [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+		 [self presentViewController:navigationController animated:YES completion:nil];
+		 }*/
+    }
+	
     // initialize the wikipedia helper
     wikipediaHelper = [[WikipediaHelper alloc] init];
 	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
+	//[wikipediaHelper setApiUrl:@"http://www.minecraftwiki.net/api.php"];
     
     // load welcome page
     [articleView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"html"]isDirectory:NO]]];
@@ -831,9 +880,6 @@
     
     [reachability startNotifier];
     
-    // setup core data for saving
-    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [self setManagedObjectContext:[app managedObjectContext]];
     self.title = NSLocalizedString(@"Article", @"Article");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         //articleSearchBox.inputAccessoryView = bottomBar;
@@ -919,23 +965,6 @@
     [suggestionController setSuggestionTableView:suggestionTableView];
     [suggestionTableView setDataSource:suggestionController];
     [suggestionTableView setDelegate:suggestionController];
-    // Only run the Getting Started Once
-    // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
-    if (NO) {
-        GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-			[self presentViewController:navigationController animated:YES completion:nil];
-        }
-        else
-        {
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-            [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-			[self presentViewController:navigationController animated:YES completion:nil];
-        }
-    }
 }
 
 - (void)viewDidUnload

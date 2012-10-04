@@ -13,6 +13,6 @@
 
 @dynamic name;
 @dynamic url;
-@dynamic enabled;
+@dynamic uuid;
 
 @end
