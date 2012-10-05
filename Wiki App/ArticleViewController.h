@@ -23,7 +23,7 @@
 #import "ArchiveDownloader.h"
 #import "WikisViewController.h"
 
-@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchiveDownloaderDelegate, ImageScrollViewDelegate> {
+@interface ArticleViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIDownloadBarDelegate, ArchiveDownloaderDelegate, ImageScrollViewDelegate, WikisViewControllerDelegate> {
     IBOutlet UITextField *articleSearchBox;
     IBOutlet UIWebView *articleView;
     IBOutlet UIView *bottomBar;

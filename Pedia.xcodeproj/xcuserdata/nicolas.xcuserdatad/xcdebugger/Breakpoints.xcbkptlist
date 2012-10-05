@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wiki App/ArticleViewController.m"
-         timestampString = "371036576.90339"
+         timestampString = "371096024.434824"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "277"
-         endingLineNumber = "277"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
          landmarkName = "-downloadHTMLandParse:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wiki App/WikisViewController.m"
-         timestampString = "371034146.813089"
+         timestampString = "371096024.434824"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "300"
-         endingLineNumber = "300"
+         startingLineNumber = "306"
+         endingLineNumber = "306"
          landmarkName = "-fetchedResultsController"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wiki App/WikisViewController.m"
-         timestampString = "371034146.813089"
+         timestampString = "371096024.434824"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "296"
-         endingLineNumber = "296"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
          landmarkName = "-fetchedResultsController"
          landmarkType = "5">
       </FileBreakpoint>
@@ -112,12 +112,38 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wiki App/ArticleViewController.m"
-         timestampString = "371036576.90339"
+         timestampString = "371096352.462285"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "582"
-         endingLineNumber = "582"
+         startingLineNumber = "646"
+         endingLineNumber = "646"
          landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wiki App/ArticleViewController.m"
+         timestampString = "371096087.694012"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "391"
+         endingLineNumber = "391"
+         landmarkName = "-reloadSelectedWiki"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wiki App/WikisViewController.m"
+         timestampString = "371097384.185325"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "392"
+         endingLineNumber = "392"
+         landmarkName = "-fetchedResultsController:configureCell:atIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

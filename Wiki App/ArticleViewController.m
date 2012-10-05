@@ -262,12 +262,11 @@
 
 - (IBAction)showWikiManager:(id)sender {
     WikisViewController *wikisViewController = [[WikisViewController alloc] init];
+	[wikisViewController setDelegate:self];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
 	[navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-	[self presentViewController:navigationController animated:YES completion:^{
-		[self reloadSelectedWiki];
-	}];
+	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Main Parsing Method
@@ -389,16 +388,80 @@
 #pragma mark - Reloading Selected Wiki
 
 - (void)reloadSelectedWiki {
-	// technically this should load before everything gets we start searching
-	/*
-	 switch wikis
-	 find for the key [[NSStandardDefaults standardDefaults] objectForKey:@"selectedWiki"];
-	 search for matching wiki in database
-	 Wiki *wiki = [Wiki new];
-	 [wiki setUrl:@"http://en.wikipedia.org/w/api.php"];
-	 [wikipediaHelper setApiUrl:[wiki url]];
-	 */
-	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
+	// load data
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc]
+                              initWithKey:@"name" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uuid == %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"]];
+    [fetchRequest setPredicate:predicate];
+	
+	NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+																							   managedObjectContext:wikiManagedObjectContext__ sectionNameKeyPath:nil
+																										  cacheName:nil];
+	
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue,^{
+        NSError *error;
+        if (![fetchedResultsController performFetch:&error]) {
+            // Update to handle the error appropriately.
+            NSLog(@"ArticleViewController wikis unresolved error %@, %@", error, [error userInfo]);
+            exit(-1);  // Fail
+        }
+    });
+	
+	// Only run the Getting Started Once
+    // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
+		// Setup default wikipedia
+		Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
+		
+		[historyEntry setName:@"Wikipedia (default)"];
+		[historyEntry setUrl:@"http://en.wikipedia.org/w/api.php"];
+		[historyEntry setUuid:[[NSUUID UUID] UUIDString]];
+		
+		[[NSUserDefaults standardUserDefaults] setObject:[historyEntry uuid] forKey:@"selectedWiki"];
+		
+		//[wikiManagedObjectContext__ lock];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSError *error = nil;
+			if (![wikiManagedObjectContext__ save:&error])
+			{
+				// TODO: Do something better than just aborting.
+				NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+				//abort();
+			}
+		});
+		//[wikiManagedObjectContext__ unlock];
+		
+		// turn off first run
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
+		
+		// Not sure if we're going to use the getting started stuff
+        /*GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
+		 
+		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
+		 [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+		 [self presentViewController:navigationController animated:YES completion:nil];
+		 */
+    }
+	
+	//entity = [NSEntityDescription entityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
+    /*NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+	[request setSortDescriptors:[NSArray arrayWithObject:sort]];
+	// Set the predicate -- much like a WHERE statement in a SQL database
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uuid == %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"]];
+    [request setPredicate:predicate];*/
+	
+	Wiki *wiki = [[wikiManagedObjectContext__ executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
+	[wikipediaHelper setApiUrl:[wiki url]];
+	//[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
 }
 
 #pragma mark - History Loading and Saving
@@ -542,12 +605,13 @@
         // could also detect audio files in a similar manner. pronounciation seems to look like this En-us-Barack-Hussein-Obama.ogg
         NSString *searchForMe;
         NSString *languageCode = [[NSLocale preferredLanguages] objectAtIndex:0];
-        if ([languageCode isEqualToString:@"en"]) {
+        /*if ([languageCode isEqualToString:@"en"]) {
             searchForMe = @"File:";
         }
         else if([languageCode isEqualToString:@"ja"]) {
             searchForMe = @"ファイル:";
-        }
+        }*/
+		searchForMe = @":";
         NSRange range = [[url lastPathComponent] rangeOfString : searchForMe];
         // make sure we aren't loading an image
         if (range.location == NSNotFound) {
@@ -806,42 +870,6 @@
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self setManagedObjectContext:[app managedObjectContext]];
 	[self setWikiManagedObjectContext:[app wikiManagedObjectContext]];
-	
-	// Only run the Getting Started Once
-    // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
-		// Setup default wikipedia
-		Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
-		
-		[historyEntry setName:@"Wikipedia (default)"];
-		[historyEntry setUrl:@"http://en.wikipedia.org/w/api.php"];
-		[historyEntry setUuid:[[NSUUID UUID] UUIDString]];
-		
-		[[NSUserDefaults standardUserDefaults] setObject:[historyEntry uuid] forKey:@"selectedWiki"];
-		
-		//[wikiManagedObjectContext__ lock];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			NSError *error = nil;
-			if (![wikiManagedObjectContext__ save:&error])
-			{
-				// TODO: Do something better than just aborting.
-				NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-				//abort();
-			}
-		});
-		//[wikiManagedObjectContext__ unlock];
-		
-		// turn off first run
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
-		
-		// Not sure if we're going to use the getting started stuff
-        /*GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
-		 
-		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-		 [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-		 [self presentViewController:navigationController animated:YES completion:nil];
-		 */
-    }
 	
     // initialize the wikipedia helper and load the selected wiki
     wikipediaHelper = [[WikipediaHelper alloc] init];

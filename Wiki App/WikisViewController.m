@@ -91,6 +91,7 @@
 }
 
 - (void)done {
+	[[self delegate] reloadSelectedWiki];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -184,7 +185,6 @@
 		NSLog(@"rows %d", [self tableView:(UITableView *)tableView numberOfRowsInSection:0]);
         /*if (indexPath.row==[self tableView:(UITableView *)tableView numberOfRowsInSection:1]+1) {
             cell.textLabel.text = @"Wikipedia (default)"; //[suggestions objectAtIndex:indexPath.row]; //[object description];
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
 			cell.backgroundColor = [UIColor clearColor];
             return cell;
         }*/
@@ -227,6 +227,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if (indexPath.section==0) {
+		// set the tapped wiki as selected
+		Wiki *wiki = [fetchedResultsController_ objectAtIndexPath:indexPath];
+		[[NSUserDefaults standardUserDefaults] setObject:[wiki uuid] forKey:@"selectedWiki"];
+		[tableView reloadData];
+	}
 	if (indexPath.section==1) {
 		if (indexPath.row==2) {
 			// check to see that both fields have something in them
@@ -378,6 +384,7 @@
 {
 	UITableView *tableView = self.wikiTableView;
 	[tableView endUpdates];
+	//[tableView reloadData];
 }
 
 - (void)fetchedResultsController:(NSFetchedResultsController *)_fetchedResultsController configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -385,6 +392,12 @@
     Wiki *wiki = [_fetchedResultsController objectAtIndexPath:indexPath];
 	cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = wiki.name;
+	// if selected show the checkmark
+	//NSLog(@"%@ %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"], [wiki uuid]);
+	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"] isEqual:[wiki uuid]]) {
+		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+	}
+	//[[NSUserDefaults standardUserDefaults] setObject:[wiki uuid] forKey:@"selectedWiki"];
 	
 	//[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 }
