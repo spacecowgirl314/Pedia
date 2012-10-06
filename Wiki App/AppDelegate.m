@@ -27,6 +27,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	/* 
+	 This fixed a crash with the history loader, disabling to see if it was fixed in iOS 6.
     // set up managed object context for the archive
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Archive.sqlite"];
     NSError *error = nil;
@@ -37,7 +39,9 @@
         NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
         //abort();
     }
-    // set version number for settings everytime
+	 */
+	
+	// set version number for settings everytime
     [[NSUserDefaults standardUserDefaults] setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"kVersion"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     // Override point for customization after application launch.
@@ -140,19 +144,14 @@
     
     if (coordinator != nil)
     {
-        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
-            NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-            
-            [moc performBlockAndWait:^{
-                [moc setPersistentStoreCoordinator: coordinator];
-                
-                [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mergeChangesFrom_iCloud:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:coordinator];
-            }];
-            __managedObjectContext = moc;
-        } else {
-            __managedObjectContext = [[NSManagedObjectContext alloc] init];
-            [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-        }
+        NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+		
+		[moc performBlockAndWait:^{
+			[moc setPersistentStoreCoordinator: coordinator];
+			
+			[[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mergeChangesFrom_iCloud:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:coordinator];
+		}];
+		__managedObjectContext = moc;
         
     }
     return __managedObjectContext;
@@ -185,71 +184,56 @@
     
     NSPersistentStoreCoordinator* psc = __persistentStoreCoordinator;
     
-    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            
-            // Migrate datamodel
-            NSDictionary *options = nil;
-            
-            // this needs to match the entitlements and provisioning profile
-            NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
-            NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
-            if ([coreDataCloudContent length] != 0) {
-                // iCloud is available
-                cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
-                
-                options = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                           @"Pedia.store", NSPersistentStoreUbiquitousContentNameKey,
-                           cloudURL, NSPersistentStoreUbiquitousContentURLKey,
-                           nil];
-            } else {
-                // iCloud is not available
-                options = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                           nil];
-            }
-            
-            NSError *error = nil;
-            [psc lock];
-            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
-            {
-                NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
-            [psc unlock];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"AppDelegate asynchronously added persistent history store!");
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
-                
-                // because notification can't be sent to segues? this works. use a singleton of the view controller
-                // i don't like it very much feels hacky and likely to break in a future iOS version
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
-                    NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
-                    [historyViewController reloadFetchedResults:notification];
-                }
-            });
-            
-        });
-        
-    } else {
-        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                                 nil];
-        
-        NSError *error = nil;
-        if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
-        {
-            NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
-            //abort();
-        }
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		
+		// Migrate datamodel
+		NSDictionary *options = nil;
+		
+		// this needs to match the entitlements and provisioning profile
+		NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
+		NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
+		if ([coreDataCloudContent length] != 0) {
+			// iCloud is available
+			cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
+			
+			options = [NSDictionary dictionaryWithObjectsAndKeys:
+					   [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+					   [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+					   @"History.store", NSPersistentStoreUbiquitousContentNameKey,
+					   cloudURL, NSPersistentStoreUbiquitousContentURLKey,
+					   nil];
+		} else {
+			// iCloud is not available
+			options = [NSDictionary dictionaryWithObjectsAndKeys:
+					   [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+					   [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+					   nil];
+		}
+		
+		NSError *error = nil;
+		[psc lock];
+		if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+		{
+			NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
+			abort();
+		}
+		[psc unlock];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"AppDelegate asynchronously added persistent history store!");
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchAllDatabaseData" object:self userInfo:nil];
+			
+			// because notification can't be sent to segues? this works. use a singleton of the view controller
+			// i don't like it very much feels hacky and likely to break in a future iOS version
+			if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+				HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+				NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+				[historyViewController reloadFetchedResults:notification];
+			}
+		});
+		
+	});
     return __persistentStoreCoordinator;
 }
 
@@ -287,7 +271,7 @@
 
 - (NSPersistentStoreCoordinator *)archivePersistentStoreCoordinator
 {
-    /*if (__archivePersistentStoreCoordinator != nil)
+    if (__archivePersistentStoreCoordinator != nil)
     {
         return __archivePersistentStoreCoordinator;
     }
@@ -305,7 +289,7 @@
         return [self archivePersistentStoreCoordinator];
         //NSLog(@"AppDelegate Archive unresolved error %@, %@", error, [error userInfo]);
         //abort();
-    }*/    
+    }
     
     return __archivePersistentStoreCoordinator;
 }
@@ -323,19 +307,14 @@
     
     if (coordinator != nil)
     {
-        if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
-            NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-            
-            [moc performBlockAndWait:^{
-                [moc setPersistentStoreCoordinator: coordinator];
-                
-                [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mergeChangesFrom_iCloud:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:coordinator];
-            }];
-            __wikiManagedObjectContext = moc;
-        } else {
-            __wikiManagedObjectContext = [[NSManagedObjectContext alloc] init];
-            [__wikiManagedObjectContext setPersistentStoreCoordinator:coordinator];
-        }
+        NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+		
+		[moc performBlockAndWait:^{
+			[moc setPersistentStoreCoordinator: coordinator];
+			
+			[[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mergeWikiChangesFrom_iCloud:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:coordinator];
+		}];
+		__wikiManagedObjectContext = moc;
         
     }
     return __wikiManagedObjectContext;
@@ -368,71 +347,57 @@
     
     NSPersistentStoreCoordinator* psc = __wikiPersistentStoreCoordinator;
     
-    if (IOS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            
-            // Migrate datamodel
-            NSDictionary *options = nil;
-            
-            // this needs to match the entitlements and provisioning profile
-            NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
-            NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
-            if ([coreDataCloudContent length] != 0) {
-                // iCloud is available
-                cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
-                
-                options = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                           @"Pedia.store", NSPersistentStoreUbiquitousContentNameKey,
-                           cloudURL, NSPersistentStoreUbiquitousContentURLKey,
-                           nil];
-            } else {
-                // iCloud is not available
-                options = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                           [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                           nil];
-            }
-            
-            NSError *error = nil;
-            [psc lock];
-            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
-            {
-                NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
-            [psc unlock];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"AppDelegate asynchronously added persistent wiki store!");
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchWikiData" object:self userInfo:nil];
-                
-                // because notification can't be sent to segues? this works. use a singleton of the view controller
-                // i don't like it very much feels hacky and likely to break in a future iOS version
-                /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-                    HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
-                    NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
-                    [historyViewController reloadFetchedResults:notification];
-                }*/
-            });
-            
-        });
-        
-    } else {
-        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                                 nil];
-        
-        NSError *error = nil;
-        if (![__wikiPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
-        {
-            NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
-            //abort();
-        }
-    }
+    // dispatch_get_main_queue()
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		
+		// Migrate datamodel
+		NSDictionary *options = nil;
+		
+		// this needs to match the entitlements and provisioning profile
+		NSURL *cloudURL = [fileManager URLForUbiquityContainerIdentifier:nil];
+		NSString* coreDataCloudContent = [[cloudURL path] stringByAppendingPathComponent:@"data"];
+		if ([coreDataCloudContent length] != 0) {
+			// iCloud is available
+			cloudURL = [NSURL fileURLWithPath:coreDataCloudContent];
+			
+			options = [NSDictionary dictionaryWithObjectsAndKeys:
+					   [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+					   [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+					   @"Pedia.store", NSPersistentStoreUbiquitousContentNameKey,
+					   cloudURL, NSPersistentStoreUbiquitousContentURLKey,
+					   nil];
+		} else {
+			// iCloud is not available
+			options = [NSDictionary dictionaryWithObjectsAndKeys:
+					   [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+					   [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+					   nil];
+		}
+		
+		NSError *error = nil;
+		[psc lock];
+		if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
+		{
+			NSLog(@"AppDelegate unresolved error %@, %@", error, [error userInfo]);
+			abort();
+		}
+		[psc unlock];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"AppDelegate asynchronously added persistent wiki store!");
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"RefetchWikiData" object:self userInfo:nil];
+			
+			// because notification can't be sent to segues? this works. use a singleton of the view controller
+			// i don't like it very much feels hacky and likely to break in a future iOS version
+			/*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+			 HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+			 NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+			 [historyViewController reloadFetchedResults:notification];
+			 }*/
+		});
+		
+	});
     return __wikiPersistentStoreCoordinator;
 }
 
@@ -444,7 +409,7 @@
 }
 
 - (void)mergeiCloudChanges:(NSNotification*)note forContext:(NSManagedObjectContext*)moc {
-    [moc mergeChangesFromContextDidSaveNotification:note]; 
+    [moc mergeChangesFromContextDidSaveNotification:note];
     NSLog(@"AppDelegate iCloud is merging changes.");
     
     NSNotification* refreshNotification = [NSNotification notificationWithName:@"RefreshAllViews" object:self  userInfo:[note userInfo]];
@@ -459,6 +424,24 @@
         NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllViews" object:nil];
         [historyViewController reloadTableView:notification];
     }
+}
+
+- (void)mergeWikiiCloudChanges:(NSNotification*)note forContext:(NSManagedObjectContext*)moc {
+    [moc mergeChangesFromContextDidSaveNotification:note];
+    NSLog(@"AppDelegate iCloud is merging wiki changes.");
+    
+    NSNotification* refreshNotification = [NSNotification notificationWithName:@"RefreshWikiViews" object:self  userInfo:[note userInfo]];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:refreshNotification];
+    
+    // because notification can't be sent to segues? this works. use a singleton of the view controller
+    // i don't like it very much feels hacky and likely to break in a future iOS version
+    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        NSLog(@"AppDelegate Refreshing with iCloud on iPhone.");
+        HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+        NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllViews" object:nil];
+        [historyViewController reloadTableView:notification];
+    }*/
 }
 
 // NSNotifications are posted synchronously on the caller's thread

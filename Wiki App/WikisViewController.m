@@ -126,7 +126,7 @@
     }
 	
 	// Shut up, compiler!
-	return nil;
+	return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

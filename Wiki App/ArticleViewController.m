@@ -427,8 +427,8 @@
 		
 		[[NSUserDefaults standardUserDefaults] setObject:[historyEntry uuid] forKey:@"selectedWiki"];
 		
-		//[wikiManagedObjectContext__ lock];
-		dispatch_async(dispatch_get_main_queue(), ^{
+		[wikiManagedObjectContext__ lock];
+		//dispatch_async(dispatch_get_main_queue(), ^{
 			NSError *error = nil;
 			if (![wikiManagedObjectContext__ save:&error])
 			{
@@ -436,28 +436,12 @@
 				NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 				//abort();
 			}
-		});
-		//[wikiManagedObjectContext__ unlock];
+		//});
+		[wikiManagedObjectContext__ unlock];
 		
 		// turn off first run
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
-		
-		// Not sure if we're going to use the getting started stuff
-        /*GettingStartedViewController *gettingStartedViewController = [[GettingStartedViewController alloc] init];
-		 
-		 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:gettingStartedViewController];
-		 [navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
-		 [self presentViewController:navigationController animated:YES completion:nil];
-		 */
     }
-	
-	//entity = [NSEntityDescription entityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
-    /*NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entity];
-	[request setSortDescriptors:[NSArray arrayWithObject:sort]];
-	// Set the predicate -- much like a WHERE statement in a SQL database
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uuid == %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"]];
-    [request setPredicate:predicate];*/
 	
 	Wiki *wiki = [[wikiManagedObjectContext__ executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
 	[wikipediaHelper setApiUrl:[wiki url]];
