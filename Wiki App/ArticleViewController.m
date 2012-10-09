@@ -160,6 +160,9 @@
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue,^{
+		// testing this for performance improvemetns with the "eyecandy"
+		[CATransaction begin];
+		[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
         while (time < (startTime + 2.5) && (time >= startTime)) {
             if (time - startTime < 1.5) {
                 scale = 1.0 - exp(-2.4 * (time - startTime)) * sin(40.0/M_PI * (time - startTime)) * 0.15;
@@ -169,6 +172,7 @@
             }
             time = CFAbsoluteTimeGetCurrent();
         }
+		[CATransaction commit];
     });*/
     [UIView animateWithDuration:0.50
                           delay:0
@@ -263,9 +267,15 @@
 - (IBAction)showWikiManager:(id)sender {
     WikisViewController *wikisViewController = [[WikisViewController alloc] init];
 	[wikisViewController setDelegate:self];
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
-	[navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+	
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wikisViewController];
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+		// Note: This must be set if the navigationController is ever referenced even inside an if statement to setting something else like the UIModalPresentationFormSheet. I call it the iPhone size jealousy bug.
+		[navigationController setModalPresentationStyle:UIModalPresentationFullScreen];
+	}
+	else {
+		[navigationController setModalPresentationStyle:UIModalPresentationFormSheet];
+	}
 	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
