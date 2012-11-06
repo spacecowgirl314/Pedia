@@ -19,8 +19,8 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *archiveManagedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *archiveManagedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *archivePersistentStoreCoordinator;
-@property (readonly, strong, nonatomic) NSManagedObjectContext *wikiManagedObjectContext;
+/*@property (readonly, strong, nonatomic) NSManagedObjectContext *wikiManagedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *wikiManagedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *wikiPersistentStoreCoordinator;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *wikiPersistentStoreCoordinator;*/
 
 @end

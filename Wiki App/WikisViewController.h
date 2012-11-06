@@ -20,6 +20,7 @@
     UITextField *nameTextField;
 	NSManagedObjectContext *managedObjectContext_;
 	NSFetchedResultsController *fetchedResultsController_;
+	NSArray *languages;
 }
 
 @property IBOutlet UITableView *wikiTableView;

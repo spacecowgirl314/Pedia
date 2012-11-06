@@ -8,6 +8,7 @@
 
 #import "WikisViewController.h"
 #import "AppDelegate.h"
+#import "WikipediaHelper.h"
 #import "Wiki.h"
 
 @interface WikisViewController ()
@@ -32,6 +33,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	WikipediaHelper *wikipediaHelper = [WikipediaHelper new];
+	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
+	
+	languages = [wikipediaHelper getSupportedLanguages];
 	
 	// set background image pattern to be the same as the web view background image
 	[self.wikiTableView setBackgroundView:nil];
@@ -60,7 +66,7 @@
     doneButton.enabled = YES;
 	
 	// load data
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    /*dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue,^{
         NSError *error;
         if (![[self fetchedResultsController] performFetch:&error]) {
@@ -72,7 +78,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.wikiTableView reloadData];
         });
-    });
+    });*/
 }
 
 - (void)viewDidUnload
@@ -95,10 +101,10 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
+/*- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
 {
 	return self.fetchedResultsController;
-}
+}*/
 
 #pragma mark - Data Source Delegate
 
@@ -110,7 +116,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0) {
-		NSInteger numberOfRows = 0;
+		/*NSInteger numberOfRows = 0;
 		NSFetchedResultsController *fetchController = [self fetchedResultsControllerForTableView:wikiTableView];
 		NSArray *sections = fetchController.sections;
 		NSLog(@"wiki sections: %@", [sections description]);
@@ -119,7 +125,9 @@
 		numberOfRows = [sectionInfo numberOfObjects];
 		NSLog(@"Number of managed wikis:%d", numberOfRows);
 		
-		return numberOfRows;
+		return numberOfRows;*/
+		
+		return [languages count];
     }
     if (section==1) {
         return 3;
@@ -189,7 +197,7 @@
             return cell;
         }*/
 		//else {
-		[self fetchedResultsController:[self fetchedResultsControllerForTableView:tableView] configureCell:cell atIndexPath:indexPath];
+		[self fetchedResultsController:nil configureCell:cell atIndexPath:indexPath]; // controller: [self fetchedResultsControllerForTableView:tableView]
 		//}
 		return cell;
     }
@@ -229,8 +237,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	if (indexPath.section==0) {
 		// set the tapped wiki as selected
-		Wiki *wiki = [fetchedResultsController_ objectAtIndexPath:indexPath];
-		[[NSUserDefaults standardUserDefaults] setObject:[wiki uuid] forKey:@"selectedWiki"];
+		//Wiki *wiki = [fetchedResultsController_ objectAtIndexPath:indexPath];
+		NSDictionary *language = [languages objectAtIndex:indexPath.row];
+		[[NSUserDefaults standardUserDefaults] setObject:[languages valueForKey:@"code"] forKey:@"selectedLanguage"];
+		//[[NSUserDefaults standardUserDefaults] setObject:[wiki uuid] forKey:@"selectedWiki"];
 		[tableView reloadData];
 	}
 	if (indexPath.section==1) {
@@ -295,7 +305,7 @@
 
 #pragma mark - NSFetchedResultsController -
 
-- (NSFetchedResultsController *)fetchedResultsController {
+/*- (NSFetchedResultsController *)fetchedResultsController {
     
     // if we already fetched then just return what we have
     if (fetchedResultsController_ != nil) {
@@ -329,11 +339,11 @@
     
     return fetchedResultsController_;
     
-}
+}*/
 
 #pragma mark - NSFetchedResultsControllerDelegate -
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+/*- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
 	UITableView *tableView = self.wikiTableView;
     [tableView beginUpdates];
@@ -385,16 +395,27 @@
 	UITableView *tableView = self.wikiTableView;
 	[tableView endUpdates];
 	//[tableView reloadData];
-}
+}*/
 
 - (void)fetchedResultsController:(NSFetchedResultsController *)_fetchedResultsController configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Wiki *wiki = [_fetchedResultsController objectAtIndexPath:indexPath];
+	//Wiki *wiki = [_fetchedResultsController objectAtIndexPath:indexPath];
+	
+	NSDictionary *language = [languages objectAtIndex:indexPath.row];
+	
 	cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.text = wiki.name;
+    cell.textLabel.text = [language valueForKey:@"*"];
+	
+	NSString *code = [language valueForKey:@"code"];
+	NSLog(@"code:%@", code);
+	
+	
 	// if selected show the checkmark
 	//NSLog(@"%@ %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"], [wiki uuid]);
-	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"] isEqual:[wiki uuid]]) {
+	/*if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedWiki"] isEqual:[wiki uuid]]) {
+		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+	}*/
+	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedLanguage"] isEqual:code]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}
 	//[[NSUserDefaults standardUserDefaults] setObject:[wiki uuid] forKey:@"selectedWiki"];

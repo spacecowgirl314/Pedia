@@ -252,6 +252,21 @@
     return suggestions;
 }
 
+/**
+ Returns a dictionary with codes and language names
+ */
+- (NSArray*)getSupportedLanguages {
+	NSString *urlString = [[NSString alloc] initWithFormat:@"%@?action=query&meta=siteinfo&siprop=languages&format=json", apiUrl];
+	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+	
+	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+	NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+	NSDictionary *query = [dictionary valueForKey:@"query"];
+	NSArray *languages = [query valueForKey:@"languages"];
+	
+	return languages;
+}
+
 - (BOOL) isOnBlackList:(NSString *)imageURL {
     // Check if its not the correct image (Sometimes there are articles where the first image is an icon..)
     for(NSString *img in imageBlackList) {

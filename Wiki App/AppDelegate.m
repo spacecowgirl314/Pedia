@@ -21,9 +21,9 @@
 @synthesize archiveManagedObjectContext = __archiveManagedObjectContext;
 @synthesize archiveManagedObjectModel = __archiveManagedObjectModel;
 @synthesize archivePersistentStoreCoordinator = __archivePersistentStoreCoordinator;
-@synthesize wikiManagedObjectContext = __wikiManagedObjectContext;
+/*@synthesize wikiManagedObjectContext = __wikiManagedObjectContext;
 @synthesize wikiManagedObjectModel = __wikiManagedObjectModel;
-@synthesize wikiPersistentStoreCoordinator = __wikiPersistentStoreCoordinator;
+@synthesize wikiPersistentStoreCoordinator = __wikiPersistentStoreCoordinator;*/
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -295,7 +295,7 @@
 }
 
 #pragma mark - Core Data Stack Wikis -
-
+/*
 - (NSManagedObjectContext *)wikiManagedObjectContext
 {
     if (__wikiManagedObjectContext != nil)
@@ -390,17 +390,17 @@
 			
 			// because notification can't be sent to segues? this works. use a singleton of the view controller
 			// i don't like it very much feels hacky and likely to break in a future iOS version
-			/*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-			 HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
-			 NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
-			 [historyViewController reloadFetchedResults:notification];
-			 }*/
+			//if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+			// HistoryViewController *historyViewController = (HistoryViewController *)[HistoryViewController sharedInstance];
+			// NSNotification *notification = [NSNotification notificationWithName:@"RefetchAllDatabaseData" object:nil];
+			// [historyViewController reloadFetchedResults:notification];
+			// }
 		});
 		
 	});
     return __wikiPersistentStoreCoordinator;
 }
-
+*/
 #pragma mark - Documents Directory -
 
 - (NSURL *)applicationDocumentsDirectory

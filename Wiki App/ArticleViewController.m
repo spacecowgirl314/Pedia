@@ -399,7 +399,7 @@
 
 - (void)reloadSelectedWiki {
 	// load data
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	/*NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
     [fetchRequest setEntity:entity];
@@ -423,21 +423,22 @@
             NSLog(@"ArticleViewController wikis unresolved error %@, %@", error, [error userInfo]);
             exit(-1);  // Fail
         }
-    });
+    });*/
 	
 	// Only run the Getting Started Once
     // ![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstRun"]) {
 		// Setup default wikipedia
-		Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
+		/*Wiki *historyEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Wiki" inManagedObjectContext:wikiManagedObjectContext__];
 		
 		[historyEntry setName:@"Wikipedia (default)"];
 		[historyEntry setUrl:@"http://en.wikipedia.org/w/api.php"];
 		[historyEntry setUuid:[[NSUUID UUID] UUIDString]];
 		
-		[[NSUserDefaults standardUserDefaults] setObject:[historyEntry uuid] forKey:@"selectedWiki"];
+		[[NSUserDefaults standardUserDefaults] setObject:[historyEntry uuid] forKey:@"selectedWiki"];*/
+		[[NSUserDefaults standardUserDefaults] setObject:@"en" forKey:@"selectedLanguage"];
 		
-		[wikiManagedObjectContext__ lock];
+		/*[wikiManagedObjectContext__ lock];
 		//dispatch_async(dispatch_get_main_queue(), ^{
 			NSError *error = nil;
 			if (![wikiManagedObjectContext__ save:&error])
@@ -447,15 +448,16 @@
 				//abort();
 			}
 		//});
-		[wikiManagedObjectContext__ unlock];
+		[wikiManagedObjectContext__ unlock];*/
 		
 		// turn off first run
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
     }
 	
-	Wiki *wiki = [[wikiManagedObjectContext__ executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
-	[wikipediaHelper setApiUrl:[wiki url]];
-	//[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
+	//Wiki *wiki = [[wikiManagedObjectContext__ executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
+	//[wikipediaHelper setApiUrl:[wiki url]];
+	//[wikipediaHelper setLanguage:code];
+	[wikipediaHelper setApiUrl:@"http://en.wikipedia.org/w/api.php"];
 }
 
 #pragma mark - History Loading and Saving
@@ -863,7 +865,7 @@
 	// setup core data for saving
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self setManagedObjectContext:[app managedObjectContext]];
-	[self setWikiManagedObjectContext:[app wikiManagedObjectContext]];
+	//[self setWikiManagedObjectContext:[app wikiManagedObjectContext]];
 	
     // initialize the wikipedia helper and load the selected wiki
     wikipediaHelper = [[WikipediaHelper alloc] init];

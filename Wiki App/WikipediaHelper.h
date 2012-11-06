@@ -36,6 +36,9 @@
 // Returns an array of suggestions for the given string
 - (NSArray*)getSuggestionsFor:(NSString*)string;
 
+// Returns a dictionary with codes and language names
+- (NSArray*)getSupportedLanguages;
+
 // Checks if the returned image is on the blacklist
 - (BOOL) isOnBlackList:(NSString *)imageURL;
 
