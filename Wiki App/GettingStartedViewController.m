@@ -112,7 +112,7 @@
     if (self.pageControl.currentPage+1==self.pageControl.numberOfPages) {
         // don't let this run again
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstRun"];
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:^{}];
     }
     // move the page controller forward
     CGRect frame;

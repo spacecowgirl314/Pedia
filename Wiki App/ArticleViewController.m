@@ -157,10 +157,10 @@
     
     startTime = CFAbsoluteTimeGetCurrent();
     time = CFAbsoluteTimeGetCurrent();
-    
+	
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue,^{
-		// testing this for performance improvemetns with the "eyecandy"
+		// testing this for performance improvements with the "eyecandy"
 		[CATransaction begin];
 		[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
         while (time < (startTime + 2.5) && (time >= startTime)) {
@@ -881,7 +881,7 @@
     // remove shadows in UIWebView
     for(UIScrollView* webScrollView in [self.articleView subviews]) {
 		// set content insets adjust for the bottom bar
-		UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
+		UIEdgeInsets contentInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height+self.navigationController.navigationBar.frame.size.height, 0.0, 44, 0.0);
 		webScrollView.contentInset = contentInsets;
 		webScrollView.scrollsToTop = YES;
         if ([webScrollView isKindOfClass:[UIScrollView class]]) {

@@ -4,13 +4,13 @@
 <dict>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<array>
-		<string>$(TeamIdentifierPrefix)com.ozipto.wikiapp</string>
+		<string>$(TeamIdentifierPrefix)com.phantomsuncreative.Pedia</string>
 	</array>
 	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
-	<string>$(TeamIdentifierPrefix)com.ozipto.wikiapp</string>
+	<string>$(TeamIdentifierPrefix)com.phantomsuncreative.Pedia</string>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.ozipto.wikiapp</string>
+		<string>$(AppIdentifierPrefix)com.phantomsuncreative.Pedia</string>
 	</array>
 </dict>
 </plist>
